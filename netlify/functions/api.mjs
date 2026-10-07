@@ -20,7 +20,7 @@ export function pgStore(env = process.env) {
     }
     return (await pool.query(text, params)).rows;
   };
-  const norm = (r) => r && ({ id: r.id, email: r.email, name: r.name, color: r.color, salt: r.pass_salt, hash: r.pass_hash, plan: r.plan,
+  const norm = (r) => r && ({ id: r.id, email: r.email, name: r.name, color: r.color, salt: r.pass_salt, hash: r.pass_hash, plan: r.plan, promo: r.promo || null,
     until: r.plan_until ? new Date(r.plan_until).toISOString() : null, data: r.data, updated: Number(r.data_updated), created: new Date(r.created_at).toISOString() });
   return {
     async userByEmail(email) { return norm((await q('select * from users where email=$1', [email]))[0]); },
@@ -47,8 +47,20 @@ export function pgStore(env = process.env) {
         .map((r) => ({ plan: r.plan, amount: r.amount_rub, method: r.method, status: r.status, date: new Date(r.created_at).toISOString() }));
     },
     async createPayment(p) {
-      return (await q('insert into payments(user_id,plan,amount_rub,method,provider,status) values($1,$2,$3,$4,$5,$6) returning id', [p.userId, p.plan, p.amount, p.method, p.provider, p.status]))[0].id;
+      return (await q('insert into payments(user_id,plan,amount_rub,method,provider,status,promo) values($1,$2,$3,$4,$5,$6,$7) returning id', [p.userId, p.plan, p.amount, p.method, p.provider, p.status, p.promo || null]))[0].id;
     },
+    /* код автора: percent и сколько раз уже использован (оплаченные покупки) */
+    async promoByCode(code) {
+      if (!code) return null;
+      const r = (await q(`select c.code, c.percent, c.max_uses, (select count(*) from payments where promo=c.code and status in ('paid','demo')) as uses
+        from promo_codes c where c.code=$1 and c.active`, [code]))[0];
+      return r && { code: r.code, percent: r.percent, max: r.max_uses, uses: Number(r.uses) };
+    },
+    async setPromo(id, code) { return norm((await q('update users set promo=$2 where id=$1 returning *', [id, code]))[0]); },
+    async reviews() {
+      return (await q('select name,text,created_at from reviews where approved order by created_at desc limit 30')).map((r) => ({ name: r.name, text: r.text, date: new Date(r.created_at).toISOString().slice(0, 10) }));
+    },
+    async addReview(userId, name, text) { await q('insert into reviews(user_id,name,text) values($1,$2,$3)', [userId, name, text]); },
     async setProviderId(id, providerId) { await q('update payments set provider_id=$2 where id=$1', [id, providerId]); },
     async markPaid(providerId) { // атомарно: вернёт строку только при первом подтверждении
       return (await q(`update payments set status='paid', paid_at=now() where provider_id=$1 and status<>'paid' returning user_id, plan`, [providerId]))[0] || null;
@@ -69,7 +81,11 @@ export function makeHandler(db, env = process.env) {
   // Демо-оплата включается ТОЛЬКО явно (DEMO_PAY=1). Если переменной нет, платежи выключены, а не бесплатны.
   const payMode = () => (livePay() ? 'live' : env.DEMO_PAY === '1' ? 'demo' : 'off');
   const plan = (u) => (u.plan !== 'free' && u.until && Date.parse(u.until) > Date.now() ? u.plan : 'free');
-  const pub = (u) => ({ email: u.email, name: u.name, color: u.color || null, plan: plan(u), until: plan(u) === 'free' ? null : u.until, created: u.created });
+  const pub = async (u) => {
+    const pr = u.promo ? await db.promoByCode(u.promo) : null;
+    return { email: u.email, name: u.name, color: u.color || null, plan: plan(u), until: plan(u) === 'free' ? null : u.until, created: u.created, promo: pr ? { code: pr.code, percent: pr.percent } : null };
+  };
+  const priceFor = (pl, pr) => (pr ? Math.max(1, Math.round(pl.price * (100 - pr.percent) / 100)) : pl.price);
   function license(u) {
     if (!env.LICENSE_PRIVATE_KEY) return null;
     const payload = JSON.stringify({ email: u.email, plan: plan(u), until: plan(u) === 'free' ? null : u.until, iat: Date.now(), exp: Date.now() + 7 * 864e5 });
@@ -92,6 +108,8 @@ export function makeHandler(db, env = process.env) {
 
     if (m === 'GET' && p === '/config') return J(200, { pay: payMode(), plans: PLANS });
 
+    if (m === 'GET' && p === '/reviews') return J(200, { reviews: await db.reviews() });
+
     if (m === 'POST' && (p === '/register' || p === '/login')) {
       if (await db.hit(p + ':' + ip) > 20) return fail(429, 'limit');
       const email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
@@ -102,12 +120,12 @@ export function makeHandler(db, env = process.env) {
         if (await db.userByEmail(email)) return fail(409, 'taken');
         const salt = crypto.randomBytes(16).toString('hex');
         let u; try { u = await db.createUser({ email, name, salt, hash: await scrypt(pass, salt) }); } catch { return fail(409, 'taken'); }
-        return J(200, { token: await newSession(u), user: pub(u) });
+        return J(200, { token: await newSession(u), user: await pub(u) });
       }
       const u = await db.userByEmail(email);
       const ok = u && crypto.timingSafeEqual(Buffer.from(await scrypt(pass, u.salt)), Buffer.from(u.hash));
       if (!ok) return fail(401, 'bad');
-      return J(200, { token: await newSession(u), user: pub(u) });
+      return J(200, { token: await newSession(u), user: await pub(u) });
     }
 
     /* webhook ЮKassa: не доверяем телу, перепроверяем платёж через API */
@@ -124,11 +142,25 @@ export function makeHandler(db, env = process.env) {
     if (!u) return fail(401, 'auth');
 
     if (m === 'POST' && p === '/logout') { await db.deleteSession(sha(t)); return J(200, {}); }
-    if (m === 'GET' && p === '/me') return J(200, { user: pub(u), license: license(u) });
+    if (m === 'GET' && p === '/me') return J(200, { user: await pub(u), license: license(u) });
     if (m === 'PUT' && p === '/me') {
       const name = String(b.name || '').trim().slice(0, 24); if (!name) return fail(400, 'name');
-      const data = { ...(u.data || {}), profile: { ...((u.data || {}).profile || {}), name } };
-      return J(200, { user: pub(await db.saveData(u.id, data, Date.now(), name, u.color)) });
+      const color = /^#[0-9a-f]{6}$/i.test(String(b.color || '')) ? String(b.color).toLowerCase() : u.color;
+      const data = { ...(u.data || {}), profile: { ...((u.data || {}).profile || {}), name, ...(color ? { color } : {}) } };
+      return J(200, { user: await pub(await db.saveData(u.id, data, Date.now(), name, color)) });
+    }
+    if (m === 'POST' && p === '/reviews') {
+      if (await db.hit('review:' + u.id) > 3) return fail(429, 'limit');
+      const text = String(b.text || '').trim().slice(0, 220); if (text.length < 10) return fail(400, 'rvShort');
+      await db.addReview(u.id, u.name, text); return J(200, {});
+    }
+    if (m === 'POST' && p === '/promo') {
+      if (await db.hit('promo:' + u.id) > 15) return fail(429, 'limit');
+      const code = String(b.code || '').trim().toUpperCase().slice(0, 24);
+      if (!code) return J(200, { user: await pub(await db.setPromo(u.id, null)) });
+      const pr = await db.promoByCode(code); if (!pr) return fail(404, 'promo_bad');
+      if (pr.max && pr.uses >= pr.max) return fail(409, 'promo_used');
+      return J(200, { user: await pub(await db.setPromo(u.id, pr.code)) });
     }
     if (m === 'GET' && p === '/payments') return J(200, { payments: await db.payments(u.id) });
     if (m === 'GET' && p === '/sync') return J(200, { data: u.data, updated: u.updated });
@@ -145,14 +177,15 @@ export function makeHandler(db, env = process.env) {
       const mode = payMode();
       if (mode === 'off') return fail(501, 'pay_off');
       const method = String(b.method || 'card');
+      const pr = u.promo ? await db.promoByCode(u.promo) : null, amount = priceFor(pl, pr && !(pr.max && pr.uses >= pr.max) ? pr : null);
       if (mode === 'demo') {
-        await db.createPayment({ userId: u.id, plan: b.plan, amount: pl.price, method, provider: 'demo', status: 'demo' });
-        return J(200, { user: pub(await db.activatePlan(u.id, b.plan)) });
+        await db.createPayment({ userId: u.id, plan: b.plan, amount, method, provider: 'demo', status: 'demo', promo: pr && pr.code });
+        return J(200, { user: await pub(await db.activatePlan(u.id, b.plan)) });
       }
       if (!YK_METHODS[method]) return fail(400, 'method_off');
-      const pid = await db.createPayment({ userId: u.id, plan: b.plan, amount: pl.price, method, provider: 'yookassa', status: 'pending' });
+      const pid = await db.createPayment({ userId: u.id, plan: b.plan, amount, method, provider: 'yookassa', status: 'pending', promo: pr && pr.code });
       const site = String(env.SITE_URL || url.origin).replace(/\/$/, '');
-      const r = await yk('POST', '/payments', { amount: { value: pl.price.toFixed(2), currency: 'RUB' }, capture: true,
+      const r = await yk('POST', '/payments', { amount: { value: amount.toFixed(2), currency: 'RUB' }, capture: true,
         confirmation: { type: 'redirect', return_url: site + '/?paid=1' }, description: `Crysea ${pl.name}, 1 месяц`,
         payment_method_data: { type: YK_METHODS[method] }, metadata: { payment_id: pid, user: u.email } }, pid);
       if (!r.id || !r.confirmation) return fail(502, 'pay_fail');

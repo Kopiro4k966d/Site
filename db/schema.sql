@@ -47,6 +47,32 @@ create table if not exists rate_limits (
   reset_at  timestamptz not null
 );
 
+-- Код автора (промокод со скидкой для тарифов). Создать код:
+--   insert into promo_codes(code, percent, creator, max_uses) values ('QCOLD', 15, 'Q-Cold', null);
+create table if not exists promo_codes (
+  code        text primary key,                       -- в верхнем регистре
+  percent     integer not null check (percent between 1 and 90),
+  creator     text,                                   -- чьему автору начислять продажи
+  max_uses    integer,                                -- null = без лимита
+  active      boolean not null default true,
+  created_at  timestamptz not null default now()
+);
+alter table users    add column if not exists promo text;
+alter table payments add column if not exists promo text;
+create index if not exists payments_promo_idx on payments(promo);
+
+-- Отзывы с сайта: появляются после ручной проверки (update reviews set approved=true where id=...)
+create table if not exists reviews (
+  id          uuid primary key default gen_random_uuid(),
+  user_id     uuid references users(id) on delete set null,
+  name        text not null,
+  text        text not null,
+  approved    boolean not null default false,
+  created_at  timestamptz not null default now()
+);
+alter table promo_codes enable row level security;
+alter table reviews     enable row level security;
+
 -- ВАЖНО для Supabase: закрыть таблицы от публичного REST API.
 -- Функция Netlify ходит напрямую по DATABASE_URL (роль postgres) и RLS не мешает.
 alter table users       enable row level security;

@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Crysea — насыщенность до 300% в каждой игре</title>
+<meta name="description" content="Crysea меняет насыщенность и контраст в Windows: профили для каждой игры, прицел, инструменты для Rust. Бесплатный тариф без ограничений по времени.">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Crysea">
+<meta property="og:title" content="Crysea — сочные цвета в каждой игре">
+<meta property="og:description" content="Насыщенность до 300%, профили игр, прицел и инструменты для Rust. Windows 10 и 11.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Manrope:wght@700;800&family=Inter:wght@400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
@@ -12,36 +17,16 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-<symbol id="i-logo" viewBox="0 0 24 24"><path d="M12 2.8 19.6 9 12 21.2 4.4 9z"/><path d="M4.4 9h15.2M9 9l3 12.2M15 9l-3 12.2M9 9l3-6.2M15 9l-3-6.2" opacity=".7"/></symbol>
-<symbol id="i-pal" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.4 0 2-.9 2-1.8 0-1.3-1.1-1.6-1.1-2.7 0-.9.7-1.5 1.6-1.5H17a3.5 3.5 0 0 0 3.5-3.5C20.5 6.7 16.7 3.5 12 3.5z"/><circle cx="7.6" cy="11.6" r="1.1" fill="currentColor"/><circle cx="10.2" cy="7.8" r="1.1" fill="currentColor"/><circle cx="14.6" cy="7.6" r="1.1" fill="currentColor"/></symbol>
-<symbol id="i-sat" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></symbol>
-<symbol id="i-mon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M6.5 10.5H9l1.5-3 2 5 1.5-2h3M9 20h6M12 16v4"/></symbol>
-<symbol id="i-prof" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 12.5 9 5 9-5M3 16.5l9 5 9-5" opacity=".6"/></symbol>
-<symbol id="i-cmp" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-7z" fill="currentColor"/></symbol>
-<symbol id="i-adv" viewBox="0 0 24 24"><path d="M4 7h8M18 7h2M4 17h2M12 17h8"/><circle cx="15" cy="7" r="2.5"/><circle cx="9" cy="17" r="2.5" fill="currentColor"/></symbol>
-<symbol id="i-mod" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><path d="m17.5 13 -3 4.2h2.5l-1 3.8 3.7-5h-2.6z" fill="currentColor"/></symbol>
-<symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></symbol>
-<symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
-<symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z" fill="currentColor"/></symbol>
-<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c1-4 4-5.5 7-5.5s6 1.5 7 5.5"/></symbol>
-<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11h-8.5L6 20v-4H4z"/></symbol>
-<symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></symbol>
-<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-<symbol id="i-ok" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
-<symbol id="i-arr" viewBox="0 0 24 24"><path d="m8.5 15.5-4-3.5 4-3.5M15.5 15.5l4-3.5-4-3.5"/></symbol>
-<symbol id="i-g" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></symbol>
-<symbol id="i-ds" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></symbol>
-</svg>
+<script src="icons.js"></script>
 
 <div class="top"><div class="pill">
   <a href="#top" class="brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</a>
-  <nav id="nav"><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#pricing" data-i="n3">Тарифы</a></nav>
+  <nav id="nav"><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a></nav>
   <button class="btn s" id="lang" type="button" aria-label="Language">EN</button>
   <a class="btn s p dl" href="#pricing" data-i="dl">Скачать</a>
   <button class="btn s" id="loginBtn" type="button" data-i="login">Войти</button>
   <button class="prof" id="profBtn" type="button" hidden aria-label="Профиль"><span id="profAv">?</span></button>
-  <button class="btn s menu" id="menu" type="button" aria-label="Меню">☰</button>
+  <button class="btn s menu" id="menu" type="button" aria-label="Меню" aria-expanded="false"><svg class="ic"><use href="#i-menu"/></svg></button>
 </div></div>
 
 <main id="top">
@@ -65,20 +50,20 @@
 </div>
 
 <section id="features"><div class="wrap">
-  <div class="head"><h2 data-i="fh">Что умеет Crysea</h2><p data-i="fhp">Шесть модулей, которые не нужно искать по меню.</p></div>
+  <div class="head" data-rv><h2 data-i="fh">Что умеет Crysea</h2><p data-i="fhp">Шесть модулей, которые не нужно искать по меню.</p></div>
   <div class="bento">
-    <article class="card b1"><div><div class="ico"><svg class="ic"><use href="#i-sat"/></svg></div><h3 data-i="f1t">Насыщенность</h3><p data-i="f1d">Один ползунок от 0 до 300%. Цвета ярче, детали в тенях на месте.</p></div><div class="sw"><div>R<span><i style="width:88%"></i></span></div><div>G<span><i style="width:72%"></i></span></div><div>B<span><i style="width:60%"></i></span></div></div></article>
-    <article class="card b2"><div class="ico"><svg class="ic"><use href="#i-pal"/></svg></div><h3 data-i="f2t">Темы</h3><p data-i="f2d">Пять готовых тем и свой цвет акцента. Приложение выглядит так, как нравится вам.</p></article>
-    <article class="card b3"><div class="ico"><svg class="ic"><use href="#i-prof"/></svg></div><h3 data-i="f3t">Профили</h3><p data-i="f3d">Свой вид для каждой игры. Переключение за секунду.</p></article>
-    <article class="card b4"><div class="ico"><svg class="ic"><use href="#i-cmp"/></svg></div><h3 data-i="f4t">Сравнение</h3><p data-i="f4d">До и после прямо в программе, без скриншотов.</p></article>
-    <article class="card b5"><div class="ico"><svg class="ic"><use href="#i-adv"/></svg></div><h3 data-i="f5t">Расширенные настройки</h3><p data-i="f5d">Контраст, яркость и гамма в одном разделе.</p></article>
-    <article class="card b6"><div class="ico"><svg class="ic"><use href="#i-mod"/></svg></div><h3 data-i="f6t">Быстрые модули</h3><p data-i="f6d">Частые действия всегда под рукой, без вложенных меню.</p></article>
+    <article class="card b1" data-rv><div><div class="ico"><svg class="ic"><use href="#i-sat"/></svg></div><h3 data-i="f1t">Насыщенность</h3><p data-i="f1d">Один ползунок от 0 до 300%. Цвета ярче, детали в тенях на месте.</p></div><div class="sw"><div>R<span><i style="width:88%"></i></span></div><div>G<span><i style="width:72%"></i></span></div><div>B<span><i style="width:60%"></i></span></div></div></article>
+    <article class="card b2" data-rv><div class="ico"><svg class="ic"><use href="#i-pal"/></svg></div><h3 data-i="f2t">Темы</h3><p data-i="f2d">Пять готовых тем и свой цвет акцента. Приложение выглядит так, как нравится вам.</p></article>
+    <article class="card b3" data-rv><div class="ico"><svg class="ic"><use href="#i-prof"/></svg></div><h3 data-i="f3t">Профили</h3><p data-i="f3d">Свой вид для каждой игры. Переключение за секунду.</p></article>
+    <article class="card b4" data-rv><div class="ico"><svg class="ic"><use href="#i-cmp"/></svg></div><h3 data-i="f4t">Сравнение</h3><p data-i="f4d">До и после прямо в программе, без скриншотов.</p></article>
+    <article class="card b5" data-rv><div class="ico"><svg class="ic"><use href="#i-adv"/></svg></div><h3 data-i="f5t">Расширенные настройки</h3><p data-i="f5d">Контраст, яркость и гамма в одном разделе.</p></article>
+    <article class="card b6" data-rv><div class="ico"><svg class="ic"><use href="#i-mod"/></svg></div><h3 data-i="f6t">Быстрые модули</h3><p data-i="f6d">Частые действия всегда под рукой, без вложенных меню.</p></article>
   </div>
 </div></section>
 
 <section id="updates"><div class="wrap">
-  <div class="head"><h2 data-i="uh">Что нового</h2></div>
-  <div class="log">
+  <div class="head" data-rv><h2 data-i="uh">Что нового</h2></div>
+  <div class="log" data-rv>
     <div class="rel"><div class="m"><b>v2.0.0</b><span data-i="d0">7 октября 2026</span></div><h3 data-i="u0t">Crysea: новое имя и больше Rust</h3><p data-i="u0d">Пять тем, своя тема с любыми цветами, избранные серверы Rust, таймеры, диагностика ПК и новые модули оптимизации.</p></div>
     <div class="rel"><div class="m"><b>v1.0.0</b><span data-i="d1">28 сентября 2026</span></div><h3 data-i="u1t">Новый модуль сравнения</h3><p data-i="u1d">Слева оригинал, справа результат, ползунок силы в реальном времени.</p></div>
     <div class="rel"><div class="m"><b>v0.9.2</b><span data-i="d2">24 сентября 2026</span></div><h3 data-i="u2t">Чистка интерфейса</h3><p data-i="u2d">Больше воздуха между разделами, карточки легче читать.</p></div>
@@ -87,7 +72,7 @@
 </div></section>
 
 <section id="reviews"><div class="wrap">
-  <div class="head"><h2 data-i="rh">Отзывы</h2></div>
+  <div class="head" data-rv><h2 data-i="rh">Отзывы</h2></div>
   <div class="legend">
     <div><span class="tag"><svg class="ic"><use href="#i-user"/></svg><span data-i="ts">Отзыв с сайта</span></span><span data-i="rl1">Оставлен через аккаунт Crysea.</span></div>
     <div><span class="tag"><svg class="ic"><use href="#i-chat"/></svg><span data-i="td">Отзыв из Discord</span></span><span data-i="rl2">Из нашего Discord, слово в слово. Имена сокращены до буквы.</span></div>
@@ -100,11 +85,22 @@
 </div></section>
 
 <section id="pricing"><div class="wrap">
-  <div class="head"><h2 data-i="ph">Free, Pro или Plus</h2><p data-i="pp">Начните бесплатно, платите, когда понадобится больше.</p></div>
+  <div class="head" data-rv><h2 data-i="ph">Free, Pro или Plus</h2><p data-i="pp">Начните бесплатно, платите, когда понадобится больше.</p></div>
   <div class="plans">
-    <article class="card plan"><h3>Free</h3><div class="price">0 ₽</div><p data-i="p1d">Базовая оптимизация и сравнение.</p><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a1">Насыщенность до 300%</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a2">5 тем оформления</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a3">Сравнение до / после</span></li></ul><a href="#" class="btn w" data-i="b1">Скачать Free</a></article>
-    <article class="card plan hot"><span class="tag" data-i="pb">Самый популярный</span><h3>Pro</h3><div class="price">199 ₽<small data-i="mo"> / мес</small></div><p data-i="p2d">Основной тариф со всеми нужными инструментами.</p><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a4">Всё из Free</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a5">Профили игр и свой прицел</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a6">Инструменты для Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a7">Свои модули оптимизации</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a11">Серверы, таймеры и диагностика Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a12">Своя тема: любые цвета</span></li></ul><a href="#" class="btn p w" data-buy="pro" data-i="b2">Купить Pro</a></article>
-    <article class="card plan"><h3>Plus</h3><div class="price">399 ₽<small data-i="mo2"> / мес</small></div><p data-i="p3d">Полный доступ ко всем функциям.</p><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a8">Всё из Pro</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a9">Авто-режим Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a10">Рейд-калькулятор</span></li></ul><a href="#" class="btn w" data-buy="plus" data-i="b3">Купить Plus</a></article>
+    <article class="card plan" data-rv><h3>Free</h3><div class="price">0 ₽</div><p data-i="p1d">Базовая оптимизация и сравнение.</p><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a1">Насыщенность до 300%</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a2">5 тем оформления</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a3">Сравнение до / после</span></li></ul><a href="#" class="btn w" data-i="b1">Скачать Free</a></article>
+    <article class="card plan hot" data-rv><span class="tag" data-i="pb">Самый популярный</span><h3>Pro</h3><div class="price">199 ₽<small data-i="mo"> / мес</small></div><p data-i="p2d">Основной тариф со всеми нужными инструментами.</p><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a4">Всё из Free</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a5">Профили игр и свой прицел</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a6">Инструменты для Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a7">Свои модули оптимизации</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a11">Серверы, таймеры и диагностика Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a12">Своя тема: любые цвета</span></li></ul><a href="#" class="btn p w" data-buy="pro" data-i="b2">Купить Pro</a></article>
+    <article class="card plan" data-rv><h3>Plus</h3><div class="price">399 ₽<small data-i="mo2"> / мес</small></div><p data-i="p3d">Полный доступ ко всем функциям.</p><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a8">Всё из Pro</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a9">Авто-режим Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a10">Рейд-калькулятор</span></li></ul><a href="#" class="btn w" data-buy="plus" data-i="b3">Купить Plus</a></article>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <div class="head" data-rv><h2 data-i="qh">Частые вопросы</h2></div>
+  <div class="faq" data-rv>
+    <details><summary><span data-i="q1">Это безопасно для игр и античитов?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q1a">Crysea меняет цвет изображения средствами самой Windows и не вмешивается в процесс игры и её файлы.</p></details>
+    <details><summary><span data-i="q2">Что остаётся в бесплатном тарифе?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q2a">Насыщенность до 300%, пять тем и сравнение до / после. Без карты и без ограничения по времени.</p></details>
+    <details><summary><span data-i="q3">Подписка продлевается сама?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q3a">Нет. Вы платите за месяц, по окончании тариф возвращается к Free, а ваши настройки сохраняются.</p></details>
+    <details><summary><span data-i="q4">Как получить доступ после оплаты?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q4a">Войдите в приложении с тем же аккаунтом, что и на сайте. Тариф и профили игр подтянутся автоматически.</p></details>
+    <details><summary><span data-i="q5">Что с возвратом денег?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q5a">Условия возврата описаны в <a href="legal.html#offer">оферте</a>. По любым вопросам пишите в Discord.</p></details>
   </div>
 </div></section>
 </main>
@@ -112,7 +108,7 @@
 <footer class="ft"><div class="wrap">
   <div class="brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</div>
   <p data-i="ftx">Настройка цвета и системные модули для Windows.</p>
-  <nav><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#pricing" data-i="n3">Тарифы</a></nav>
+  <nav><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a></nav>
   <a class="ds" data-discord href="#" target="_blank" rel="noopener" aria-label="Discord" title="Discord"><svg class="ic"><use href="#i-ds"/></svg></a>
   <div><a href="legal.html" data-i="lg">Оферта и конфиденциальность</a> · © 2026 Crysea</div>
 </div></footer>
@@ -120,14 +116,14 @@
 
 <!-- ===== Вход / регистрация ===== -->
 <div class="mo" id="authM" hidden><div class="md auth" role="dialog" aria-modal="true" aria-labelledby="authT">
-  <button class="x" type="button" data-close aria-label="Закрыть">×</button>
-  <div class="am-brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</div>
+  <button class="x" type="button" data-close aria-label="Закрыть"><svg class="ic"><use href="#i-x"/></svg></button>
+  <div class="am-brand">Crysea</div>
   <h3 id="authT" class="am-title">Вход</h3>
   <p class="sub" data-i="authS">Доступ к кабинету и подписке.</p>
   <form id="authF" novalidate>
     <label class="f reg" hidden><span data-i="fn">Имя</span><input id="aName" maxlength="24" autocomplete="nickname"></label>
     <label class="f"><span>Email</span><input id="aMail" type="email" placeholder="you@example.com" autocomplete="email" required></label>
-    <label class="f"><span data-i="fp">Пароль</span><input id="aPass" type="password" minlength="6" autocomplete="current-password" required></label>
+    <label class="f"><span data-i="fp">Пароль</span><span class="pw"><input id="aPass" type="password" minlength="6" autocomplete="current-password" required><button class="eye" type="button" id="eye" aria-label="Показать пароль" aria-pressed="false"><svg class="ic"><use href="#i-eye"/></svg></button></span></label>
     <label class="f reg" hidden><span data-i="fp2">Повторите пароль</span><input id="aPass2" type="password" autocomplete="new-password"></label>
     <div class="fgt" id="fgt"><a class="lnk" data-discord href="#" target="_blank" rel="noopener" data-i="fg">Забыли пароль?</a></div>
     <div class="err" id="authE" role="alert"></div>
@@ -135,8 +131,8 @@
   </form>
   <div class="or"><span data-i="or">или</span></div>
   <div class="oauth">
-    <button class="btn w" type="button" disabled title="Скоро"><svg class="ic"><use href="#i-ds"/></svg><span data-i="cD">Продолжить через Discord</span><em class="soon" data-i="soon">скоро</em></button>
-    <button class="btn w" type="button" disabled title="Скоро"><svg class="ic"><use href="#i-g"/></svg><span data-i="cG">Продолжить через Google</span><em class="soon" data-i="soon">скоро</em></button>
+    <button class="btn w" type="button" disabled title="Скоро"><svg class="ic"><use href="#i-ds"/></svg><span data-i="cD">Продолжить с Discord</span><em class="soon" data-i="soon">скоро</em></button>
+    <button class="btn w" type="button" disabled title="Скоро"><svg class="ic"><use href="#i-g"/></svg><span data-i="cG">Продолжить с Google</span><em class="soon" data-i="soon">скоро</em></button>
   </div>
   <p class="terms" data-i="terms">Продолжая, вы принимаете <a href="legal.html#offer">оферту</a> и <a href="legal.html">политику конфиденциальности</a>.</p>
   <p class="sw2"><span id="swQ">Впервые в Crysea?</span> <button type="button" class="lnk" id="swB">Создать аккаунт</button></p>
@@ -144,17 +140,18 @@
 
 <!-- ===== Оплата ===== -->
 <div class="mo" id="payM" hidden><div class="md wide" role="dialog" aria-modal="true" aria-labelledby="payT">
-  <button class="x" type="button" data-close aria-label="Закрыть">×</button>
+  <button class="x" type="button" data-close aria-label="Закрыть"><svg class="ic"><use href="#i-x"/></svg></button>
   <div id="payBody">
     <h3 id="payT" data-i="payT">Оплата подписки</h3>
     <div class="sum"><div><b id="sPlan">Pro</b><small data-i="sPer">Подписка на 1 месяц</small></div><strong id="sPrice">199 ₽</strong></div>
+    <div class="promo-line" id="sPromo" hidden><svg class="ic"><use href="#i-gift"/></svg><span></span></div>
     <div class="sub" data-i="payM">Способ оплаты</div>
     <div class="meth" id="meth">
-      <button type="button" class="on" data-m="sbp"><i>⚡</i><span>СБП</span><small data-i="mS">QR-код, без комиссии</small></button>
-      <button type="button" data-m="card"><i>▭</i><span data-i="mC">Банковская карта</span><small>Visa · Mir · MC</small></button>
-      <button type="button" data-m="sber"><i>●</i><span>SberPay</span><small data-i="mSb">Через приложение</small></button>
-      <button type="button" data-m="ym"><i>◎</i><span>ЮMoney</span><small data-i="mY">Кошелёк</small></button>
-      <button type="button" data-m="usdt"><i>₮</i><span data-i="mU">Криптовалюта</span><small>USDT · TRC20</small></button>
+      <button type="button" class="on" data-m="sbp"><i><svg class="ic"><use href="#i-bolt"/></svg></i><span>СБП</span><small data-i="mS">QR-код, без комиссии</small></button>
+      <button type="button" data-m="card"><i><svg class="ic"><use href="#i-card"/></svg></i><span data-i="mC">Банковская карта</span><small>Visa · Mir · MC</small></button>
+      <button type="button" data-m="sber"><i><svg class="ic"><use href="#i-sber"/></svg></i><span>SberPay</span><small data-i="mSb">Через приложение</small></button>
+      <button type="button" data-m="ym"><i><svg class="ic"><use href="#i-wallet"/></svg></i><span>ЮMoney</span><small data-i="mY">Кошелёк</small></button>
+      <button type="button" data-m="usdt"><i><svg class="ic"><use href="#i-coin"/></svg></i><span data-i="mU">Криптовалюта</span><small>USDT · TRC20</small></button>
     </div>
     <div class="pane" data-p="sbp"><canvas id="qr" width="168" height="168"></canvas><div><b data-i="qT">Оплатите по QR-коду</b><p class="sub" data-i="qD">Откройте приложение банка, выберите «Оплата по QR» и наведите камеру. На телефоне нажмите кнопку ниже.</p></div></div>
     <div class="pane" data-p="card" hidden>
@@ -164,9 +161,9 @@
     <div class="pane" data-p="other" hidden><p class="sub" id="otherT"></p></div>
     <div class="err" id="payE" role="alert"></div>
     <button class="btn p w" type="button" id="payBtn">Оплатить</button>
-    <p class="note" data-i="payN">🔒 Данные карты не хранятся на сайте. Оплата проходит на стороне платёжного провайдера.</p>
+    <p class="note"><svg class="ic"><use href="#i-lock"/></svg><span data-i="payN">Данные карты не хранятся на сайте. Оплата проходит на стороне платёжного провайдера.</span></p>
   </div>
-  <div id="payOk" hidden><div class="ok">✓</div><h3 data-i="okT">Оплата прошла</h3><p class="sub" id="okD"></p><button class="btn p w" type="button" data-close data-i="okB">Отлично</button></div>
+  <div id="payOk" hidden><div class="ok"><svg class="ic"><use href="#i-ok"/></svg></div><h3 data-i="okT">Оплата прошла</h3><p class="sub" id="okD"></p><button class="btn p w" type="button" data-close data-i="okB">Отлично</button></div>
 </div></div>
 
 <script src="config.js"></script>
