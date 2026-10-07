@@ -42,6 +42,10 @@ export function pgStore(env = process.env) {
           reset_at = case when rate_limits.reset_at < now() then now()+interval '10 minutes' else rate_limits.reset_at end
         returning n`, [key]))[0].n;
     },
+    async payments(userId) {
+      return (await q('select plan,amount_rub,method,status,created_at from payments where user_id=$1 order by created_at desc limit 20', [userId]))
+        .map((r) => ({ plan: r.plan, amount: r.amount_rub, method: r.method, status: r.status, date: new Date(r.created_at).toISOString() }));
+    },
     async createPayment(p) {
       return (await q('insert into payments(user_id,plan,amount_rub,method,provider,status) values($1,$2,$3,$4,$5,$6) returning id', [p.userId, p.plan, p.amount, p.method, p.provider, p.status]))[0].id;
     },
@@ -126,6 +130,7 @@ export function makeHandler(db, env = process.env) {
       const data = { ...(u.data || {}), profile: { ...((u.data || {}).profile || {}), name } };
       return J(200, { user: pub(await db.saveData(u.id, data, Date.now(), name, u.color)) });
     }
+    if (m === 'GET' && p === '/payments') return J(200, { payments: await db.payments(u.id) });
     if (m === 'GET' && p === '/sync') return J(200, { data: u.data, updated: u.updated });
     if (m === 'PUT' && p === '/sync') {
       if (!b.data || typeof b.data !== 'object' || Array.isArray(b.data)) return fail(400, 'data');

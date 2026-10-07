@@ -30,6 +30,7 @@
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 <symbol id="i-ok" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
 <symbol id="i-arr" viewBox="0 0 24 24"><path d="m8.5 15.5-4-3.5 4-3.5M15.5 15.5l4-3.5-4-3.5"/></symbol>
+<symbol id="i-g" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></symbol>
 <symbol id="i-ds" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></symbol>
 </svg>
 
@@ -118,33 +119,27 @@
 
 
 <!-- ===== Вход / регистрация ===== -->
-<div class="mo" id="authM" hidden><div class="md" role="dialog" aria-modal="true" aria-labelledby="authT">
+<div class="mo" id="authM" hidden><div class="md auth" role="dialog" aria-modal="true" aria-labelledby="authT">
   <button class="x" type="button" data-close aria-label="Закрыть">×</button>
-  <h3 id="authT" data-i="authT">Аккаунт Crysea</h3>
-  <p class="sub" data-i="authS">Один аккаунт для сайта и приложения.</p>
-  <div class="tabs"><button type="button" class="on" data-tab="login" data-i="tl">Вход</button><button type="button" data-tab="reg" data-i="tr">Регистрация</button></div>
+  <div class="am-brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</div>
+  <h3 id="authT" class="am-title">Вход</h3>
+  <p class="sub" data-i="authS">Доступ к кабинету и подписке.</p>
   <form id="authF" novalidate>
     <label class="f reg" hidden><span data-i="fn">Имя</span><input id="aName" maxlength="24" autocomplete="nickname"></label>
-    <label class="f"><span>Email</span><input id="aMail" type="email" autocomplete="email" required></label>
+    <label class="f"><span>Email</span><input id="aMail" type="email" placeholder="you@example.com" autocomplete="email" required></label>
     <label class="f"><span data-i="fp">Пароль</span><input id="aPass" type="password" minlength="6" autocomplete="current-password" required></label>
     <label class="f reg" hidden><span data-i="fp2">Повторите пароль</span><input id="aPass2" type="password" autocomplete="new-password"></label>
+    <div class="fgt" id="fgt"><a class="lnk" data-discord href="#" target="_blank" rel="noopener" data-i="fg">Забыли пароль?</a></div>
     <div class="err" id="authE" role="alert"></div>
-    <button class="btn p w" type="submit" id="authB" data-i="tl">Вход</button>
+    <button class="btn p w" type="submit" id="authB">Войти</button>
   </form>
-</div></div>
-
-<!-- ===== Профиль ===== -->
-<div class="mo" id="profM" hidden><div class="md" role="dialog" aria-modal="true" aria-labelledby="profT">
-  <button class="x" type="button" data-close aria-label="Закрыть">×</button>
-  <div class="pr-head"><div class="av" id="pAv">?</div><div><h3 id="profT">—</h3><span class="sub" id="pMail">—</span></div></div>
-  <div class="pr-grid">
-    <div><small data-i="pPlan">Тариф</small><b id="pPlanV">Free</b></div>
-    <div><small data-i="pUntil">Действует до</small><b id="pUntilV">—</b></div>
-    <div><small data-i="pSince">Регистрация</small><b id="pSinceV">—</b></div>
+  <div class="or"><span data-i="or">или</span></div>
+  <div class="oauth">
+    <button class="btn w" type="button" disabled title="Скоро"><svg class="ic"><use href="#i-ds"/></svg><span data-i="cD">Продолжить через Discord</span><em class="soon" data-i="soon">скоро</em></button>
+    <button class="btn w" type="button" disabled title="Скоро"><svg class="ic"><use href="#i-g"/></svg><span data-i="cG">Продолжить через Google</span><em class="soon" data-i="soon">скоро</em></button>
   </div>
-  <div class="pr-act"><a class="btn" href="#pricing" data-close data-i="pUp">Сменить тариф</a><button class="btn" type="button" id="outBtn" data-i="pOut">Выйти</button></div>
-  <label class="f"><span data-i="pRename">Изменить имя</span><input id="pName" maxlength="24"></label>
-  <button class="btn s p" type="button" id="saveName" data-i="pSave">Сохранить</button>
+  <p class="terms" data-i="terms">Продолжая, вы принимаете <a href="legal.html#offer">оферту</a> и <a href="legal.html">политику конфиденциальности</a>.</p>
+  <p class="sw2"><span id="swQ">Впервые в Crysea?</span> <button type="button" class="lnk" id="swB">Создать аккаунт</button></p>
 </div></div>
 
 <!-- ===== Оплата ===== -->

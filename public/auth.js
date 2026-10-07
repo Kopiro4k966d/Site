@@ -4,7 +4,7 @@
    см. ИНСТРУКЦИЯ_NETLIFY.md. Аккаунты общие с приложением Crysea.
    ========================================================= */
 
-Object.assign(EN,{login:'Sign in',authT:'Crysea account',authS:'One account for the website and the app.',tl:'Sign in',tr:'Sign up',fn:'Name',fp:'Password',fp2:'Repeat password',
+Object.assign(EN,{login:'Sign in',authT:'Crysea account',authS:'Access your dashboard and subscription.',fg:'Forgot your password?',or:'or',cD:'Continue with Discord',cG:'Continue with Google',soon:'soon',terms:'By continuing you accept the <a href="legal.html#offer">Terms</a> and the <a href="legal.html">Privacy Policy</a>.',tl:'Sign in',tr:'Sign up',fn:'Name',fp:'Password',fp2:'Repeat password',
 pPlan:'Plan',pUntil:'Valid until',pSince:'Joined',pUp:'Change plan',pOut:'Sign out',pRename:'Change name',pSave:'Save',
 payT:'Subscription payment',sPer:'1 month subscription',payM:'Payment method',mS:'QR code, no fees',mC:'Bank card',mSb:'Via the app',mY:'Wallet',mU:'Cryptocurrency',
 qT:'Pay with a QR code',qD:'Open your bank app, choose “Pay by QR” and point the camera. On a phone, use the button below.',cn:'Card number',ce:'Expiry',
@@ -12,10 +12,12 @@ payN:'🔒 Card data is never stored on this site. Payment is processed by the p
 
 const MSG={
  ru:{mail:'Введите корректный email',pass:'Пароль — минимум 6 символов',same:'Пароли не совпадают',method_off:'Этот способ пока недоступен',pay_fail:'Не удалось создать платёж, попробуйте позже',net:'Нет связи с сервером',limit:'Слишком много попыток, подождите несколько минут',auth:'Сессия истекла, войдите снова',pay_off:'Оплата ещё не подключена',name:'Введите имя',taken:'Этот email уже зарегистрирован',bad:'Неверный email или пароль',
+     loginT:'Вход',regT:'Регистрация',loginB:'Войти',regB:'Создать аккаунт',newq:'Впервые в Crysea?',haveq:'Уже есть аккаунт?',mk:'Создать аккаунт',hv:'Войти',
      pay:p=>'Оплатить '+p,wait:'Обработка…',card:'Проверьте данные карты',never:'Бессрочно',
      other:{card:'Вы перейдёте на защищённую страницу оплаты, данные карты вводятся там.',sber:'Вы перейдёте в приложение СберБанк Онлайн для подтверждения платежа.',ym:'Вы перейдёте на страницу ЮMoney для оплаты из кошелька.',usdt:'Вам будет показан адрес кошелька USDT (TRC20). Тариф активируется после 1 подтверждения сети.'},
      done:(p,d)=>`Тариф ${p} активен до ${d}.`,months:'мес'},
  en:{mail:'Enter a valid email',pass:'Password must be at least 6 characters',same:'Passwords do not match',method_off:'This method is not available yet',pay_fail:'Could not create the payment, try later',net:'Cannot reach the server',limit:'Too many attempts, wait a few minutes',auth:'Session expired, sign in again',pay_off:'Payments are not connected yet',name:'Enter your name',taken:'This email is already registered',bad:'Wrong email or password',
+     loginT:'Sign in',regT:'Create account',loginB:'Sign in',regB:'Create account',newq:'New to Crysea?',haveq:'Already have an account?',mk:'Create account',hv:'Sign in',
      pay:p=>'Pay '+p,wait:'Processing…',card:'Check your card details',never:'No expiry',
      other:{card:'You will be taken to a secure payment page to enter your card details.',sber:'You will be taken to the SberBank Online app to confirm the payment.',ym:'You will be taken to YooMoney to pay from your wallet.',usdt:'You will see a USDT (TRC20) wallet address. The plan activates after 1 network confirmation.'},
      done:(p,d)=>`${p} plan is active until ${d}.`,months:'mo'}};
@@ -61,29 +63,25 @@ const fmtDate=d=>new Date(d).toLocaleDateString(lang==='ru'?'ru-RU':'en-GB',{day
 function paintUser(){
   $('#loginBtn').hidden=!!user;$('#profBtn').hidden=!user;
   if(!user)return;
-  const L=(user.name||user.email)[0].toUpperCase();
-  $('#profAv').textContent=$('#pAv').textContent=L;
-  if(user.color)$('#profBtn').style.background=$('#pAv').style.background=user.color;
-  $('#profT').textContent=user.name;$('#pMail').textContent=user.email;
-  $('#pPlanV').textContent=user.plan==='free'?'Free':PLANS[user.plan].name;
-  $('#pUntilV').textContent=user.until?fmtDate(user.until):'—';
-  $('#pSinceV').textContent=fmtDate(user.created);$('#pName').value=user.name;
+  $('#profAv').textContent=(user.name||user.email)[0].toUpperCase();
+  if(user.color)$('#profBtn').style.background=user.color;
 }
 $('#loginBtn').onclick=()=>openAuth('login');
-$('#profBtn').onclick=()=>{paintUser();open('profM')};
-$('#outBtn').onclick=async()=>{await api.logout();user=null;paintUser();closeAll()};
-$('#saveName').onclick=async()=>{const n=$('#pName').value.trim();if(!n)return;user=await api.update({name:n});paintUser();closeAll()};
+$('#profBtn').onclick=()=>{location.href='account.html'};
 
 /* ---------- Вход / регистрация ---------- */
 function setMode(m){
-  mode=m;$$('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===m));
-  $$('#authF .reg').forEach(e=>e.hidden=m!=='reg');
-  $('#authB').textContent=EN&&lang==='en'?(m==='reg'?EN.tr:EN.tl):(m==='reg'?'Регистрация':'Вход');
-  $('#aPass').autocomplete=m==='reg'?'new-password':'current-password';$('#authE').textContent='';
+  mode=m;const reg=m==='reg';
+  $$('#authF .reg').forEach(e=>e.hidden=!reg);
+  $('#fgt').hidden=reg;
+  $('#authT').textContent=reg?M().regT:M().loginT;
+  $('#authB').textContent=reg?M().regB:M().loginB;
+  $('#swQ').textContent=reg?M().haveq:M().newq;$('#swB').textContent=reg?M().hv:M().mk;
+  $('#aPass').autocomplete=reg?'new-password':'current-password';$('#authE').textContent='';
 }
 let afterAuth=null;
 function openAuth(m,cb){afterAuth=cb||null;setMode(m);open('authM');setTimeout(()=>$('#aMail').focus(),50)}
-$$('.tabs button').forEach(b=>b.onclick=()=>setMode(b.dataset.tab));
+$('#swB').onclick=()=>setMode(mode==='reg'?'login':'reg');
 $('#authF').onsubmit=async e=>{
   e.preventDefault();const E=$('#authE'),mail=$('#aMail').value.trim(),pass=$('#aPass').value,name=$('#aName').value.trim();
   if(!/^\S+@\S+\.\S+$/.test(mail))return E.textContent=M().mail;
@@ -163,3 +161,12 @@ if(new URLSearchParams(location.search).has('paid')){
     if(++n<15)setTimeout(poll,2000);
   })();
 }
+
+/* Переходы из кабинета: ?login=1 открывает вход, ?buy=pro|plus открывает оплату */
+(function(){
+  const q=new URLSearchParams(location.search),buy=q.get('buy');
+  if(!q.has('login')&&!PLANS[buy])return;
+  history.replaceState(null,'',location.pathname+(PLANS[buy]?'#pricing':''));
+  if(PLANS[buy]){planId=buy;api.me().then(u=>{user=u;paintUser();user?openPay():openAuth('reg',openPay)})}
+  else openAuth('login');
+})();

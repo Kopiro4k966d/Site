@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crysea — кабинет</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Manrope:wght@700;800&family=Inter:wght@400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 5.5 25 13 16 27 7 13z' fill='none' stroke='%23fff' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M7 13h18M12 13l4 14M20 13l-4 14' fill='none' stroke='%23fff' stroke-width='1.4' opacity='.7'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#121212">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-logo" viewBox="0 0 24 24"><path d="M12 2.8 19.6 9 12 21.2 4.4 9z"/><path d="M4.4 9h15.2M9 9l3 12.2M15 9l-3 12.2M9 9l3-6.2M15 9l-3-6.2" opacity=".7"/></symbol>
+<symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></symbol>
+<symbol id="i-ok" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-prof" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 12.5 9 5 9-5M3 16.5l9 5 9-5" opacity=".6"/></symbol>
+</svg>
+
+<div class="top"><div class="pill">
+  <a href="index.html" class="brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</a>
+  <nav id="nav"><a href="index.html#features" data-t="n1">Возможности</a><a href="index.html#updates" data-t="n2">Обновления</a><a href="index.html#reviews" data-t="n4">Отзывы</a><a href="index.html#pricing" data-t="n3">Тарифы</a></nav>
+  <button class="btn s" id="lang" type="button" aria-label="Language">EN</button>
+  <span class="prof" id="profAv" aria-hidden="true">?</span>
+  <button class="btn s menu" id="menu" type="button" aria-label="Меню">☰</button>
+</div></div>
+
+<main class="acc" id="app" hidden>
+  <div class="ac-kicker" data-t="kick">Кабинет</div>
+  <div class="ac-head"><div class="av" id="av">?</div><h1 id="hello">—</h1></div>
+  <p class="ac-mail" id="mail">—</p>
+
+  <div class="tabs ac-tabs" id="tabs" role="tablist">
+    <button type="button" class="on" data-tab="overview" data-t="tOv">Обзор</button>
+    <button type="button" data-tab="presets" data-t="tPr">Пресеты</button>
+    <button type="button" data-tab="billing" data-t="tBi">Оплата</button>
+    <button type="button" data-tab="settings" data-t="tSe">Настройки</button>
+  </div>
+
+  <!-- Обзор -->
+  <section class="ac-pane" data-pane="overview" style="padding:0">
+    <div class="ac-grid">
+      <article class="card ac-card">
+        <span class="tag">Free</span>
+        <h2 data-t="dlH">Скачать Crysea</h2>
+        <p class="grow" data-t="dlP">Насыщенность до 300% и сравнение до / после доступны с этим аккаунтом: без карты и без подписки. Профили игр, прицел и инструменты для Rust входят в платный тариф.</p>
+        <a class="btn w" id="dlBtn" href="#" aria-disabled="true"><svg class="ic"><use href="#i-dl"/></svg><span data-t="dlB">Скачать для Windows</span></a>
+        <div class="ac-note" id="dlNote" data-t="dlN">Войдите в приложении с этим аккаунтом, и всё подтянется.</div>
+      </article>
+      <article class="card ac-card hot" id="planCard"></article>
+    </div>
+  </section>
+
+  <!-- Пресеты -->
+  <section class="ac-pane" data-pane="presets" style="padding:0" hidden>
+    <div id="presets"></div>
+  </section>
+
+  <!-- Оплата -->
+  <section class="ac-pane" data-pane="billing" style="padding:0" hidden>
+    <div class="ac-stats">
+      <div><small data-t="sPlan">Тариф</small><b id="bPlan">—</b></div>
+      <div><small data-t="sUntil">Действует до</small><b id="bUntil">—</b></div>
+      <div><small data-t="sSince">Регистрация</small><b id="bSince">—</b></div>
+    </div>
+    <div class="card ac-list" id="history"></div>
+    <div class="ac-btns" style="margin-top:14px;max-width:320px"><a class="btn p" href="index.html#pricing" data-t="chg">Сменить тариф</a></div>
+  </section>
+
+  <!-- Настройки -->
+  <section class="ac-pane" data-pane="settings" style="padding:0" hidden>
+    <div class="card ac-set">
+      <label class="f"><span>Email</span><input id="sMail" readonly></label>
+      <label class="f"><span data-t="rn">Имя</span><input id="sName" maxlength="24" autocomplete="nickname"></label>
+      <div class="err" id="sErr" role="alert"></div>
+      <div><button class="btn p" type="button" id="sSave" data-t="save">Сохранить</button><button class="btn" type="button" id="sOut" data-t="out">Выйти</button></div>
+    </div>
+  </section>
+
+  <div class="ac-foot"><a href="legal.html" data-t="lg">Оферта и конфиденциальность</a> · © 2026 Crysea</div>
+</main>
+
+<script src="config.js"></script>
+<script src="account.js"></script>
+</body>
+</html>
