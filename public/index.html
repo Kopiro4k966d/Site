@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Manrope:wght@700;800&family=Inter:wght@400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 5.5 25 13 16 27 7 13z' fill='none' stroke='%23fff' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M7 13h18M12 13l4 14M20 13l-4 14' fill='none' stroke='%23fff' stroke-width='1.4' opacity='.7'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23000'/%3E%3Cpath d='M23.1 10.5A9 9 0 1 0 23.1 21.5' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='butt'/%3E%3Ccircle cx='17.8' cy='16' r='1.6' fill='%23fff'/%3E%3C/svg%3E">
 <meta name="theme-color" content="#121212">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -21,9 +21,8 @@
 
 <div class="top"><div class="pill">
   <a href="#top" class="brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</a>
-  <nav id="nav"><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a></nav>
+  <nav id="nav"><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a></nav>
   <button class="btn s" id="lang" type="button" aria-label="Language">EN</button>
-  <a class="btn s p dl" href="#pricing" data-dl data-i="dl">Скачать</a>
   <button class="btn s" id="loginBtn" type="button" data-i="login">Войти</button>
   <button class="prof" id="profBtn" type="button" hidden aria-label="Профиль"><span id="profAv">?</span></button>
   <button class="btn s menu" id="menu" type="button" aria-label="Меню" aria-expanded="false"><svg class="ic"><use href="#i-menu"/></svg></button>
@@ -52,12 +51,12 @@
 <section id="features"><div class="wrap">
   <div class="head" data-rv><h2 data-i="fh">Что умеет Crysea</h2><p data-i="fhp">Шесть модулей, которые не нужно искать по меню.</p></div>
   <div class="bento">
-    <article class="card b1" data-rv><div><div class="ico"><svg class="ic"><use href="#i-sat"/></svg></div><h3 data-i="f1t">Насыщенность</h3><p data-i="f1d">Один ползунок от 0 до 300%. Цвета ярче, детали в тенях на месте.</p></div><div class="sw"><div>R<span><i style="width:88%"></i></span></div><div>G<span><i style="width:72%"></i></span></div><div>B<span><i style="width:60%"></i></span></div></div></article>
-    <article class="card b2" data-rv><div class="ico"><svg class="ic"><use href="#i-pal"/></svg></div><h3 data-i="f2t">Темы</h3><p data-i="f2d">Три готовые темы: тёмная, светлая и мягкая. Приложение выглядит так, как нравится вам.</p></article>
-    <article class="card b3" data-rv><div class="ico"><svg class="ic"><use href="#i-prof"/></svg></div><h3 data-i="f3t">Профили</h3><p data-i="f3d">Свой вид для каждой игры. Переключение за секунду.</p></article>
-    <article class="card b4" data-rv><div class="ico"><svg class="ic"><use href="#i-cmp"/></svg></div><h3 data-i="f4t">Сравнение</h3><p data-i="f4d">До и после прямо в программе, без скриншотов.</p></article>
-    <article class="card b5" data-rv><div class="ico"><svg class="ic"><use href="#i-adv"/></svg></div><h3 data-i="f5t">Расширенные настройки</h3><p data-i="f5d">Контраст и яркость в одном разделе.</p></article>
-    <article class="card b6" data-rv><div class="ico"><svg class="ic"><use href="#i-mod"/></svg></div><h3 data-i="f6t">Быстрые модули</h3><p data-i="f6d">Частые действия всегда под рукой, без вложенных меню.</p></article>
+    <article class="card b1"><div><div class="ico"><svg class="ic"><use href="#i-sat"/></svg></div><h3 data-i="f1t">Насыщенность</h3><p data-i="f1d">Один ползунок от 0 до 300%. Цвета ярче, детали в тенях на месте.</p></div><div class="sw"><div>R<span><i style="width:88%"></i></span></div><div>G<span><i style="width:72%"></i></span></div><div>B<span><i style="width:60%"></i></span></div></div></article>
+    <article class="card b2"><div class="ico"><svg class="ic"><use href="#i-pal"/></svg></div><h3 data-i="f2t">Темы</h3><p data-i="f2d">Три готовые темы: тёмная, светлая и мягкая. Приложение выглядит так, как нравится вам.</p></article>
+    <article class="card b3"><div class="ico"><svg class="ic"><use href="#i-prof"/></svg></div><h3 data-i="f3t">Профили</h3><p data-i="f3d">Свой вид для каждой игры. Переключение за секунду.</p></article>
+    <article class="card b4"><div class="ico"><svg class="ic"><use href="#i-cmp"/></svg></div><h3 data-i="f4t">Сравнение</h3><p data-i="f4d">До и после прямо в программе, без скриншотов.</p></article>
+    <article class="card b5"><div class="ico"><svg class="ic"><use href="#i-adv"/></svg></div><h3 data-i="f5t">Расширенные настройки</h3><p data-i="f5d">Контраст и яркость в одном разделе.</p></article>
+    <article class="card b6"><div class="ico"><svg class="ic"><use href="#i-mod"/></svg></div><h3 data-i="f6t">Быстрые модули</h3><p data-i="f6d">Частые действия всегда под рукой, без вложенных меню.</p></article>
   </div>
 </div></section>
 
@@ -87,9 +86,9 @@
 <section id="pricing"><div class="wrap">
   <div class="head" data-rv><h2 data-i="ph">Free, Pro или Plus</h2><p data-i="pp">Начните бесплатно, платите, когда понадобится больше.</p></div>
   <div class="plans">
-    <article class="card plan" data-rv><h3>Free</h3><div class="price">0 ₽</div><p data-i="p1d">Базовая оптимизация и сравнение.</p><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a1">Насыщенность до 300%</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a2">3 темы оформления</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a3">Сравнение до / после</span></li></ul><a href="#pricing" class="btn w" data-dl data-i="b1">Скачать Free</a></article>
-    <article class="card plan hot" data-rv><span class="tag" data-i="pb">Самый популярный</span><h3>Pro</h3><div class="price">199 ₽<small data-i="mo"> / мес</small></div><p data-i="p2d">Основной тариф со всеми нужными инструментами.</p><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a4">Всё из Free</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a5">Профили игр и свой прицел</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a6">Инструменты для Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a7">Свои модули оптимизации</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a11">Таймер вайпа и параметры запуска Rust</span></li></ul><a href="#" class="btn p w" data-buy="pro" data-i="b2">Купить Pro</a></article>
-    <article class="card plan" data-rv><h3>Plus</h3><div class="price">399 ₽<small data-i="mo2"> / мес</small></div><p data-i="p3d">Полный доступ ко всем функциям.</p><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a8">Всё из Pro</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a9">Авто-режим Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a10">Рейд-калькулятор</span></li></ul><a href="#" class="btn w" data-buy="plus" data-i="b3">Купить Plus</a></article>
+    <article class="card plan" data-rv><h3>Free</h3><div class="price">0 ₽</div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a1">Насыщенность до 300%</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a2">3 темы оформления</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a3">Сравнение до / после</span></li></ul><a href="#pricing" class="btn w" data-dl data-i="b1">Скачать Free</a></article>
+    <article class="card plan hot" data-rv><span class="tag" data-i="pb">Самый популярный</span><h3>Pro</h3><div class="price">199 ₽<small data-i="mo"> / мес</small></div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a4">Всё из Free</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a5">Профили игр и свой прицел</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a6">Инструменты для Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a7">Свои модули оптимизации</span></li></ul><a href="#" class="btn p w" data-buy="pro" data-i="b2">Купить Pro</a></article>
+    <article class="card plan" data-rv><h3>Plus</h3><div class="price">399 ₽<small data-i="mo2"> / мес</small></div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a8">Всё из Pro</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a9">Авто-режим Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a10">Рейд-калькулятор</span></li></ul><a href="#" class="btn w" data-buy="plus" data-i="b3">Купить Plus</a></article>
   </div>
 </div></section>
 
@@ -139,29 +138,27 @@
 </div></div>
 
 <!-- ===== Оплата ===== -->
-<div class="mo" id="payM" hidden><div class="md wide" role="dialog" aria-modal="true" aria-labelledby="payT">
+<div class="mo" id="payM" hidden><div class="md pay" role="dialog" aria-modal="true" aria-labelledby="payT">
   <button class="x" type="button" data-close aria-label="Закрыть"><svg class="ic"><use href="#i-x"/></svg></button>
   <div id="payBody">
     <h3 id="payT" data-i="payT">Оплата подписки</h3>
-    <div class="sum"><div><b id="sPlan">Pro</b><small data-i="sPer">Подписка на 1 месяц</small></div><strong id="sPrice">199 ₽</strong></div>
-    <div class="promo-line" id="sPromo" hidden><svg class="ic"><use href="#i-gift"/></svg><span></span></div>
+    <div class="seg" id="planSeg" role="group"><button type="button" data-plan="pro">Pro<small>199 ₽</small></button><button type="button" data-plan="plus">Plus<small>399 ₽</small></button></div>
+    <div class="sum"><div><b id="sPlan">Crysea Pro</b><small data-i="sPer">Подписка на 1 месяц</small></div><strong id="sPrice">199 ₽</strong></div>
+    <p class="feat" id="sFeat"></p>
+    <form class="promo" id="promoF" novalidate><input id="promoI" maxlength="24" autocomplete="off" placeholder="Код автора" data-ph="pc" aria-label="Код автора"><button class="btn s" type="submit" data-i="prA">Применить</button></form>
+    <div class="promo-line" id="sPromo" hidden><svg class="ic"><use href="#i-gift"/></svg><span></span><button type="button" id="promoX" aria-label="Убрать код"><svg class="ic"><use href="#i-x"/></svg></button></div>
     <div class="sub" data-i="payM">Способ оплаты</div>
     <div class="meth" id="meth">
-      <button type="button" class="on" data-m="sbp"><i><svg class="ic"><use href="#i-bolt"/></svg></i><span>СБП</span><small data-i="mS">QR-код, без комиссии</small></button>
-      <button type="button" data-m="card"><i><svg class="ic"><use href="#i-card"/></svg></i><span data-i="mC">Банковская карта</span><small>Visa · Mir · MC</small></button>
+      <button type="button" class="on" data-m="sbp"><i><svg class="ic"><use href="#i-bolt"/></svg></i><span>СБП</span><small data-i="mS">Без комиссии</small></button>
+      <button type="button" data-m="card"><i><svg class="ic"><use href="#i-card"/></svg></i><span data-i="mC">Карта</span><small>Visa · Mir · MC</small></button>
       <button type="button" data-m="sber"><i><svg class="ic"><use href="#i-sber"/></svg></i><span>SberPay</span><small data-i="mSb">Через приложение</small></button>
       <button type="button" data-m="ym"><i><svg class="ic"><use href="#i-wallet"/></svg></i><span>ЮMoney</span><small data-i="mY">Кошелёк</small></button>
-      <button type="button" data-m="usdt"><i><svg class="ic"><use href="#i-coin"/></svg></i><span data-i="mU">Криптовалюта</span><small>USDT · TRC20</small></button>
     </div>
-    <div class="pane" data-p="sbp"><canvas id="qr" width="168" height="168"></canvas><div><b data-i="qT">Оплатите по QR-коду</b><p class="sub" data-i="qD">Откройте приложение банка, выберите «Оплата по QR» и наведите камеру. На телефоне нажмите кнопку ниже.</p></div></div>
-    <div class="pane" data-p="card" hidden>
-      <label class="f"><span data-i="cn">Номер карты</span><input id="cNum" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number"></label>
-      <div class="row"><label class="f"><span data-i="ce">Срок</span><input id="cExp" inputmode="numeric" placeholder="ММ/ГГ" maxlength="5" autocomplete="cc-exp"></label><label class="f"><span>CVC</span><input id="cCvc" inputmode="numeric" placeholder="•••" maxlength="3" type="password" autocomplete="cc-csc"></label></div>
-    </div>
-    <div class="pane" data-p="other" hidden><p class="sub" id="otherT"></p></div>
+    <p class="hint" id="otherT"></p>
     <div class="err" id="payE" role="alert"></div>
     <button class="btn p w" type="button" id="payBtn">Оплатить</button>
     <p class="note"><svg class="ic"><use href="#i-lock"/></svg><span data-i="payN">Данные карты не хранятся на сайте. Оплата проходит на стороне платёжного провайдера.</span></p>
+    <p class="note fine" data-i="terms2">Оплачивая, вы принимаете <a href="legal.html#offer">оферту</a>. Подписка не продлевается автоматически.</p>
   </div>
   <div id="payOk" hidden><div class="ok"><svg class="ic"><use href="#i-ok"/></svg></div><h3 data-i="okT">Оплата прошла</h3><p class="sub" id="okD"></p><button class="btn p w" type="button" data-close data-i="okB">Отлично</button></div>
 </div></div>

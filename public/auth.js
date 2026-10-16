@@ -6,18 +6,18 @@
 
 Object.assign(EN,{login:'Sign in',authT:'Crysea account',authS:'Access your dashboard and subscription.',fg:'Forgot your password?',or:'or',cD:'Continue with Discord',cG:'Continue with Google',soon:'soon',terms:'By continuing you accept the <a href="legal.html#offer">Terms</a> and the <a href="legal.html">Privacy Policy</a>.',tl:'Sign in',tr:'Sign up',fn:'Name',fp:'Password',fp2:'Repeat password',
 pPlan:'Plan',pUntil:'Valid until',pSince:'Joined',pUp:'Change plan',pOut:'Sign out',pRename:'Change name',pSave:'Save',
-payT:'Subscription payment',sPer:'1 month subscription',payM:'Payment method',mS:'QR code, no fees',mC:'Bank card',mSb:'Via the app',mY:'Wallet',mU:'Cryptocurrency',
+prA:'Apply',terms2:'By paying you accept the <a href="legal.html#offer">Terms</a>. The subscription does not renew automatically.',payT:'Subscription payment',sPer:'1 month subscription',payM:'Payment method',mS:'No fees',mC:'Card',mSb:'Via the app',mY:'Wallet',mU:'Cryptocurrency',
 qT:'Pay with a QR code',qD:'Open your bank app, choose “Pay by QR” and point the camera. On a phone, use the button below.',cn:'Card number',ce:'Expiry',
 payN:'🔒 Card data is never stored on this site. Payment is processed by the payment provider.',okT:'Payment successful',okB:'Great',promoOn:p=>`Creator code ${p}: -`,rvLogin:'Sign in to leave a review',rvSent:'Thanks! The review appears after moderation.',rvShort:'Write at least 10 characters'});
 
 const MSG={
- ru:{mail:'Введите корректный email',pass:'Пароль — минимум 6 символов',same:'Пароли не совпадают',method_off:'Этот способ пока недоступен',pay_fail:'Не удалось создать платёж, попробуйте позже',net:'Нет связи с сервером',limit:'Слишком много попыток, подождите несколько минут',auth:'Сессия истекла, войдите снова',pay_off:'Оплата ещё не подключена',name:'Введите имя',taken:'Этот email уже зарегистрирован',bad:'Неверный email или пароль',
+ ru:{feat:{pro:'Профили игр, прицел, инструменты Rust',plus:'Всё из Pro, авто-режим Rust, рейд-калькулятор'},demo:'Тестовый режим: тариф включится сразу, деньги не списываются.',soonPay:'Приём платежей пока не подключён. Тариф Free доступен без оплаты.',promo_bad:'Такого кода нет',promo_used:'Лимит этого кода исчерпан',mail:'Введите корректный email',pass:'Пароль — минимум 6 символов',same:'Пароли не совпадают',method_off:'Этот способ пока недоступен',pay_fail:'Не удалось создать платёж, попробуйте позже',net:'Нет связи с сервером',limit:'Слишком много попыток, подождите несколько минут',auth:'Сессия истекла, войдите снова',pay_off:'Оплата ещё не подключена',name:'Введите имя',taken:'Этот email уже зарегистрирован',bad:'Неверный email или пароль',
      loginT:'Вход',regT:'Регистрация',loginB:'Войти',regB:'Создать аккаунт',newq:'Впервые в Crysea?',haveq:'Уже есть аккаунт?',mk:'Создать аккаунт',hv:'Войти',
      pay:p=>'Оплатить '+p,wait:'Обработка…',card:'Проверьте данные карты',never:'Бессрочно',
      other:{sbp:'Вы перейдёте на страницу банка, чтобы оплатить по СБП.',card:'Вы перейдёте на защищённую страницу оплаты, данные карты вводятся там.',sber:'Вы перейдёте в приложение СберБанк Онлайн для подтверждения платежа.',ym:'Вы перейдёте на страницу ЮMoney для оплаты из кошелька.',usdt:'Вам будет показан адрес кошелька USDT (TRC20). Тариф активируется после 1 подтверждения сети.'},
      done:(p,d)=>`Тариф ${p} активен до ${d}.`,months:'мес',promoOn:(c,p)=>`Код ${c}: скидка ${p}%`,rvLogin:'Войдите, чтобы оставить отзыв',rvSent:'Спасибо! Отзыв появится после проверки.',rvShort:'Напишите хотя бы 10 символов',
      sbp:'Вы перейдёте на страницу банка, чтобы оплатить по СБП.'},
- en:{mail:'Enter a valid email',pass:'Password must be at least 6 characters',same:'Passwords do not match',method_off:'This method is not available yet',pay_fail:'Could not create the payment, try later',net:'Cannot reach the server',limit:'Too many attempts, wait a few minutes',auth:'Session expired, sign in again',pay_off:'Payments are not connected yet',name:'Enter your name',taken:'This email is already registered',bad:'Wrong email or password',
+ en:{feat:{pro:'Game profiles, crosshair, Rust tools',plus:'Everything in Pro, Rust auto mode, raid calculator'},demo:'Test mode: the plan activates instantly, no money is charged.',soonPay:'Payments are not connected yet. The Free plan needs no payment.',promo_bad:'No such code',promo_used:'This code has reached its limit',mail:'Enter a valid email',pass:'Password must be at least 6 characters',same:'Passwords do not match',method_off:'This method is not available yet',pay_fail:'Could not create the payment, try later',net:'Cannot reach the server',limit:'Too many attempts, wait a few minutes',auth:'Session expired, sign in again',pay_off:'Payments are not connected yet',name:'Enter your name',taken:'This email is already registered',bad:'Wrong email or password',
      loginT:'Sign in',regT:'Create account',loginB:'Sign in',regB:'Create account',newq:'New to Crysea?',haveq:'Already have an account?',mk:'Create account',hv:'Sign in',
      pay:p=>'Pay '+p,wait:'Processing…',card:'Check your card details',never:'No expiry',
      other:{sbp:'You will be taken to your bank to pay via SBP.',card:'You will be taken to a secure payment page to enter your card details.',sber:'You will be taken to the SberBank Online app to confirm the payment.',ym:'You will be taken to YooMoney to pay from your wallet.',usdt:'You will see a USDT (TRC20) wallet address. The plan activates after 1 network confirmation.'},
@@ -54,8 +54,8 @@ const api=(()=>{
 })();
 
 /* ---------- Окна ---------- */
-let user=null,mode='login',planId=null,method='sbp',payMode='demo';
-api.config().then(c=>{payMode=c.pay;if(payMode==='live'){const u=$('[data-m=usdt]');if(u)u.hidden=true}}).catch(()=>{});
+let user=null,mode='login',planId=null,method='sbp',payMode='live';
+api.config().then(c=>{payMode=c.pay;if(!$('#payM').hidden&&planId)paintPay()}).catch(()=>{});
 const $$=s=>[...document.querySelectorAll(s)];
 const open=id=>{$('#'+id).hidden=false;document.body.style.overflow='hidden'};
 const closeAll=()=>{$$('.mo').forEach(m=>m.hidden=true);document.body.style.overflow=''};
@@ -104,52 +104,42 @@ $$('[data-buy]').forEach(a=>a.addEventListener('click',e=>{
   user?openPay():openAuth('reg',openPay);
 }));
 const priceOf=id=>{const b=PLANS[id].price,pc=user&&user.promo?user.promo.percent:0;return pc?Math.max(1,Math.round(b*(100-pc)/100)):b};
-function openPay(){
-  const p=PLANS[planId],pm=user&&user.promo;
-  $('#sPlan').textContent='Crysea '+p.name;$('#sPrice').innerHTML=pm?`<s>${p.price} ₽</s> ${priceOf(planId)} ₽`:p.price+' ₽';
+function paintPay(){
+  const p=PLANS[planId],pm=user&&user.promo,off=payMode==='off';
+  $$('#planSeg button').forEach(b=>{const on=b.dataset.plan===planId;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+  $$('#planSeg button').forEach(b=>{b.querySelector('small').textContent=priceOf(b.dataset.plan)+' ₽'});
+  $('#sPlan').textContent='Crysea '+p.name;$('#sFeat').textContent=M().feat[planId];
+  $('#sPrice').innerHTML=pm?`<s>${p.price} ₽</s> ${priceOf(planId)} ₽`:p.price+' ₽';
+  $('#promoF').hidden=!!pm;
   const pl=$('#sPromo');pl.hidden=!pm;if(pm)pl.querySelector('span').textContent=M().promoOn(pm.code,pm.percent);
-  $('#payBody').hidden=false;$('#payOk').hidden=true;$('#payE').textContent='';
-  setMethod('sbp');if(payMode!=='live')drawQR();open('payM');
+  $('#otherT').textContent=off?M().soonPay:payMode==='demo'?M().demo:M().other[method];
+  const B=$('#payBtn');B.disabled=off;B.textContent=M().pay(priceOf(planId)+' ₽');
 }
 function setMethod(m){
-  method=m;$$('#meth button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
-  const other=['sber','ym','usdt'].includes(m)||(payMode==='live'&&(m==='card'||m==='sbp'));
-  $('[data-p=sbp]').hidden=m!=='sbp';$('[data-p=card]').hidden=m!=='card';$('[data-p=other]').hidden=!other;
-  if(other)$('#otherT').textContent=M().other[m];
-  $('#payBtn').textContent=M().pay(priceOf(planId)+' ₽');$('#payE').textContent='';
+  method=m;$$('#meth button').forEach(b=>{const on=b.dataset.m===m;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+  $('#payE').textContent='';paintPay();
+}
+function openPay(){
+  $('#payBody').hidden=false;$('#payOk').hidden=true;$('#payE').textContent='';
+  setMethod(['sbp','card','sber','ym'].includes(method)?method:'sbp');open('payM');
 }
 $$('#meth button').forEach(b=>b.onclick=()=>setMethod(b.dataset.m));
-$('#cNum').oninput=e=>e.target.value=e.target.value.replace(/\D/g,'').slice(0,16).replace(/(.{4})/g,'$1 ').trim();
-$('#cExp').oninput=e=>{let v=e.target.value.replace(/\D/g,'').slice(0,4);e.target.value=v.length>2?v.slice(0,2)+'/'+v.slice(2):v};
-$('#cCvc').oninput=e=>e.target.value=e.target.value.replace(/\D/g,'');
-
-/* Декоративный QR-плейсхолдер. В реальности QR/ссылку СБП выдаёт платёжный провайдер. */
-function drawQR(){
-  const c=$('#qr'),g=c.getContext('2d'),n=25,s=c.width/n;let seed=planId==='pro'?7:13;
-  const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
-  g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.fillStyle='#111';
-  const finder=(x,y)=>{g.fillRect(x*s,y*s,7*s,7*s);g.fillStyle='#fff';g.fillRect((x+1)*s,(y+1)*s,5*s,5*s);g.fillStyle='#111';g.fillRect((x+2)*s,(y+2)*s,3*s,3*s)};
-  for(let y=0;y<n;y++)for(let x=0;x<n;x++){
-    const inF=(x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9);
-    if(!inF&&rnd()>.52)g.fillRect(x*s,y*s,s,s)}
-  finder(0,0);finder(n-7,0);finder(0,n-7);
-}
+$$('#planSeg button').forEach(b=>b.onclick=()=>{planId=b.dataset.plan;$('#payE').textContent='';paintPay()});
+$('#promoF').onsubmit=async e=>{
+  e.preventDefault();const E=$('#payE'),v=$('#promoI').value.trim();if(!v)return;E.textContent='';
+  try{user=await api.promo(v);$('#promoI').value='';paintPay()}catch(err){E.textContent=M()[err.message]||err.message}
+};
+$('#promoX').onclick=async()=>{try{user=await api.promo('');paintPay()}catch(err){$('#payE').textContent=M()[err.message]||err.message}};
 $('#payBtn').onclick=async()=>{
-  const E=$('#payE'),B=$('#payBtn');E.textContent='';
-  if(method==='card'&&payMode!=='live'){
-    const num=$('#cNum').value.replace(/\s/g,''),exp=$('#cExp').value,cvc=$('#cCvc').value;
-    const mm=+exp.slice(0,2);
-    if(num.length<16||!/^\d\d\/\d\d$/.test(exp)||mm<1||mm>12||cvc.length<3)return E.textContent=M().card;
-  }
-  B.disabled=true;B.textContent=M().wait;
+  const E=$('#payE'),B=$('#payBtn');E.textContent='';B.disabled=true;B.textContent=M().wait;
+  let go=false;
   try{const r=await api.pay(planId,method);
-    if(r.url){location.href=r.url;return}
+    if(r.url){go=true;location.href=r.url;return}
     user=r.user;paintUser();
     $('#okD').textContent=M().done(PLANS[planId].name,fmtDate(user.until));
     $('#payBody').hidden=true;$('#payOk').hidden=false;
-    ['#cNum','#cExp','#cCvc'].forEach(s=>$(s).value='');
-  }catch(err){E.textContent=M()[err.message]||err.message;B.textContent=M().pay(priceOf(planId)+' ₽')}
-  finally{B.disabled=false}
+  }catch(err){E.textContent=M()[err.message]||err.message}
+  finally{if(!go){B.disabled=payMode==='off';B.textContent=M().pay(priceOf(planId)+' ₽')}}
 };
 
 /* Перерисовка динамических подписей при смене языка */
@@ -197,3 +187,5 @@ function toast(msg){
   let t=$('#toast');if(!t){t=document.createElement('div');t.id='toast';t.setAttribute('role','status');document.body.appendChild(t)}
   t.textContent=msg;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),3200);
 }
+
+if(lang==='en')setLang();
