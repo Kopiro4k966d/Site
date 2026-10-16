@@ -4,9 +4,9 @@
    см. ИНСТРУКЦИЯ_NETLIFY.md. Аккаунты общие с приложением Crysea.
    ========================================================= */
 
-Object.assign(EN,{login:'Sign in',authT:'Crysea account',authS:'Access your dashboard and subscription.',fg:'Forgot your password?',or:'or',cD:'Continue with Discord',cG:'Continue with Google',soon:'soon',terms:'By continuing you accept the <a href="legal.html#offer">Terms</a> and the <a href="legal.html">Privacy Policy</a>.',tl:'Sign in',tr:'Sign up',fn:'Name',fp:'Password',fp2:'Repeat password',
+Object.assign(EN,{login:'Sign in',authT:'Crysea account',authS:'Access your dashboard and subscription.',fg:'Forgot your password?',or:'or',cD:'Continue with Discord',cG:'Continue with Google',soon:'soon',terms:'By continuing you accept the <a href="/legal#offer">Terms</a> and the <a href="/legal">Privacy Policy</a>.',tl:'Sign in',tr:'Sign up',fn:'Name',fp:'Password',fp2:'Repeat password',
 pPlan:'Plan',pUntil:'Valid until',pSince:'Joined',pUp:'Change plan',pOut:'Sign out',pRename:'Change name',pSave:'Save',
-prA:'Apply',terms2:'By paying you accept the <a href="legal.html#offer">Terms</a>. The subscription does not renew automatically.',payT:'Subscription payment',sPer:'1 month subscription',payM:'Payment method',mS:'No fees',mC:'Card',mSb:'Via the app',mY:'Wallet',mU:'Cryptocurrency',
+prA:'Apply',terms2:'By paying you accept the <a href="/legal#offer">Terms</a>. The subscription does not renew automatically.',payT:'Subscription payment',sPer:'1 month subscription',payM:'Payment method',mS:'No fees',mC:'Card',mSb:'Via the app',mY:'Wallet',mU:'Cryptocurrency',
 qT:'Pay with a QR code',qD:'Open your bank app, choose “Pay by QR” and point the camera. On a phone, use the button below.',cn:'Card number',ce:'Expiry',
 payN:'🔒 Card data is never stored on this site. Payment is processed by the payment provider.',okT:'Payment successful',okB:'Great',promoOn:p=>`Creator code ${p}: -`,rvLogin:'Sign in to leave a review',rvSent:'Thanks! The review appears after moderation.',rvShort:'Write at least 10 characters'});
 
@@ -72,7 +72,7 @@ function paintUser(){
   if(user.color)$('#profBtn').style.background=user.color;
 }
 $('#loginBtn').onclick=()=>openAuth('login');
-$('#profBtn').onclick=()=>{location.href='account.html'};
+$('#profBtn').onclick=()=>{location.href='/account'};
 
 /* ---------- Вход / регистрация ---------- */
 function setMode(m){

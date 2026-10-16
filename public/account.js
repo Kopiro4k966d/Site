@@ -94,8 +94,8 @@
         <div class="ac-price">${priceHtml('pro')} ₽<small>${esc(t.per)}</small></div>
         <h2 style="font-size:1.4rem;margin:6px 0 0">Pro</h2>
         ${bullets(['a4', 'a5', 'a6'])}<div class="grow"></div>
-        <div class="ac-btns"><a class="btn p w" href="index.html?buy=pro">${esc(t.buy('Pro', priceOf('pro')))}</a>
-        <a class="btn w" href="index.html?buy=plus">${esc(t.orPlus(priceOf('plus')))}</a></div>`;
+        <div class="ac-btns"><a class="btn p w" href="/?buy=pro">${esc(t.buy('Pro', priceOf('pro')))}</a>
+        <a class="btn w" href="/?buy=plus">${esc(t.orPlus(priceOf('plus')))}</a></div>`;
       return;
     }
     const name = PLANS[p].name, days = Math.max(0, Math.ceil((Date.parse(user.until) - Date.now()) / 864e5));
@@ -103,8 +103,8 @@
       <div class="ac-price">${esc(name)}</div>
       <div class="left"><div><span>${esc(t.until(fmtDate(user.until)))}</span><span>${esc(t.left(days))}</span></div><span class="bar"><i data-w="${Math.min(100, Math.round(days / 31 * 100))}"></i></span></div>
       ${bullets(p === 'plus' ? ['a8', 'a9', 'a10'] : ['a4', 'a5', 'a6'])}<div class="grow"></div>
-      <div class="ac-btns"><a class="btn p w" href="index.html?buy=${p}">${esc(t.ext(name))}</a>
-      ${p === 'pro' ? `<a class="btn w" href="index.html?buy=plus">${esc(t.toPlus(priceOf('plus')))}</a>` : ''}</div>`;
+      <div class="ac-btns"><a class="btn p w" href="/?buy=${p}">${esc(t.ext(name))}</a>
+      ${p === 'pro' ? `<a class="btn w" href="/?buy=plus">${esc(t.toPlus(priceOf('plus')))}</a>` : ''}</div>`;
     requestAnimationFrame(() => requestAnimationFrame(() => $$('.left i').forEach((i) => (i.style.width = i.dataset.w + '%'))));
   }
 
@@ -193,11 +193,11 @@
   addEventListener('resize', moveSeg);
 
   /* ---------- Действия ---------- */
-  const toLogin = () => location.replace('index.html?login=1');
+  const toLogin = () => location.replace('/?login=1');
   $('#lang').onclick = () => { lang = lang === 'ru' ? 'en' : 'ru'; try { localStorage.setItem('crysea_lang', lang); } catch (e) {} paintStatic(); if (user) paintUser(); moveSeg(); };
   $('#menu').onclick = () => $('#nav').classList.toggle('open');
   $('#dlBtn').onclick = (e) => { if ($('#dlBtn').getAttribute('aria-disabled')) e.preventDefault(); };
-  $('#sOut').onclick = async () => { try { await call('POST', '/logout'); } catch (e) {} setTok(null); location.href = 'index.html'; };
+  $('#sOut').onclick = async () => { try { await call('POST', '/logout'); } catch (e) {} setTok(null); location.href = '/'; };
   $('#sSave').onclick = async () => {
     const E = $('#sErr'), B = $('#sSave'), n = $('#sName').value.trim(); E.textContent = '';
     if (!n) return (E.textContent = T().name);

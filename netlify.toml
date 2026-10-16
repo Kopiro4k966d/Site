@@ -24,3 +24,25 @@
   for = "/api/*"
   [headers.values]
     Cache-Control = "no-store"
+
+# Адреса без .html: /account вместо /account.html
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/account.html"
+  to = "/account"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/legal.html"
+  to = "/legal"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/oauth.html"
+  to = "/oauth"
+  status = 301
+  force = true

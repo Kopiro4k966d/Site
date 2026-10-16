@@ -6,6 +6,7 @@
   var E={off:['Вход через эту соцсеть ещё не подключён','Sign-in with this provider is not enabled yet'],
     denied:['Вход отменён','Sign-in was cancelled'],state:['Ссылка входа устарела, попробуйте ещё раз','The sign-in link expired, please try again'],
     noemail:['У аккаунта нет подтверждённого email. Подтвердите почту в Discord/Google или войдите по email и паролю','Your account has no verified email. Verify it with Discord/Google or sign in with email and password'],
+    server:['Ошибка сервера, попробуйте ещё раз через минуту','Server error, please try again in a minute'],
     provider:['Не удалось войти, попробуйте ещё раз','Sign-in failed, please try again'],limit:['Слишком много попыток, подождите несколько минут','Too many attempts, wait a few minutes']};
   history.replaceState(null,'',location.pathname);
   var tok=h.get('token');

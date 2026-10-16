@@ -268,10 +268,10 @@ body::before{animation:drift 40s linear infinite}
 /* ===== Окно оплаты ===== */
 .md.pay{width:min(100%,440px);padding:26px 24px 22px}
 .pay h3{margin:0 0 14px;font-size:1.3rem;padding-right:30px}
-.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin-bottom:12px;border:1px solid var(--line);border-radius:12px;background:#0f0f0f}
-.seg button{height:38px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,color .15s}
-.seg button small{font-weight:500;font-size:.78rem;opacity:.75}
-.seg button.on{background:#fff;color:#111}
+#planSeg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin-bottom:12px;border:1px solid var(--line);border-radius:12px;background:#0f0f0f}
+#planSeg button{height:38px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,color .15s}
+#planSeg button small{font-weight:500;font-size:.78rem;opacity:.75}
+#planSeg button.on{background:#fff;color:#111}
 .pay .sum{margin:0 0 8px;padding:14px 16px}
 .feat{margin:0 0 14px;color:var(--muted);font-size:.85rem}
 .promo{display:flex;gap:8px;margin:0 0 14px}
@@ -292,3 +292,22 @@ body::before{animation:drift 40s linear infinite}
 .pay .note.fine{margin-top:6px;font-size:.74rem;display:block}.pay .note.fine a{color:#aaa;text-decoration:underline}
 .pay .btn[disabled]{opacity:.5}
 @media(max-width:380px){.pay .meth{grid-template-columns:1fr}}
+
+/* ===== Правки кабинета ===== */
+.acc h1,.ac-who h1{font-family:Manrope,Inter,system-ui,sans-serif;font-weight:800;letter-spacing:-.03em}
+.acc{font-family:Inter,system-ui,"Segoe UI",sans-serif}
+.acc h2,.acc h3,.ac-price,.ac-stats b{font-family:Manrope,Inter,system-ui,sans-serif}
+#tabs.seg{display:grid;grid-template-columns:repeat(4,1fr);width:100%;gap:4px;padding:5px;margin:0 0 20px;overflow:visible}
+#tabs.seg::before{top:5px;bottom:5px}
+#tabs.seg button{justify-content:center;min-width:0;height:42px;padding:0 10px}
+#tabs.seg button.on{color:#fff}
+@media(max-width:640px){#tabs.seg{grid-template-columns:repeat(2,1fr)}#tabs.seg::before{display:none}#tabs.seg button.on{background:#262626;box-shadow:inset 0 0 0 1px #3a3a3a}}
+/* отступы кнопок в карточках */
+.ac-card .btn.w{margin-top:6px}
+.ac-card .ac-btns{gap:16px;margin-top:8px}
+.ac-card .ac-btns .btn{height:50px}
+.ac-card .ac-note{margin-top:16px}
+.creator form{gap:16px;margin-top:16px;align-items:stretch}
+.creator form .btn{flex:none;min-width:150px;height:48px}
+.creator input{height:48px}
+.ac-card .tag{margin-bottom:4px}

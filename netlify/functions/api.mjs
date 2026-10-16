@@ -9,15 +9,35 @@ const YK_METHODS = { sbp: 'sbp', card: 'bank_card', sber: 'sberbank', ym: 'yoo_m
 const sha = (s) => crypto.createHash('sha256').update(s).digest('hex');
 const scrypt = (p, salt) => new Promise((res, rej) => crypto.scrypt(p, salt, 64, (e, k) => (e ? rej(e) : res(k.toString('hex')))));
 
+const OAUTH_SQL = `
+alter table users alter column pass_salt drop not null;
+alter table users alter column pass_hash drop not null;
+alter table users add column if not exists email_verified boolean not null default false;
+create table if not exists identities (
+  provider text not null check (provider in ('discord','google')),
+  provider_id text not null,
+  user_id uuid not null references users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (provider, provider_id)
+);
+create index if not exists identities_user_idx on identities(user_id);
+create table if not exists oauth_pending (
+  device_hash text primary key,
+  user_id uuid not null references users(id) on delete cascade,
+  expires_at timestamptz not null
+);`;
+
 /* ---------- Хранилище PostgreSQL ---------- */
 export function pgStore(env = process.env) {
-  let pool;
+  let pool, migrated;
   const q = async (text, params) => {
     if (!pool) {
       const { default: pg } = await import('pg');
       pool = new pg.Pool({ connectionString: env.DATABASE_URL, max: 1, idleTimeoutMillis: 10000,
         ssl: env.DATABASE_SSL === 'off' ? false : { rejectUnauthorized: false } });
     }
+    if (!migrated) migrated = pool.query(OAUTH_SQL).catch((e) => { console.error('oauth migrate', e); });
+    await migrated;
     return (await pool.query(text, params)).rows;
   };
   const norm = (r) => r && ({ id: r.id, email: r.email, name: r.name, color: r.color, salt: r.pass_salt, hash: r.pass_hash, plan: r.plan, promo: r.promo || null, verified: !!r.email_verified,
@@ -160,7 +180,7 @@ export function makeHandler(db, env = process.env) {
       const secure = site.startsWith('https') ? '; Secure' : '';
       const cookie = (v, age) => `cr_oauth=${v}; HttpOnly; Path=/api/auth; SameSite=Lax; Max-Age=${age}${secure}`;
       const go = (to, ck) => new Response(null, { status: 302, headers: { Location: to, 'Cache-Control': 'no-store', ...(ck ? { 'Set-Cookie': ck } : {}) } });
-      const back = (e) => go(site + '/oauth.html#error=' + e, cookie('', 0));
+      const back = (e) => go(site + '/oauth#error=' + e, cookie('', 0));
       const redirect = site + '/api/auth/' + prov + '/callback';
       if (!oauthOn(prov)) return back('off');
       if (await db.hit('oauth:' + ip) > 60) return back('limit');
@@ -185,7 +205,9 @@ export function makeHandler(db, env = process.env) {
       } catch { return back('provider'); }
       const email = String(prof.email || '').trim().toLowerCase();
       if (!prof.id || !/^\S+@\S+\.\S+$/.test(email) || email.length > 120) return back('noemail');
-      let u = await db.identityUser(prov, String(prof.id));
+      let u;
+      try {
+      u = await db.identityUser(prov, String(prof.id));
       if (!u) {
         const ex = await db.userByEmail(email);
         if (ex) u = ex.verified ? ex : await db.claimEmail(ex.id);
@@ -196,8 +218,9 @@ export function makeHandler(db, env = process.env) {
         if (!u) return back('provider');
         await db.linkIdentity(u.id, prov, String(prof.id));
       }
-      if (st.d) { await db.addPending(st.d, u.id); return go(site + '/oauth.html#app=1', cookie('', 0)); }
-      return go(site + '/oauth.html#token=' + await newSession(u), cookie('', 0));
+      if (st.d) { await db.addPending(st.d, u.id); return go(site + '/oauth#app=1', cookie('', 0)); }
+      return go(site + '/oauth#token=' + await newSession(u), cookie('', 0));
+      } catch (e) { console.error('oauth callback', e); return back('server'); }
     }
     if (m === 'POST' && p === '/auth/poll') {
       if (await db.hit('poll:' + ip) > 400) return fail(429, 'limit');
