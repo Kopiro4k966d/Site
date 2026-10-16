@@ -20,12 +20,33 @@ export function pgStore(env = process.env) {
     }
     return (await pool.query(text, params)).rows;
   };
-  const norm = (r) => r && ({ id: r.id, email: r.email, name: r.name, color: r.color, salt: r.pass_salt, hash: r.pass_hash, plan: r.plan, promo: r.promo || null,
+  const norm = (r) => r && ({ id: r.id, email: r.email, name: r.name, color: r.color, salt: r.pass_salt, hash: r.pass_hash, plan: r.plan, promo: r.promo || null, verified: !!r.email_verified,
     until: r.plan_until ? new Date(r.plan_until).toISOString() : null, data: r.data, updated: Number(r.data_updated), created: new Date(r.created_at).toISOString() });
   return {
     async userByEmail(email) { return norm((await q('select * from users where email=$1', [email]))[0]); },
     async createUser(u) {
       return norm((await q('insert into users(email,name,pass_salt,pass_hash) values($1,$2,$3,$4) returning *', [u.email, u.name, u.salt, u.hash]))[0]);
+    },
+    async userById(id) { return norm((await q('select * from users where id=$1', [id]))[0]); },
+    async identityUser(provider, pid) {
+      return norm((await q('select u.* from identities i join users u on u.id=i.user_id where i.provider=$1 and i.provider_id=$2', [provider, pid]))[0]);
+    },
+    async linkIdentity(userId, provider, pid) { await q('insert into identities(provider,provider_id,user_id) values($1,$2,$3) on conflict do nothing', [provider, pid, userId]); },
+    async createOAuthUser(email, name) {
+      return norm((await q('insert into users(email,name,email_verified) values($1,$2,true) returning *', [email, name]))[0]);
+    },
+    /* почта подтверждена входом через соцсеть: старый пароль (его мог поставить не владелец почты) и все сессии сбрасываются */
+    async claimEmail(id) {
+      await q('delete from sessions where user_id=$1', [id]);
+      return norm((await q('update users set pass_salt=null, pass_hash=null, email_verified=true where id=$1 returning *', [id]))[0]);
+    },
+    async addPending(deviceHash, userId) {
+      await q(`insert into oauth_pending(device_hash,user_id,expires_at) values($1,$2,now()+interval '5 minutes')
+        on conflict(device_hash) do update set user_id=$2, expires_at=now()+interval '5 minutes'`, [deviceHash, userId]);
+    },
+    async takePending(deviceHash) {
+      const r = (await q('delete from oauth_pending where device_hash=$1 and expires_at>now() returning user_id', [deviceHash]))[0];
+      return r ? r.user_id : null;
     },
     async createSession(userId, tokenHash, expires) { await q('insert into sessions(token_hash,user_id,expires_at) values($1,$2,$3)', [tokenHash, userId, expires]); },
     async sessionUser(tokenHash) {
@@ -100,13 +121,91 @@ export function makeHandler(db, env = process.env) {
     await db.createSession(u.id, sha(t), new Date(Date.now() + 90 * 864e5)); return t;
   }
 
+
+  /* ---------- Вход через Discord и Google ---------- */
+  const UA = { 'User-Agent': 'Crysea (https://crysea.app, 1.0)', Accept: 'application/json' };
+  const OAUTH = {
+    discord: { auth: 'https://discord.com/oauth2/authorize', token: 'https://discord.com/api/oauth2/token', scope: 'identify email',
+      id: () => env.DISCORD_CLIENT_ID, secret: () => env.DISCORD_CLIENT_SECRET,
+      profile: async (at) => { const r = await fetch('https://discord.com/api/users/@me', { headers: { ...UA, Authorization: 'Bearer ' + at } }).then((x) => x.json());
+        return { id: r.id, email: r.verified ? r.email : null, name: r.global_name || r.username }; } },
+    google: { auth: 'https://accounts.google.com/o/oauth2/v2/auth', token: 'https://oauth2.googleapis.com/token', scope: 'openid email profile', extra: { prompt: 'select_account' },
+      id: () => env.GOOGLE_CLIENT_ID, secret: () => env.GOOGLE_CLIENT_SECRET,
+      profile: async (at) => { const r = await fetch('https://openidconnect.googleapis.com/v1/userinfo', { headers: { ...UA, Authorization: 'Bearer ' + at } }).then((x) => x.json());
+        return { id: r.sub, email: r.email_verified ? r.email : null, name: r.name }; } },
+  };
+  const oauthOn = (k) => !!(OAUTH[k] && OAUTH[k].id() && OAUTH[k].secret() && String(env.AUTH_SECRET || '').length >= 32);
+  const mac = (d) => crypto.createHmac('sha256', env.AUTH_SECRET).update(d).digest('base64url');
+  const signState = (o) => { const d = Buffer.from(JSON.stringify(o)).toString('base64url'); return d + '.' + mac(d); };
+  function readState(s) {
+    const [d, h] = String(s || '').split('.'); if (!d || !h) return null;
+    const e = mac(d); if (h.length !== e.length || !crypto.timingSafeEqual(Buffer.from(h), Buffer.from(e))) return null;
+    try { const o = JSON.parse(Buffer.from(d, 'base64url').toString()); return o.exp > Date.now() ? o : null; } catch { return null; }
+  }
+  const cookieOf = (req, k) => { const m = (req.headers.get('cookie') || '').match(new RegExp('(?:^|; )' + k + '=([^;]*)')); return m ? m[1] : ''; };
+
   return async function handle(req, ctx = {}) {
     const url = new URL(req.url), p = url.pathname.replace(/^\/api/, '') || '/', m = req.method;
     const ip = (ctx && ctx.ip) || req.headers.get('x-nf-client-connection-ip') || 'x';
     if (Number(req.headers.get('content-length') || 0) > 400000) return fail(413, 'big');
     let b = {}; if (m !== 'GET') b = await req.json().catch(() => ({}));
 
-    if (m === 'GET' && p === '/config') return J(200, { pay: payMode(), plans: PLANS });
+    if (m === 'GET' && p === '/config') return J(200, { pay: payMode(), plans: PLANS, oauth: { discord: oauthOn('discord'), google: oauthOn('google') } });
+
+
+    /* --- OAuth: /auth/{discord|google}/start -> провайдер -> /auth/{...}/callback; приложение забирает вход через /auth/poll --- */
+    const om = p.match(/^\/auth\/(discord|google)\/(start|callback)$/);
+    if (m === 'GET' && om) {
+      const prov = om[1], site = String(env.SITE_URL || url.origin).replace(/\/$/, ''), O = OAUTH[prov];
+      const secure = site.startsWith('https') ? '; Secure' : '';
+      const cookie = (v, age) => `cr_oauth=${v}; HttpOnly; Path=/api/auth; SameSite=Lax; Max-Age=${age}${secure}`;
+      const go = (to, ck) => new Response(null, { status: 302, headers: { Location: to, 'Cache-Control': 'no-store', ...(ck ? { 'Set-Cookie': ck } : {}) } });
+      const back = (e) => go(site + '/oauth.html#error=' + e, cookie('', 0));
+      const redirect = site + '/api/auth/' + prov + '/callback';
+      if (!oauthOn(prov)) return back('off');
+      if (await db.hit('oauth:' + ip) > 60) return back('limit');
+      if (om[2] === 'start') {
+        const dev = url.searchParams.get('device') || '';
+        if (dev && !/^[0-9a-f]{64}$/.test(dev)) return back('state');
+        const nonce = crypto.randomBytes(16).toString('hex');
+        const st = signState({ n: nonce, d: dev || null, exp: Date.now() + 10 * 60000 });
+        const q = new URLSearchParams({ client_id: O.id(), redirect_uri: redirect, response_type: 'code', scope: O.scope, state: st, ...(O.extra || {}) });
+        return go(O.auth + '?' + q, cookie(nonce, 600));
+      }
+      const st = readState(url.searchParams.get('state')), nonce = cookieOf(req, 'cr_oauth');
+      if (url.searchParams.get('error')) return back('denied');
+      if (!st || !nonce || nonce.length !== st.n.length || !crypto.timingSafeEqual(Buffer.from(nonce), Buffer.from(st.n))) return back('state');
+      const code = url.searchParams.get('code'); if (!code) return back('state');
+      let prof;
+      try {
+        const tk = await fetch(O.token, { method: 'POST', headers: { ...UA, 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ client_id: O.id(), client_secret: O.secret(), grant_type: 'authorization_code', code, redirect_uri: redirect }) }).then((x) => x.json());
+        if (!tk.access_token) return back('provider');
+        prof = await O.profile(tk.access_token);
+      } catch { return back('provider'); }
+      const email = String(prof.email || '').trim().toLowerCase();
+      if (!prof.id || !/^\S+@\S+\.\S+$/.test(email) || email.length > 120) return back('noemail');
+      let u = await db.identityUser(prov, String(prof.id));
+      if (!u) {
+        const ex = await db.userByEmail(email);
+        if (ex) u = ex.verified ? ex : await db.claimEmail(ex.id);
+        else {
+          const name = String(prof.name || email.split('@')[0]).replace(/[\u0000-\u001f]/g, '').trim().slice(0, 24) || 'Игрок';
+          try { u = await db.createOAuthUser(email, name); } catch { u = await db.userByEmail(email); }
+        }
+        if (!u) return back('provider');
+        await db.linkIdentity(u.id, prov, String(prof.id));
+      }
+      if (st.d) { await db.addPending(st.d, u.id); return go(site + '/oauth.html#app=1', cookie('', 0)); }
+      return go(site + '/oauth.html#token=' + await newSession(u), cookie('', 0));
+    }
+    if (m === 'POST' && p === '/auth/poll') {
+      if (await db.hit('poll:' + ip) > 400) return fail(429, 'limit');
+      const dev = String(b.device || ''); if (!/^[0-9a-f]{64}$/.test(dev)) return fail(400, 'state');
+      const uid = await db.takePending(sha(dev)); if (!uid) return J(200, { pending: true });
+      const u = await db.userById(uid); if (!u) return J(200, { pending: true });
+      return J(200, { token: await newSession(u), user: await pub(u) });
+    }
 
     if (m === 'GET' && p === '/reviews') return J(200, { reviews: await db.reviews() });
 
@@ -123,7 +222,7 @@ export function makeHandler(db, env = process.env) {
         return J(200, { token: await newSession(u), user: await pub(u) });
       }
       const u = await db.userByEmail(email);
-      const ok = u && crypto.timingSafeEqual(Buffer.from(await scrypt(pass, u.salt)), Buffer.from(u.hash));
+      const ok = u && u.salt && u.hash && crypto.timingSafeEqual(Buffer.from(await scrypt(pass, u.salt)), Buffer.from(u.hash));
       if (!ok) return fail(401, 'bad');
       return J(200, { token: await newSession(u), user: await pub(u) });
     }

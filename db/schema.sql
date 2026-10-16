@@ -79,3 +79,24 @@ alter table users       enable row level security;
 alter table sessions    enable row level security;
 alter table payments    enable row level security;
 alter table rate_limits enable row level security;
+
+-- Вход через Discord и Google (OAuth). Безопасно запускать повторно.
+alter table users alter column pass_salt drop not null;   -- у входящих через соцсеть пароля нет
+alter table users alter column pass_hash drop not null;
+alter table users add column if not exists email_verified boolean not null default false;
+create table if not exists identities (
+  provider     text not null check (provider in ('discord','google')),
+  provider_id  text not null,
+  user_id      uuid not null references users(id) on delete cascade,
+  created_at   timestamptz not null default now(),
+  primary key (provider, provider_id)
+);
+create index if not exists identities_user_idx on identities(user_id);
+-- Вход из приложения: браузер подтвердил вход, приложение забирает его по секрету устройства (живёт 5 минут)
+create table if not exists oauth_pending (
+  device_hash text primary key,
+  user_id     uuid not null references users(id) on delete cascade,
+  expires_at  timestamptz not null
+);
+alter table identities    enable row level security;
+alter table oauth_pending enable row level security;

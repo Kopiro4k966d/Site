@@ -55,7 +55,7 @@ const api=(()=>{
 
 /* ---------- Окна ---------- */
 let user=null,mode='login',planId=null,method='sbp',payMode='live';
-api.config().then(c=>{payMode=c.pay;if(!$('#payM').hidden&&planId)paintPay()}).catch(()=>{});
+api.config().then(c=>{$$('[data-oauth]').forEach(b=>{const k=b.dataset.oauth;if(!(c.oauth&&c.oauth[k]))return;b.disabled=false;b.removeAttribute('title');const s=b.querySelector('.soon');if(s)s.remove();b.onclick=()=>{location.href='/api/auth/'+k+'/start'}});payMode=c.pay;if(!$('#payM').hidden&&planId)paintPay()}).catch(()=>{});
 const $$=s=>[...document.querySelectorAll(s)];
 const open=id=>{$('#'+id).hidden=false;document.body.style.overflow='hidden'};
 const closeAll=()=>{$$('.mo').forEach(m=>m.hidden=true);document.body.style.overflow=''};
