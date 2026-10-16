@@ -71,7 +71,7 @@
   let lang = 'ru'; try { lang = localStorage.getItem('crysea_lang') === 'en' ? 'en' : 'ru'; } catch (e) {}
   const T = () => D[lang];
   const fmtDate = (d) => new Date(d).toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-  let user = null, payments = [], syncData = null, color = null;
+  let user = null, payments = [], syncData = null;
   const priceOf = (id) => { const b = PLANS[id].price, pc = user && user.promo ? user.promo.percent : 0; return pc ? Math.max(1, Math.round(b * (100 - pc) / 100)) : b; };
   const priceHtml = (id) => (user.promo ? `<s>${PLANS[id].price}</s>` : '') + priceOf(id);
 
@@ -130,7 +130,6 @@
   function paintUser() {
     const t = T(), L = (user.name || user.email)[0].toUpperCase();
     $('#profAv').textContent = $('#av').textContent = L;
-    if (user.color) $('#profAv').style.background = $('#av').style.background = user.color;
     $('#hello').textContent = t.hello(user.name);
     $('#mail').textContent = user.email; $('#sMail').value = user.email;
     if (document.activeElement !== $('#sName')) $('#sName').value = user.name;
@@ -139,13 +138,7 @@
     $('#bPlan').textContent = user.plan === 'free' ? t.free : PLANS[user.plan].name;
     $('#bUntil').textContent = user.until ? fmtDate(user.until) : t.never;
     $('#bSince').textContent = fmtDate(user.created);
-    if (color === null) color = user.color || COLORS[0];
-    paintSwatches(); paintPlan(); paintDownload(); paintPresets(); paintHistory(); paintSteps(); paintCreator();
-  }
-
-  function paintSwatches() {
-    $('#swatches').innerHTML = COLORS.map((c) => `<button type="button" style="background:${c}" data-c="${c}" aria-label="${c}" aria-pressed="${c === color}"></button>`).join('');
-    $$('#swatches button').forEach((b) => (b.onclick = () => { color = b.dataset.c; $('#av').style.background = $('#profAv').style.background = color; paintSwatches(); }));
+    paintPlan(); paintDownload(); paintPresets(); paintHistory(); paintSteps(); paintCreator();
   }
 
   function paintDownload() {
@@ -203,7 +196,7 @@
     if (!n) return (E.textContent = T().name);
     B.disabled = true;
     try {
-      user = (await call('PUT', '/me', { name: n, color })).user; paintUser();
+      user = (await call('PUT', '/me', { name: n })).user; paintUser();
       B.textContent = T().saved; setTimeout(() => (B.textContent = T().save), 1600);
     } catch (e) { E.textContent = T()[e.message] || e.message; }
     B.disabled = false;
