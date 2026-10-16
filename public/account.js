@@ -236,3 +236,8 @@
     paintUser(); setTab(location.hash.slice(1));
   })();
 })();
+
+/* шапка: сверху на всю ширину, при прокрутке — островок */
+(() => { const pill = document.querySelector('.pill'); if (!pill) return;
+  const lift = () => pill.classList.toggle('lift', scrollY > 12);
+  addEventListener('scroll', lift, { passive: true }); lift(); })();
