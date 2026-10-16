@@ -108,8 +108,7 @@ function paintPay(){
   const p=PLANS[planId],pm=user&&user.promo,off=payMode==='off';
   $$('#planSeg button').forEach(b=>{const on=b.dataset.plan===planId;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
   $$('#planSeg button').forEach(b=>{b.querySelector('small').textContent=priceOf(b.dataset.plan)+' ₽'});
-  $('#sPlan').textContent='Crysea '+p.name;$('#sFeat').textContent=M().feat[planId];
-  $('#sPrice').innerHTML=pm?`<s>${p.price} ₽</s> ${priceOf(planId)} ₽`:p.price+' ₽';
+  $('#sFeat').textContent=M().feat[planId];
   $('#promoF').hidden=!!pm;
   const pl=$('#sPromo');pl.hidden=!pm;if(pm)pl.querySelector('span').textContent=M().promoOn(pm.code,pm.percent);
   $('#otherT').textContent=off?M().soonPay:payMode==='demo'?M().demo:M().other[method];
@@ -121,7 +120,7 @@ function setMethod(m){
 }
 function openPay(){
   $('#payBody').hidden=false;$('#payOk').hidden=true;$('#payE').textContent='';
-  setMethod(['sbp','card','sber','ym'].includes(method)?method:'sbp');open('payM');
+  setMethod(['sbp','card'].includes(method)?method:'sbp');open('payM');
 }
 $$('#meth button').forEach(b=>b.onclick=()=>setMethod(b.dataset.m));
 $$('#planSeg button').forEach(b=>b.onclick=()=>{planId=b.dataset.plan;$('#payE').textContent='';paintPay()});
