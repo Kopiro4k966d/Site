@@ -142,9 +142,10 @@
   }
 
   function paintDownload() {
-    const url = (window.CRYSEA && window.CRYSEA.download) || '', b = $('#dlBtn');
-    if (url) { b.href = url; b.removeAttribute('aria-disabled'); b.classList.add('p'); $('#dlNote').textContent = T().dlN; }
-    else { b.href = '#'; b.setAttribute('aria-disabled', 'true'); $('#dlNote').textContent = T().dlNo; }
+    const d = (window.CRYSEA && window.CRYSEA.download) || {}, has = !!(d.setup || d.portable), b = $('#dlBtn');
+    b.href = '#'; // клик открывает окно выбора Setup/exe (см. config.js), а не ведёт по прямой ссылке
+    if (has) { b.removeAttribute('aria-disabled'); b.classList.add('p'); $('#dlNote').textContent = T().dlN; }
+    else { b.setAttribute('aria-disabled', 'true'); $('#dlNote').textContent = T().dlNo; }
   }
 
   function presetList(d) {

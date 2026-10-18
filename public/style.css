@@ -107,6 +107,18 @@ footer.ft .brand{justify-content:center;color:#fff;padding:0}footer.ft nav{displ
 .ok{width:64px;height:64px;margin:6px auto 14px;border-radius:50%;background:#fff;color:#111;display:grid;place-items:center;animation:okpop .5s cubic-bezier(.2,1.4,.4,1)}.ok .ic{width:32px;height:32px;stroke-width:2.4;stroke-dasharray:26;stroke-dashoffset:26;animation:draw .45s .25s ease-out forwards}#payOk{text-align:center}
 @media(max-width:480px){.pane[data-p=sbp]{flex-direction:column;text-align:center}.pr-grid{grid-template-columns:1fr}}
 
+/* Окно «Скачать»: выбор Setup / Portable */
+.dlmeth{display:grid;gap:10px;margin-top:4px}
+.dlopt{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:#111;text-align:left;color:#fff;transition:border-color .15s,transform .15s}
+.dlopt:hover{border-color:#4a4a4a;transform:translateY(-1px)}
+.dlopt i{width:44px;height:44px;border-radius:12px;background:#262626;display:grid;place-items:center;font-style:normal;flex:none}
+.dlopt i .ic{width:22px;height:22px}
+.dlopt b{display:flex;align-items:center;gap:8px;font-size:1rem;font-weight:700}
+.dlopt .tag{padding:1px 9px;border-radius:99px;background:#fff;color:#111;font-size:.68rem;font-weight:800;letter-spacing:.03em}
+.dlopt small{display:block;margin-top:3px;color:var(--muted);font-size:.82rem;line-height:1.4}
+.dlopt.dis{opacity:.5;cursor:not-allowed}
+.dlopt.dis:hover{border-color:var(--line);transform:none}
+
 .ds{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid #3a3a3a;background:#1a1a1a;color:#dcdcdc;transition:.15s;flex:none}
 .ds .ic{width:20px;height:20px;fill:currentColor;stroke:none}.ds:hover{background:#5865f2;border-color:#5865f2;color:#fff;transform:translateY(-1px)}
 .ft .ds{margin:0 10px}
