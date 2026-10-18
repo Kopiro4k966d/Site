@@ -3,8 +3,8 @@
 window.CRYSEA = {
   discord: 'https://discord.gg/YOUR_INVITE',
   download: {
-    setup: '',    /* прямая ссылка на Crysea-Setup.exe (установщик, npm run dist) */
-    portable: ''  /* прямая ссылка на Crysea-Portable.exe (отдельный exe без установки, npm run dist:portable) */
+    setup: 'https://crysea.vercel.app/account/Crysea-Setup.exe',
+    portable: 'https://crysea.vercel.app/account/Crysea-Portable.exe'
   }
 };
 document.querySelectorAll('[data-discord]').forEach(function (a) { a.href = window.CRYSEA.discord; });
