@@ -5,6 +5,8 @@ import crypto from 'node:crypto';
 export const config = { path: '/api/*' };
 
 const PLANS = { pro: { name: 'Pro', price: 199 }, plus: { name: 'Plus', price: 399 } };
+// Партнёрская программа: скидка покупателю по коду партнёра и доля партнёра от оплаченных тарифов
+const PARTNER = { buyer: 10, commission: 20 };
 const YK_METHODS = { sbp: 'sbp', card: 'bank_card', sber: 'sberbank', ym: 'yoo_money' };
 const sha = (s) => crypto.createHash('sha256').update(s).digest('hex');
 const scrypt = (p, salt) => new Promise((res, rej) => crypto.scrypt(p, salt, 64, (e, k) => (e ? rej(e) : res(k.toString('hex')))));
@@ -98,6 +100,17 @@ export function pgStore(env = process.env) {
       return r && { code: r.code, percent: r.percent, max: r.max_uses, uses: Number(r.uses) };
     },
     async setPromo(id, code) { return norm((await q('update users set promo=$2 where id=$1 returning *', [id, code]))[0]); },
+    async partnerOf(userId) { const r = (await q('select code from partners where user_id=$1', [userId]))[0]; return r ? r.code : null; },
+    async createPartner(userId, code, percent) {
+      await q('insert into promo_codes(code,percent,creator) values($1,$2,$3)', [code, percent, String(userId)]);
+      await q('insert into partners(user_id,code) values($1,$2)', [userId, code]);
+    },
+    /* продажи по коду партнёра: только оплаченные, покупки самого партнёра не начисляются */
+    async partnerSales(code, userId) {
+      const r = (await q(`select count(*) as n, coalesce(sum(amount_rub),0) as gross from payments
+        where promo=$1 and status='paid' and (user_id is null or user_id<>$2)`, [code, userId]))[0];
+      return { n: Number(r.n), gross: Number(r.gross) };
+    },
     async reviews() {
       return (await q('select name,text,created_at from reviews where approved order by created_at desc limit 30')).map((r) => ({ name: r.name, text: r.text, date: new Date(r.created_at).toISOString().slice(0, 10) }));
     },
@@ -285,6 +298,22 @@ export function makeHandler(db, env = process.env) {
       return J(200, { user: await pub(await db.setPromo(u.id, pr.code)) });
     }
     if (m === 'GET' && p === '/payments') return J(200, { payments: await db.payments(u.id) });
+    if (m === 'GET' && p === '/partner') {
+      const code = await db.partnerOf(u.id);
+      if (!code) return J(200, { partner: false, buyerPercent: PARTNER.buyer, commission: PARTNER.commission });
+      const s = await db.partnerSales(code, u.id);
+      return J(200, { partner: true, code, buyerPercent: PARTNER.buyer, commission: PARTNER.commission, sales: s.n, earned: Math.floor(s.gross * PARTNER.commission / 100) });
+    }
+    if (m === 'POST' && p === '/partner/join') {
+      if (await db.hit('partner:' + u.id) > 5) return fail(429, 'limit');
+      let code = await db.partnerOf(u.id);
+      for (let i = 0; i < 5 && !code; i++) {
+        const c = 'CR' + crypto.randomBytes(4).toString('hex').toUpperCase().slice(0, 6);
+        try { await db.createPartner(u.id, c, PARTNER.buyer); code = c; } catch { code = await db.partnerOf(u.id); }
+      }
+      if (!code) return fail(500, 'server');
+      return J(200, { partner: true, code, buyerPercent: PARTNER.buyer, commission: PARTNER.commission });
+    }
     if (m === 'GET' && p === '/sync') return J(200, { data: u.data, updated: u.updated });
     if (m === 'PUT' && p === '/sync') {
       if (!b.data || typeof b.data !== 'object' || Array.isArray(b.data)) return fail(400, 'data');

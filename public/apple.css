@@ -173,3 +173,38 @@ footer.ft{margin-top:120px;border-top:1px solid rgba(255,255,255,.1);padding:56p
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* ---------- Эффект подсветки за курсором (effects.js) ---------- */
+.spot{--mx:50%;--my:0%;--o:0}
+.spot::before{background:radial-gradient(360px circle at var(--mx) var(--my),rgba(255,255,255,.13),transparent 60%),var(--sheen)}
+.spot::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:radial-gradient(280px circle at var(--mx) var(--my),rgba(255,255,255,.8),rgba(255,255,255,.14) 45%,transparent 72%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;opacity:var(--o);transition:opacity .35s ease;z-index:2}
+.spot:hover{--o:1}
+
+/* ---------- Партнёрская программа (главная) ---------- */
+.grad{background:linear-gradient(120deg,#fff 10%,#8f9bff 60%,#c59bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+.pstep{display:flex;flex-direction:column;gap:6px;padding:22px}
+.pstep h3{margin:14px 0 4px}
+.pv{height:170px;border-radius:var(--r-m);display:grid;place-items:center;align-content:center;gap:8px;margin-bottom:6px;overflow:hidden;position:relative;
+  background:radial-gradient(70% 90% at 50% 110%,rgba(110,120,255,.55),transparent 70%),linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.01));
+  border:1px solid rgba(255,255,255,.1)}
+.pcode{font:700 1.35rem ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.12em;padding:12px 18px;border-radius:14px;background:rgba(10,10,14,.55);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.pbub{max-width:82%;padding:12px 16px;border-radius:18px 18px 18px 6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.16);font-size:.92rem;line-height:1.4;text-align:left}
+.pv3{text-align:left;justify-items:start;padding:18px 22px;width:100%;align-content:center}
+.pv3 small{color:#d2d2d7;font-size:.82rem}
+.pv3 b{font-size:2.1rem;letter-spacing:-.04em;line-height:1.1}
+.pv3 em{font-style:normal;font-size:.85rem;color:#b6f5c4}
+.pstep p{margin:0;color:var(--muted);font-size:.95rem}
+.pcta{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:40px 44px;margin-top:20px;
+  background:radial-gradient(60% 120% at 100% 50%,rgba(105,115,255,.42),transparent 70%),var(--glass)}
+.pcta h3{font-size:clamp(1.6rem,3.4vw,2.3rem);margin:0 0 10px;font-weight:700}
+.pcta p{margin:0 0 22px;color:#c9cbff;max-width:520px}
+.pcta .cta{justify-content:flex-start;margin:0}
+@media(max-width:820px){.steps3{grid-template-columns:1fr}.pcta{flex-direction:column;align-items:flex-start;padding:30px 26px}}
+
+/* Кабинет: пять вкладок */
+#tabs.seg{grid-template-columns:repeat(5,1fr)}
+@media(max-width:640px){#tabs.seg{grid-template-columns:repeat(2,1fr)}}

@@ -71,7 +71,54 @@
   let lang = 'ru'; try { lang = localStorage.getItem('crysea_lang') === 'en' ? 'en' : 'ru'; } catch (e) {}
   const T = () => D[lang];
   const fmtDate = (d) => new Date(d).toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-  let user = null, payments = [], syncData = null;
+  let user = null, payments = [], syncData = null, partner = null;
+
+  /* ---------- Партнёрская программа ---------- */
+  const PT = {
+    ru: { tab: 'Партнёрка', h: 'Партнёрская программа', p: 'Получите персональный код. Покупатели получают по нему скидку, а вы получаете долю с каждой оплаченной подписки.',
+      join: 'Стать партнёром', code: 'Ваш код', buyer: 'Скидка покупателю', share: 'Ваша доля', sales: 'Оплат по коду', earned: 'Начислено',
+      copy: 'Скопировать код', copied: 'Скопировано', note: 'Выплаты обсуждаются в Discord. Покупки самого партнёра по своему коду не начисляются.', err: 'Не удалось, попробуйте позже', load: 'Загрузка…' },
+    en: { tab: 'Partner', h: 'Partner program', p: 'Get your personal code. Buyers get a discount with it, and you earn a share of every paid subscription.',
+      join: 'Become a partner', code: 'Your code', buyer: 'Buyer discount', share: 'Your share', sales: 'Paid orders', earned: 'Earned',
+      copy: 'Copy code', copied: 'Copied', note: 'Payouts are arranged in Discord. Purchases made with your own code are not counted.', err: 'Something went wrong, try again later', load: 'Loading…' },
+  };
+  const pt = () => PT[lang];
+  function paintPartner() {
+    const t = pt(), box = $('#partnerBox'), tb = $('[data-tab="partner"] span'); if (tb) tb.textContent = t.tab;
+    if (!box) return;
+    if (!partner) { box.innerHTML = `<h3 class="ct">${t.h}</h3><p class="tip">${t.load}</p>`; return; }
+    if (!partner.partner) {
+      box.innerHTML = `<h3 class="ct">${t.h}</h3><p class="tip">${t.p}</p>
+        <div class="ac-btns"><button class="btn p" id="pJoin" type="button">${t.join}</button></div>
+        <p class="tip">${t.note}</p><div class="err" id="pErr" role="alert"></div>`;
+      return;
+    }
+    box.innerHTML = `<h3 class="ct">${t.h}</h3>
+      <div class="ac-stats">
+        <div><small>${t.code}</small><b>${esc(partner.code)}</b></div>
+        <div><small>${t.buyer}</small><b>${partner.buyerPercent}%</b></div>
+        <div><small>${t.share}</small><b>${partner.commission}%</b></div>
+      </div>
+      <div class="ac-stats">
+        <div><small>${t.sales}</small><b>${partner.sales}</b></div>
+        <div><small>${t.earned}</small><b>${partner.earned} ₽</b></div>
+      </div>
+      <div class="ac-btns"><button class="btn p" id="pCopy" type="button">${t.copy}</button></div>
+      <p class="tip">${t.note}</p>`;
+  }
+  $('#partnerBox') && $('#partnerBox').addEventListener('click', async (e) => {
+    const t = pt();
+    if (e.target.closest('#pCopy')) {
+      try { await navigator.clipboard.writeText(partner.code); e.target.closest('#pCopy').textContent = t.copied; } catch (err) {}
+      return;
+    }
+    if (e.target.closest('#pJoin')) {
+      const B = e.target.closest('#pJoin'); B.disabled = true;
+      try { partner = await call('POST', '/partner/join'); paintPartner(); }
+      catch (err) { B.disabled = false; const E = $('#pErr'); if (E) E.textContent = t.err; }
+    }
+  });
+  async function loadPartner() { try { partner = await call('GET', '/partner'); } catch (e) { partner = { partner: false, buyerPercent: 10, commission: 20 }; } paintPartner(); }
   const priceOf = (id) => { const b = PLANS[id].price, pc = user && user.promo ? user.promo.percent : 0; return pc ? Math.max(1, Math.round(b * (100 - pc) / 100)) : b; };
   const priceHtml = (id) => (user.promo ? `<s>${PLANS[id].price}</s>` : '') + priceOf(id);
 
@@ -138,7 +185,7 @@
     $('#bPlan').textContent = user.plan === 'free' ? t.free : PLANS[user.plan].name;
     $('#bUntil').textContent = user.until ? fmtDate(user.until) : t.never;
     $('#bSince').textContent = fmtDate(user.created);
-    paintPlan(); paintDownload(); paintPresets(); paintHistory(); paintSteps(); paintCreator();
+    paintPlan(); paintDownload(); paintPresets(); paintHistory(); paintSteps(); paintCreator(); paintPartner();
   }
 
   function paintDownload() {
@@ -227,7 +274,7 @@
     const [pm, sy] = await Promise.all([call('GET', '/payments').catch(() => null), call('GET', '/sync').catch(() => null)]);
     payments = (pm && pm.payments) || []; syncData = sy && sy.data;
     $('#skel').hidden = true; $('#app').hidden = false;
-    paintUser(); setTab(location.hash.slice(1));
+    paintUser(); setTab(location.hash.slice(1)); loadPartner();
   })();
 })();
 

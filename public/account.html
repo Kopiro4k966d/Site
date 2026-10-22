@@ -35,6 +35,7 @@
   <div class="seg" id="tabs" role="tablist">
     <button type="button" class="on" role="tab" data-tab="overview"><svg class="ic"><use href="#i-grid"/></svg><span data-t="tOv">Обзор</span></button>
     <button type="button" role="tab" data-tab="presets"><svg class="ic"><use href="#i-layers"/></svg><span data-t="tPr">Пресеты</span></button>
+    <button type="button" role="tab" data-tab="partner"><svg class="ic"><use href="#i-gift"/></svg><span data-t="tPa">Партнёрка</span></button>
     <button type="button" role="tab" data-tab="billing"><svg class="ic"><use href="#i-receipt"/></svg><span data-t="tBi">Оплата</span></button>
     <button type="button" role="tab" data-tab="settings"><svg class="ic"><use href="#i-gear"/></svg><span data-t="tSe">Настройки</span></button>
   </div>
@@ -63,6 +64,10 @@
 
   <section class="ac-pane" data-pane="presets" hidden><div id="presets"></div></section>
 
+  <section class="ac-pane" data-pane="partner" hidden>
+    <div class="card ac-set" id="partnerBox" aria-live="polite"></div>
+  </section>
+
   <section class="ac-pane" data-pane="billing" hidden>
     <div class="ac-stats">
       <div><small data-t="sPlan">Тариф</small><b id="bPlan">—</b></div>
@@ -87,6 +92,7 @@
 </main>
 
 <script src="config.js"></script>
+<script src="effects.js" defer></script>
 <script src="account.js"></script>
 </body>
 </html>

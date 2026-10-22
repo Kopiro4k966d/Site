@@ -100,3 +100,11 @@ create table if not exists oauth_pending (
 );
 alter table identities    enable row level security;
 alter table oauth_pending enable row level security;
+
+-- Партнёрская программа: у каждого партнёра один персональный код (строка в promo_codes)
+create table if not exists partners (
+  user_id     uuid primary key references users(id) on delete cascade,
+  code        text not null unique references promo_codes(code) on delete cascade,
+  created_at  timestamptz not null default now()
+);
+alter table partners enable row level security;
