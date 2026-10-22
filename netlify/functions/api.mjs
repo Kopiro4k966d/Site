@@ -153,7 +153,7 @@ export function makeHandler(db, env = process.env) {
     const pr = u.promo ? await db.promoByCode(u.promo) : null;
     return { email: u.email, name: u.name, color: u.color || null, plan: plan(u), until: plan(u) === 'free' ? null : u.until, created: u.created, promo: pr ? { code: pr.code, percent: pr.percent } : null };
   };
-  const PARTNER = { minFollowers: 500, minViews: 2000, rate: 5, buyerPercent: 10 };
+  const PARTNER = { min: { tiktok: { views: 1000, followers: 50 }, youtube: { views: 300, followers: 50 } }, rate: 5, buyerPercent: 10 };
   const partnerView = async (uid) => {
     const pa = await db.partnerOf(uid);
     const stats = await db.partnerStats(uid);
@@ -331,7 +331,8 @@ export function makeHandler(db, env = process.env) {
       if (!host.test(channel)) return fail(400, 'channel');
       const followers = Math.floor(Number(b.followers)), views = Math.floor(Number(b.views));
       if (!Number.isFinite(followers) || !Number.isFinite(views) || followers < 0 || views < 0) return fail(400, 'nums');
-      if (followers < PARTNER.minFollowers || views < PARTNER.minViews) return fail(400, 'low');
+      const need = PARTNER.min[platform];
+      if (followers < need.followers || views < need.views) return fail(400, 'low');
       const payout = String(b.payout || '').trim().slice(0, 200);
       if (payout.length < 5) return fail(400, 'payout');
       const contact = String(b.contact || '').trim().slice(0, 100);
