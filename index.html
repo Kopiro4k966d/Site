@@ -9,6 +9,9 @@
 <meta property="og:title" content="Crysea — сочные цвета в каждой игре">
 <meta property="og:description" content="Насыщенность до 300%, профили игр, прицел и инструменты для Rust. Windows 10 и 11.">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Manrope:wght@700;800&family=Inter:wght@400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#121212">
 <link rel="stylesheet" href="style.css">
@@ -17,7 +20,7 @@
 <script src="icons.js"></script>
 
 <div class="top"><div class="pill">
-  <a href="#top" class="brand">Crysea</a>
+  <a href="#top" class="brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</a>
   <nav id="nav"><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a></nav>
   <button class="btn s" id="lang" type="button" aria-label="Language">EN</button>
   <button class="btn s" id="loginBtn" type="button" data-i="login">Войти</button>
@@ -102,17 +105,11 @@
 </main>
 
 <footer class="ft"><div class="wrap">
-  <div class="ft-main">
-    <div>
-      <div class="ft-brand">Crysea</div>
-      <p class="ft-desc" data-i="ftx">Настройка цвета и системные модули для Windows.</p>
-    </div>
-    <nav class="ft-nav"><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a><a href="/partner">Партнёрство</a></nav>
-  </div>
-  <div class="ft-bottom">
-    <div><a href="/legal" data-i="lg">Оферта и конфиденциальность</a> · © 2026 Crysea</div>
-    <a class="ds" data-discord href="#" target="_blank" rel="noopener" aria-label="Discord" title="Discord"><svg class="ic"><use href="#i-ds"/></svg></a>
-  </div>
+  <div class="brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</div>
+  <p data-i="ftx">Настройка цвета и системные модули для Windows.</p>
+  <nav><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a></nav>
+  <a class="ds" data-discord href="#" target="_blank" rel="noopener" aria-label="Discord" title="Discord"><svg class="ic"><use href="#i-ds"/></svg></a>
+  <div><a href="/legal" data-i="lg">Оферта и конфиденциальность</a> · © 2026 Crysea</div>
 </div></footer>
 
 

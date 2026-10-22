@@ -38,12 +38,5 @@
     }
   ],
   "cleanUrls": true,
-  "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/partner",
-      "destination": "/?partner=1",
-      "permanent": true
-    }
-  ]
+  "trailingSlash": false
 }

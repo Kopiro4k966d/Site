@@ -106,33 +106,6 @@ export function pgStore(env = process.env) {
     async markPaid(providerId) { // атомарно: вернёт строку только при первом подтверждении
       return (await q(`update payments set status='paid', paid_at=now() where provider_id=$1 and status<>'paid' returning user_id, plan`, [providerId]))[0] || null;
     },
-    /* партнёрка */
-    async partnerOf(userId) {
-      const r = (await q(`select p.*, c.code as code from partners p
-        left join promo_codes c on c.partner_id=p.user_id where p.user_id=$1`, [userId]))[0];
-      return r ? { status: r.status, platform: r.platform, channel: r.channel_url, followers: r.followers,
-        views: r.avg_views, payout: r.payout_details, contact: r.contact, desired: r.desired_code, code: r.code || null } : null;
-    },
-    async partnerSave(userId, d) {
-      await q(`insert into partners(user_id,platform,channel_url,followers,avg_views,payout_details,contact,desired_code,status) values($1,$2,$3,$4,$5,$6,$7,$8,'pending')
-        on conflict(user_id) do update set platform=excluded.platform, channel_url=excluded.channel_url,
-        followers=excluded.followers, avg_views=excluded.avg_views, payout_details=excluded.payout_details,
-        contact=excluded.contact, desired_code=excluded.desired_code,
-        status=case when partners.status='approved' then 'approved' else 'pending' end`,
-        [userId, d.platform, d.channel, d.followers, d.views, d.payout, d.contact, d.desired]);
-    },
-    async partnerCodeCreate(userId, code, name, percent) {
-      await q('insert into promo_codes(code,percent,creator,partner_id,max_uses) values($1,$2,$3,$4,null)', [code, percent, name, userId]);
-    },
-    /* начисление: 5% от оплаченной суммы по коду партнёра; собственные покупки партнёра не считаются */
-    async partnerStats(userId) {
-      const s = (await q(`select count(*) as orders, coalesce(sum(p.amount_rub),0) as sales,
-          coalesce(sum(floor(p.amount_rub*5/100.0)),0) as earned
-        from payments p join promo_codes c on c.code=p.promo
-        where c.partner_id=$1 and p.status='paid' and (p.user_id is null or p.user_id<>$1)`, [userId]))[0];
-      const paid = (await q('select coalesce(sum(amount_rub),0) as paid from partner_payouts where partner_id=$1', [userId]))[0];
-      return { orders: Number(s.orders), sales: Number(s.sales), earned: Number(s.earned), paid: Number(paid.paid) };
-    },
     async activatePlan(userId, plan) {
       return norm((await q(`update users set plan=$2,
         plan_until=(case when plan_until is not null and plan_until>now() then plan_until else now() end)+interval '1 month'
@@ -152,14 +125,6 @@ export function makeHandler(db, env = process.env) {
   const pub = async (u) => {
     const pr = u.promo ? await db.promoByCode(u.promo) : null;
     return { email: u.email, name: u.name, color: u.color || null, plan: plan(u), until: plan(u) === 'free' ? null : u.until, created: u.created, promo: pr ? { code: pr.code, percent: pr.percent } : null };
-  };
-  const PARTNER = { min: { tiktok: { views: 1000, followers: 50 }, youtube: { views: 300, followers: 50 } }, rate: 5, buyerPercent: 10 };
-  const partnerView = async (uid) => {
-    const pa = await db.partnerOf(uid);
-    const stats = await db.partnerStats(uid);
-    if (!pa) return { partner: null, rules: PARTNER };
-    return { partner: { status: pa.status, platform: pa.platform, channel: pa.channel, followers: pa.followers,
-      views: pa.views, payout: pa.payout, contact: pa.contact, desired: pa.desired, code: pa.code, percent: PARTNER.buyerPercent, stats }, rules: PARTNER };
   };
   const priceFor = (pl, pr) => (pr ? Math.max(1, Math.round(pl.price * (100 - pr.percent) / 100)) : pl.price);
   function license(u) {
@@ -320,40 +285,6 @@ export function makeHandler(db, env = process.env) {
       return J(200, { user: await pub(await db.setPromo(u.id, pr.code)) });
     }
     if (m === 'GET' && p === '/payments') return J(200, { payments: await db.payments(u.id) });
-    /* --- партнёрка: условия, заявка, выбор промокода --- */
-    if (m === 'GET' && p === '/partner') return J(200, await partnerView(u.id));
-    if (m === 'POST' && p === '/partner/apply') {
-      if (await db.hit('partner:' + u.id) > 10) return fail(429, 'limit');
-      const platform = String(b.platform || '');
-      if (!['tiktok', 'youtube'].includes(platform)) return fail(400, 'platform');
-      const channel = String(b.channel || '').trim().slice(0, 200);
-      const host = platform === 'tiktok' ? /^https:\/\/(www\.|vm\.)?tiktok\.com\/\S+$/ : /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\/\S+$/;
-      if (!host.test(channel)) return fail(400, 'channel');
-      const followers = Math.floor(Number(b.followers)), views = Math.floor(Number(b.views));
-      if (!Number.isFinite(followers) || !Number.isFinite(views) || followers < 0 || views < 0) return fail(400, 'nums');
-      const need = PARTNER.min[platform];
-      if (followers < need.followers || views < need.views) return fail(400, 'low');
-      const payout = String(b.payout || '').trim().slice(0, 200);
-      if (payout.length < 5) return fail(400, 'payout');
-      const contact = String(b.contact || '').trim().slice(0, 100);
-      if (contact.length < 3) return fail(400, 'contact');
-      if (!(b.agreed === true && b.terms === true)) return fail(400, 'agree');
-      const desired = String(b.desired || '').trim().toUpperCase();
-      if (desired && !/^[A-Z0-9]{3,16}$/.test(desired)) return fail(400, 'code_fmt');
-      await db.partnerSave(u.id, { platform, channel, followers, views, payout, contact, desired: desired || null });
-      return J(200, await partnerView(u.id));
-    }
-    if (m === 'POST' && p === '/partner/code') {
-      if (await db.hit('partnercode:' + u.id) > 10) return fail(429, 'limit');
-      const pa = await db.partnerOf(u.id);
-      if (!pa || pa.status !== 'approved') return fail(403, 'not_approved');
-      if (pa.code) return fail(409, 'has_code');
-      const code = String(b.code || '').trim().toUpperCase();
-      if (!/^[A-Z0-9]{3,16}$/.test(code)) return fail(400, 'code_fmt');
-      try { await db.partnerCodeCreate(u.id, code, u.name, PARTNER.buyerPercent); }
-      catch (e) { if (e.code === '23505') return fail(409, 'code_taken'); throw e; }
-      return J(200, await partnerView(u.id));
-    }
     if (m === 'GET' && p === '/sync') return J(200, { data: u.data, updated: u.updated });
     if (m === 'PUT' && p === '/sync') {
       if (!b.data || typeof b.data !== 'object' || Array.isArray(b.data)) return fail(400, 'data');
