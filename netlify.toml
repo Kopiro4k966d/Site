@@ -46,3 +46,9 @@
   to = "/oauth"
   status = 301
   force = true
+
+[[redirects]]
+  from = "/partner"
+  to = "/?partner=1"
+  status = 301
+  force = true
