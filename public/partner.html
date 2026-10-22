@@ -11,37 +11,67 @@
 <link rel="stylesheet" href="partner.css">
 </head>
 <body>
+<script src="icons.js"></script>
 
-<header class="pp-top"><div class="wrap pp-bar">
-  <a href="/" class="pp-brand">Crysea</a>
-  <nav><a href="/">На сайт</a><a href="/account">Кабинет</a></nav>
-</div></header>
+<div class="top"><div class="pill">
+  <a href="/" class="brand">Crysea</a>
+  <nav id="nav"><a href="/#features">Возможности</a><a href="/#updates">Обновления</a><a href="/#pricing">Тарифы</a><a href="/#faq">Вопросы</a><a href="/partner" class="on">Партнёрство</a></nav>
+  <a class="btn s" href="/account">Кабинет</a>
+  <button class="btn s menu" id="menu" type="button" aria-label="Меню" aria-expanded="false"><svg class="ic"><use href="#i-menu"/></svg></button>
+</div></div>
 
 <main class="wrap pp">
+
   <section class="pp-hero">
-    <p class="pp-kick">Партнёрская программа</p>
-    <h1>Рекомендуйте Crysea и получайте 5% с каждой покупки</h1>
-    <p class="pp-lead">Покупатель получает 10% скидки по вашему промокоду. Вы получаете 5% от оплаты. Выплаты переводим на карту, в СБП или на ЮMoney.</p>
-    <a href="#apply" class="btn p">Подать заявку</a>
-  </section>
-
-  <section class="pp-sec">
-    <h2>Как это работает</h2>
-    <div class="pp-steps">
-      <div class="card pp-step"><b>1</b><h3>Подайте заявку</h3><p>Укажите канал, цифры и реквизиты. Заявку проверим вручную.</p></div>
-      <div class="card pp-step"><b>2</b><h3>Выберите промокод</h3><p>После одобрения выберите промокод из 3–16 латинских букв или цифр.</p></div>
-      <div class="card pp-step"><b>3</b><h3>Получайте 5%</h3><p>Начисления видны в кабинете. Выплаты переводим после подтверждения оплат.</p></div>
+    <div class="pp-hero-text">
+      <h1 class="pp-in" style="--d:0ms">Зарабатывайте с Crysea — <span class="acc">рекомендуйте</span> и получайте 5%</h1>
+      <p class="pp-lead pp-in" style="--d:120ms">Помогаем YouTube и TikTok-авторам зарабатывать на рекомендациях. Ваш покупатель получает скидку, вы — процент с каждой оплаты.</p>
+      <div class="pp-in" style="--d:220ms"><a href="#apply" class="btn p">Подать заявку</a></div>
+    </div>
+    <div class="pp-art rv" style="--d:150ms">
+      <div class="phone"><img src="/assets/after.jpg" alt="Интерфейс Crysea" loading="lazy"></div>
+      <div class="chip c1"><span class="chip-ico"><svg class="ic"><use href="#i-key"/></svg></span><div><b>Покупка по коду</b><small>IVAN · скидка 10%</small></div></div>
+      <div class="chip c2"><span class="chip-ico"><svg class="ic"><use href="#i-coin"/></svg></span><div><b>Начислено</b><small>+5% партнёру</small></div></div>
     </div>
   </section>
 
   <section class="pp-sec">
-    <h2>Условия</h2>
-    <div class="pp-table">
-      <div class="pp-tr"><span>Платформа</span><span>Просмотры на видео</span><span>Подписчики</span></div>
-      <div class="pp-tr"><span><b>TikTok</b></span><span>от 1 000</span><span>от 50</span></div>
-      <div class="pp-tr"><span><b>YouTube</b></span><span>от 300</span><span>от 50</span></div>
+    <div class="pp-stats-row">
+      <div class="card stat rv" style="--d:0ms"><b>10%</b><span>скидка покупателю по вашему коду</span></div>
+      <div class="card stat rv" style="--d:120ms"><b>5%</b><span>вам с каждой оплаты по коду</span></div>
+      <div class="card stat rv" style="--d:240ms"><b>50+</b><span>подписчиков — минимум для заявки</span></div>
     </div>
-    <ul class="pp-list">
+  </section>
+
+  <section class="pp-sec">
+    <h2 class="rv">Как это <span class="acc">работает</span>?</h2>
+    <ol class="tl">
+      <li class="tl-item rv" style="--c:#6d6afe">
+        <span class="tl-dot">1</span>
+        <div class="card"><h3>Заполняете заявку</h3><p>Ссылка на канал, подписчики, средние просмотры и реквизиты для выплат.</p></div>
+      </li>
+      <li class="tl-item rv" style="--c:#a855f7">
+        <span class="tl-dot">2</span>
+        <div class="card"><h3>Мы проверяем канал</h3><p>Проверяем вручную по последним видео. Ответ придёт в кабинет на этом же аккаунте.</p></div>
+      </li>
+      <li class="tl-item rv" style="--c:#38bdf8">
+        <span class="tl-dot">3</span>
+        <div class="card"><h3>Выбираете промокод</h3><p>После одобрения закрепляете за собой промокод из 3–16 латинских букв или цифр.</p></div>
+      </li>
+      <li class="tl-item rv" style="--c:#22c55e">
+        <span class="tl-dot">4</span>
+        <div class="card"><h3>Получаете выплаты</h3><p>Начисления видны в кабинете. Переводим на карту, в СБП или на ЮMoney после подтверждения оплат.</p></div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="pp-sec">
+    <h2 class="rv">Условия <span class="acc">для заявки</span></h2>
+    <div class="pp-cols">
+      <div class="card rv" style="--d:0ms"><span class="pp-tag">TikTok</span><b class="pp-big">от 1 000</b><span class="pp-muted">просмотров на видео · от 50 подписчиков</span></div>
+      <div class="card rv" style="--d:120ms"><span class="pp-tag">YouTube</span><b class="pp-big">от 300</b><span class="pp-muted">просмотров на видео · от 50 подписчиков</span></div>
+    </div>
+    <ul class="pp-list rv">
       <li>Цифры проверяем по последним видео. Они должны быть стабильными, а не разовым всплеском.</li>
       <li>Ролики должны быть про Rust и не нарушать правила Crysea и платформы.</li>
       <li>Покупки самого партнёра по его коду не начисляются.</li>
@@ -49,13 +79,26 @@
   </section>
 
   <section class="pp-sec" id="apply">
-    <h2>Заявка и кабинет</h2>
+    <h2 class="rv">Заявка и <span class="acc">кабинет</span></h2>
     <div id="partnerPage"></div>
   </section>
 </main>
 
-<footer class="pp-foot wrap">© 2026 Crysea · <a href="/legal">Оферта и конфиденциальность</a></footer>
+<footer class="ft"><div class="wrap">
+  <div class="ft-main">
+    <div>
+      <div class="ft-brand">Crysea</div>
+      <p class="ft-desc">Настройка цвета и системные модули для Windows.</p>
+    </div>
+    <nav class="ft-nav"><a href="/#features">Возможности</a><a href="/#updates">Обновления</a><a href="/#reviews">Отзывы</a><a href="/#pricing">Тарифы</a><a href="/#faq">Вопросы</a><a href="/partner">Партнёрство</a></nav>
+  </div>
+  <div class="ft-bottom">
+    <div><a href="/legal">Оферта и конфиденциальность</a> · © 2026 Crysea</div>
+    <a class="ds" href="#" target="_blank" rel="noopener" aria-label="Discord" title="Discord"><svg class="ic"><use href="#i-ds"/></svg></a>
+  </div>
+</div></footer>
 
+<script src="motion.js"></script>
 <script src="partner.js"></script>
 </body>
 </html>
