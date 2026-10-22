@@ -1,0 +1,175 @@
+/* ==========================================================================
+   Crysea: стиль Apple + liquid glass (поверх style.css)
+   Разметка и классы не меняются, поэтому скрипты работают как раньше.
+   ========================================================================== */
+
+:root{
+  --bg:#050507;
+  --text:#f5f5f7;
+  --muted:#a1a1a6;
+  --line:rgba(255,255,255,.12);
+  --stroke:rgba(255,255,255,.16);
+  --hi:rgba(255,255,255,.26);
+  --glass:linear-gradient(150deg,rgba(255,255,255,.13) 0%,rgba(255,255,255,.04) 55%,rgba(255,255,255,.07) 100%);
+  --glass-soft:linear-gradient(150deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  --blur:blur(28px) saturate(180%);
+  --sheen:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.16),transparent 55%);
+  --shadow:0 24px 70px rgba(0,0,0,.42),0 2px 6px rgba(0,0,0,.25);
+  --r-xl:32px;--r-l:26px;--r-m:20px;--r-s:14px;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI Variable","Segoe UI",Inter,system-ui,sans-serif;
+}
+
+html{background:var(--bg)}
+body{font-family:var(--sans);font-size:17px;line-height:1.5;color:var(--text);background:var(--bg)}
+h1,h2,h3,.brand,.price,.am-title{font-family:var(--sans);letter-spacing:-.035em}
+
+/* Фон: мягкие цветные пятна, сквозь которые просвечивает стекло */
+body::before{
+  height:100vh;max-height:1100px;background:
+    radial-gradient(40% 35% at 18% 12%,rgba(90,135,255,.55),transparent 70%),
+    radial-gradient(38% 34% at 84% 22%,rgba(185,95,255,.42),transparent 70%),
+    radial-gradient(45% 40% at 55% 88%,rgba(40,205,190,.30),transparent 70%);
+  -webkit-mask-image:none;mask-image:none;animation:none;filter:blur(40px);opacity:1;
+}
+
+/* Общая стеклянная поверхность */
+.card,.md,.pill,.app,.rv,.ac-card,.ac-set,.plan{
+  position:relative;isolation:isolate;
+  background:var(--glass);
+  -webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);
+  border:1px solid var(--stroke);
+  box-shadow:inset 0 1px 0 var(--hi),inset 0 -1px 0 rgba(255,255,255,.03),var(--shadow);
+}
+.card::before,.md::before,.app::before,.plan::before,.rv::before,.ac-card::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;background:var(--sheen);
+  pointer-events:none;z-index:-1;opacity:.9;
+}
+.card{border-radius:var(--r-l);padding:28px}
+.card:hover{border-color:rgba(255,255,255,.22);transform:translateY(-2px);transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .35s}
+.bento .card:hover{transform:none;border-color:var(--stroke)}
+.card h3{font-size:1.3rem;font-weight:650}
+.card p{color:var(--muted)}
+
+/* Шапка-капсула */
+.top{padding-top:18px}
+.pill{border-radius:999px;padding:8px 10px 8px 16px;gap:10px;background:linear-gradient(150deg,rgba(28,28,32,.7),rgba(20,20,24,.55));-webkit-backdrop-filter:blur(30px) saturate(190%);backdrop-filter:blur(30px) saturate(190%)}
+.pill::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--sheen);pointer-events:none;z-index:-1}
+.brand{font-weight:700;font-size:1.08rem;padding:0 10px 0 4px}
+.logo{border-radius:11px;border-color:rgba(255,255,255,.18)}
+.pill nav{gap:2px}
+.pill nav a{border-radius:999px;padding:9px 16px;font-size:.95rem;font-weight:500;transition:background .2s,color .2s}
+.pill nav a:hover{background:rgba(255,255,255,.1);color:var(--text)}
+
+/* Кнопки-капсулы */
+.btn{
+  height:46px;border-radius:999px;padding:0 24px;font-weight:600;letter-spacing:-.01em;
+  background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  -webkit-backdrop-filter:blur(18px) saturate(170%);backdrop-filter:blur(18px) saturate(170%);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 6px 18px rgba(0,0,0,.25);
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),background .25s,border-color .25s,box-shadow .25s;
+}
+.btn:hover{transform:translateY(-1px);background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.08));border-color:rgba(255,255,255,.3)}
+.btn:active{transform:scale(.97)}
+.btn.s{height:38px;padding:0 16px;font-size:.9rem}
+.btn.p{background:linear-gradient(180deg,#ffffff,#e6e6ea);color:#0b0b0d;border-color:transparent;box-shadow:inset 0 1px 0 #fff,0 10px 30px rgba(255,255,255,.18)}
+.btn.p:hover{background:linear-gradient(180deg,#fff,#f0f0f3);box-shadow:inset 0 1px 0 #fff,0 14px 36px rgba(255,255,255,.25)}
+.cta .btn{height:52px;padding:0 28px;font-size:1rem}
+.prof{border-radius:50%;border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 6px 16px rgba(0,0,0,.3)}
+
+/* Hero */
+.hero{padding:88px 0 40px}
+.ver{border-radius:999px;padding:6px 16px 6px 6px;background:var(--glass);border:1px solid var(--stroke);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);box-shadow:inset 0 1px 0 var(--hi)}
+.ver b{border-radius:999px;background:#fff;color:#0b0b0d;font-weight:700}
+h1{font-family:var(--sans);font-weight:700;font-size:clamp(3rem,8.4vw,6.2rem);letter-spacing:-.05em;line-height:1.02;max-width:14ch;background:linear-gradient(180deg,#fff 30%,#9c9ca4 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:1.2rem;color:var(--muted);max-width:560px}
+.small{color:#8e8e93}
+
+/* Окно сравнения: стеклянная рама */
+.app{border-radius:var(--r-xl);padding:12px;max-width:980px;background:var(--glass);box-shadow:inset 0 1px 0 var(--hi),0 40px 120px rgba(0,0,0,.55)}
+.app::before{border-radius:inherit}
+.win{background:rgba(10,10,14,.6);border-radius:22px;border:1px solid rgba(255,255,255,.08)}
+.tb{background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07)}
+.tb i{background:rgba(255,255,255,.18)}
+.scene{border-radius:0}
+.line{background:rgba(255,255,255,.95);box-shadow:0 0 16px rgba(255,255,255,.5)}
+.knob{background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.45),inset 0 1px 0 #fff}
+.sl{background:rgba(20,20,24,.55);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.ctrl input{accent-color:#fff}
+.ctrl b{font-variant-numeric:tabular-nums}
+
+/* Секции */
+section{padding:120px 0 0}
+.head{margin-bottom:52px}
+h2{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;letter-spacing:-.045em;line-height:1.05}
+.head p{font-size:1.1rem}
+
+/* Возможности */
+.bento{gap:16px}
+.ico{border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.sw span{background:rgba(255,255,255,.1)}
+.sw i{background:linear-gradient(90deg,rgba(255,255,255,.4),#fff)}
+.bento .card .ico{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14)}
+
+/* Обновления: таймлайн */
+.log{border-left:1px solid rgba(255,255,255,.14);margin-left:auto;margin-right:auto}
+.rel::before{background:#0b0b0d;border:2px solid rgba(255,255,255,.35)}
+.rel:first-child::before{background:#fff;border-color:#fff;box-shadow:0 0 16px rgba(255,255,255,.7)}
+.rel .m b{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.14);color:#fff;border-radius:999px}
+.rel h3{font-size:1.4rem;font-weight:650}
+
+/* Отзывы */
+.tag{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:999px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.rv{border-radius:var(--r-m);padding:20px 22px;width:300px;background:var(--glass-soft)}
+.rv p{font-weight:500}
+.rtool{gap:12px}
+#rf input,#rf textarea,.f input,.promo input,.lf input,.add input{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:var(--r-s);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.25);transition:border-color .25s,box-shadow .25s,background .25s}
+#rf input:focus,#rf textarea:focus,.f input:focus,.promo input:focus{border-color:rgba(255,255,255,.5);box-shadow:0 0 0 4px rgba(255,255,255,.1);outline:0}
+
+/* Тарифы */
+.plans{gap:18px}
+.plan{border-radius:var(--r-l);padding:28px}
+.price{font-weight:700;letter-spacing:-.05em}
+.plan ul{color:#d2d2d7}
+.hot{border-color:rgba(255,255,255,.42);background:linear-gradient(170deg,rgba(255,255,255,.2),rgba(255,255,255,.04) 60%,rgba(255,255,255,.08));box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 30px 80px rgba(120,140,255,.18)}
+.hot .tag{background:#fff;color:#0b0b0d;border:none}
+
+/* FAQ */
+.faq details{border-radius:var(--r-m);background:var(--glass-soft);border:1px solid var(--stroke);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);margin-bottom:12px;box-shadow:inset 0 1px 0 var(--hi);transition:background .25s,border-color .25s}
+.faq details[open]{background:var(--glass)}
+.faq details summary{padding:20px 24px}
+
+/* Футер */
+footer.ft{margin-top:120px;border-top:1px solid rgba(255,255,255,.1);padding:56px 0 60px;color:#86868b}
+.ds{border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+
+/* Модальные окна */
+.mo{background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(24px) saturate(140%);backdrop-filter:blur(24px) saturate(140%)}
+.md{border-radius:30px;background:linear-gradient(160deg,rgba(40,40,46,.78),rgba(22,22,26,.7));-webkit-backdrop-filter:blur(40px) saturate(190%);backdrop-filter:blur(40px) saturate(190%);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 40px 120px rgba(0,0,0,.6)}
+.md h3{font-weight:700}
+.x{border-radius:50%;background:rgba(255,255,255,.08);color:#d2d2d7}
+.x:hover{background:rgba(255,255,255,.16);color:#fff}
+
+/* Сегменты и вкладки */
+.seg,.tabs,#planSeg{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:999px;box-shadow:inset 0 1px 2px rgba(0,0,0,.3);padding:4px}
+.seg button,.tabs button,#planSeg button{border-radius:999px;transition:background .3s cubic-bezier(.2,.8,.2,1),color .25s,box-shadow .3s}
+.seg button.on,.tabs .on,#planSeg button.on{background:linear-gradient(180deg,#fff,#e8e8ec);color:#0b0b0d;box-shadow:0 4px 14px rgba(255,255,255,.18)}
+.meth button,.dlopt,.pr-grid div,.sum,.hint,.promo-line,.ac-row,.plan .tag{border-radius:var(--r-s)}
+.meth button,.dlopt,.sum,.pr-grid div{background:var(--glass-soft);border:1px solid var(--stroke);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+.meth .on{border-color:rgba(255,255,255,.6);background:linear-gradient(150deg,rgba(255,255,255,.2),rgba(255,255,255,.05))}
+.hint{background:rgba(255,255,255,.05);border:1px solid var(--stroke)}
+
+/* Вход */
+.md.auth .btn.w{height:50px}
+.oauth .btn{background:rgba(255,255,255,.07)}
+.soon{border-radius:999px;background:rgba(255,255,255,.08)}
+.lnk{border-bottom-color:rgba(255,255,255,.4)}
+
+/* Лёгкое стеклянное «дыхание» при наведении на интерактивные элементы */
+.nb,.chip,.swatches button,.th{transition:transform .25s cubic-bezier(.2,.8,.2,1),background .25s,border-color .25s}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}

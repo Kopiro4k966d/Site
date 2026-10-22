@@ -1,10 +1,10 @@
 /* Настройки сайта. Впишите свою ссылку-приглашение Discord и прямые ссылки на файлы Windows.
    Как получить Crysea-Setup.exe и Crysea-Portable.exe — см. README приложения, раздел «Сборка установщика». */
 window.CRYSEA = {
-  discord: 'https://discord.gg/ваш-инвайт',
+  discord: 'https://discord.gg/YOUR_INVITE',
   download: {
-    setup: 'https://github.com/Kopiro4k966d/crysea-releases/releases/download/v1.0.0/Crysea-Setup.exe',
-    portable: 'https://github.com/Kopiro4k966d/crysea-releases/releases/download/v1.0.0/Crysea-Portable.exe'
+    setup: '',    /* прямая ссылка на Crysea-Setup.exe (установщик, npm run dist) */
+    portable: ''  /* прямая ссылка на Crysea-Portable.exe (отдельный exe без установки, npm run dist:portable) */
   }
 };
 document.querySelectorAll('[data-discord]').forEach(function (a) { a.href = window.CRYSEA.discord; });
