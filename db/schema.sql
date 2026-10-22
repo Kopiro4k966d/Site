@@ -101,10 +101,27 @@ create table if not exists oauth_pending (
 alter table identities    enable row level security;
 alter table oauth_pending enable row level security;
 
--- Партнёрская программа: у каждого партнёра один персональный код (строка в promo_codes)
+-- Партнёрка: блогеры TikTok / YouTube. Партнёру начисляется 5% с оплат по его коду.
+-- Заявку проверяет владелец вручную (см. PARTNERS.md), статус меняется через SQL.
 create table if not exists partners (
-  user_id     uuid primary key references users(id) on delete cascade,
-  code        text not null unique references promo_codes(code) on delete cascade,
+  user_id         uuid primary key references users(id) on delete cascade,
+  platform        text not null check (platform in ('tiktok','youtube')),
+  channel_url     text not null,
+  followers       integer not null,
+  avg_views       integer not null,
+  payout_details  text,                                -- карта / СБП / ЮMoney для выплат
+  status          text not null default 'pending' check (status in ('pending','approved','rejected')),
+  created_at      timestamptz not null default now(),
+  approved_at     timestamptz
+);
+alter table promo_codes add column if not exists partner_id uuid references partners(user_id) on delete set null;
+create table if not exists partner_payouts (
+  id          uuid primary key default gen_random_uuid(),
+  partner_id  uuid not null references partners(user_id) on delete cascade,
+  amount_rub  integer not null check (amount_rub > 0),
+  note        text,
   created_at  timestamptz not null default now()
 );
-alter table partners enable row level security;
+create index if not exists partner_payouts_idx on partner_payouts(partner_id);
+alter table partners        enable row level security;
+alter table partner_payouts enable row level security;
