@@ -125,3 +125,6 @@ create table if not exists partner_payouts (
 create index if not exists partner_payouts_idx on partner_payouts(partner_id);
 alter table partners        enable row level security;
 alter table partner_payouts enable row level security;
+
+alter table partners add column if not exists desired_code text;   -- код, который партнёр хочет (закрепляется при выборе)
+alter table partners add column if not exists contact text;        -- как с ним связаться

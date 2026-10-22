@@ -111,14 +111,15 @@ export function pgStore(env = process.env) {
       const r = (await q(`select p.*, c.code as code from partners p
         left join promo_codes c on c.partner_id=p.user_id where p.user_id=$1`, [userId]))[0];
       return r ? { status: r.status, platform: r.platform, channel: r.channel_url, followers: r.followers,
-        views: r.avg_views, payout: r.payout_details, code: r.code || null } : null;
+        views: r.avg_views, payout: r.payout_details, contact: r.contact, desired: r.desired_code, code: r.code || null } : null;
     },
     async partnerSave(userId, d) {
-      await q(`insert into partners(user_id,platform,channel_url,followers,avg_views,payout_details,status) values($1,$2,$3,$4,$5,$6,'pending')
+      await q(`insert into partners(user_id,platform,channel_url,followers,avg_views,payout_details,contact,desired_code,status) values($1,$2,$3,$4,$5,$6,$7,$8,'pending')
         on conflict(user_id) do update set platform=excluded.platform, channel_url=excluded.channel_url,
         followers=excluded.followers, avg_views=excluded.avg_views, payout_details=excluded.payout_details,
+        contact=excluded.contact, desired_code=excluded.desired_code,
         status=case when partners.status='approved' then 'approved' else 'pending' end`,
-        [userId, d.platform, d.channel, d.followers, d.views, d.payout]);
+        [userId, d.platform, d.channel, d.followers, d.views, d.payout, d.contact, d.desired]);
     },
     async partnerCodeCreate(userId, code, name, percent) {
       await q('insert into promo_codes(code,percent,creator,partner_id,max_uses) values($1,$2,$3,$4,null)', [code, percent, name, userId]);
@@ -158,7 +159,7 @@ export function makeHandler(db, env = process.env) {
     const stats = await db.partnerStats(uid);
     if (!pa) return { partner: null, rules: PARTNER };
     return { partner: { status: pa.status, platform: pa.platform, channel: pa.channel, followers: pa.followers,
-      views: pa.views, payout: pa.payout, code: pa.code, percent: PARTNER.buyerPercent, stats }, rules: PARTNER };
+      views: pa.views, payout: pa.payout, contact: pa.contact, desired: pa.desired, code: pa.code, percent: PARTNER.buyerPercent, stats }, rules: PARTNER };
   };
   const priceFor = (pl, pr) => (pr ? Math.max(1, Math.round(pl.price * (100 - pr.percent) / 100)) : pl.price);
   function license(u) {
@@ -333,7 +334,12 @@ export function makeHandler(db, env = process.env) {
       if (followers < PARTNER.minFollowers || views < PARTNER.minViews) return fail(400, 'low');
       const payout = String(b.payout || '').trim().slice(0, 200);
       if (payout.length < 5) return fail(400, 'payout');
-      await db.partnerSave(u.id, { platform, channel, followers, views, payout });
+      const contact = String(b.contact || '').trim().slice(0, 100);
+      if (contact.length < 3) return fail(400, 'contact');
+      if (!(b.agreed === true && b.terms === true)) return fail(400, 'agree');
+      const desired = String(b.desired || '').trim().toUpperCase();
+      if (desired && !/^[A-Z0-9]{3,16}$/.test(desired)) return fail(400, 'code_fmt');
+      await db.partnerSave(u.id, { platform, channel, followers, views, payout, contact, desired: desired || null });
       return J(200, await partnerView(u.id));
     }
     if (m === 'POST' && p === '/partner/code') {
