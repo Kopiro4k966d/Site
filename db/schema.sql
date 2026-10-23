@@ -100,3 +100,33 @@ create table if not exists oauth_pending (
 );
 alter table identities    enable row level security;
 alter table oauth_pending enable row level security;
+
+-- Партнёрская программа: партнёр с личным промокодом, 10% с его продаж и оплатой за видео
+create table if not exists partners (
+  id             uuid primary key default gen_random_uuid(),
+  user_id        uuid not null unique references users(id) on delete cascade,
+  channel        text not null,                                   -- ссылка на канал
+  subs           integer not null default 0,                      -- подписчики (проверяет админ)
+  avg_views      integer not null default 0,                      -- средние просмотры видео (проверяет админ)
+  status         text not null default 'pending' check (status in ('pending','active','paused','rejected')),
+  code           text unique references promo_codes(code) on delete set null,
+  commission_pct integer not null default 10 check (commission_pct between 1 and 50),
+  fee_rub        integer not null default 0 check (fee_rub >= 0), -- оплата за видео, ₽ в месяц
+  created_at     timestamptz not null default now()
+);
+-- Журнал начислений: комиссия с каждой оплаты (payment_id уникален, двойного начисления не будет) и оплата за видео по месяцам
+create table if not exists partner_ledger (
+  id          uuid primary key default gen_random_uuid(),
+  partner_id  uuid not null references partners(id) on delete cascade,
+  kind        text not null check (kind in ('commission','fee')),
+  amount_rub  integer not null,
+  payment_id  uuid unique references payments(id) on delete set null,
+  period      text,                                                -- 'YYYY-MM' для оплаты за видео
+  status      text not null default 'accrued' check (status in ('accrued','paid')),
+  created_at  timestamptz not null default now(),
+  paid_at     timestamptz,
+  unique (partner_id, kind, period)
+);
+create index if not exists partner_ledger_partner_idx on partner_ledger(partner_id);
+alter table partners       enable row level security;
+alter table partner_ledger enable row level security;

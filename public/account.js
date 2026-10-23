@@ -21,7 +21,7 @@
   const D = {
     ru: {
       n1: 'Возможности', n2: 'Обновления', n3: 'Тарифы', n4: 'Отзывы', kick: 'Кабинет',
-      tOv: 'Обзор', tPr: 'Пресеты', tBi: 'Оплата', tSe: 'Настройки',
+      tOv: 'Обзор', tPr: 'Пресеты', tBi: 'Оплата', tPa: 'Партнёрам', tSe: 'Настройки',
       dlH: 'Скачать Crysea',
       dlP: 'Насыщенность до 300% и сравнение до / после доступны с этим аккаунтом: без карты и без подписки. Профили игр, прицел и инструменты для Rust входят в платный тариф.',
       dlB: 'Скачать для Windows', dlN: 'Войдите в приложении с этим аккаунтом, и всё подтянется.', dlNo: 'Ссылка на скачивание появится после релиза.',
@@ -44,7 +44,7 @@
     },
     en: {
       n1: 'Features', n2: 'Updates', n3: 'Pricing', n4: 'Reviews', kick: 'Dashboard',
-      tOv: 'Overview', tPr: 'Presets', tBi: 'Billing', tSe: 'Settings',
+      tOv: 'Overview', tPr: 'Presets', tBi: 'Billing', tPa: 'Partners', tSe: 'Settings',
       dlH: 'Download Crysea',
       dlP: 'Saturation to 300% and before / after comparison come with this account: no card, no subscription. Game profiles, crosshair and Rust tools are part of a paid plan.',
       dlB: 'Download for Windows', dlN: 'Sign in inside the app with this account and everything syncs.', dlNo: 'The download link will appear after release.',
@@ -67,11 +67,40 @@
     }
   };
   const PLANS = { pro: { name: 'Pro', price: 199 }, plus: { name: 'Plus', price: 399 } };
+  /* Партнёрская панель */
+  const PT = {
+    ru: {
+      h: 'Партнёрская программа', lead: 'Для авторов видео про Crysea. Условия: от 500 подписчиков и регулярно от 2 000 просмотров на видео.',
+      req: 'Условия', r1: 'От 500 подписчиков на канале', r2: 'Регулярно от 2 000 просмотров на видео', r3: 'Два видео о Crysea в неделю',
+      p1: 'Оплата за видео ежемесячно', p2: 'Личный промокод: 10% с каждой покупки по нему', p3: 'Покупатель получает скидку по вашему коду',
+      chL: 'Ссылка на канал', subL: 'Подписчиков', viL: 'Средние просмотры видео', apply: 'Подать заявку', sent: 'Заявка отправлена. Мы проверим канал и ответим.',
+      pend: 'Заявка на проверке', pendD: 'Проверяем канал и цифры. Обычно это несколько дней.', act: 'Вы партнёр', paus: 'Партнёрство на паузе', rej: 'Заявка отклонена',
+      code: 'Ваш промокод', copy: 'Копировать', copied: 'Скопировано', disc: (p) => `Покупатель получает ${p}% по коду`,
+      sales: 'Продаж по коду', due: 'Комиссия к выплате', paid: 'Выплачено', fee: 'Оплата за видео', feeNo: 'по договорённости',
+      hist: 'Начисления', noHist: 'Начислений пока нет', comm: 'Комиссия', feeRow: (p) => `Оплата за видео, ${p}`,
+      st: { accrued: 'Начислено', paid: 'Выплачено' }, cur: (v) => v.toLocaleString('ru-RU') + ' ₽',
+      okSub: 'Подписчики', okViews: 'Просмотры', done: 'выполнено', todo: 'не хватает', errCh: 'Вставьте ссылку на канал, например https://youtube.com/@name',
+      errNum: 'Укажите подписчиков и просмотры числами', errExists: 'Заявка уже отправлена', errLimit: 'Слишком много попыток, попробуйте позже', errNet: 'Нет связи с сервером'
+    },
+    en: {
+      h: 'Partner program', lead: 'For creators who make videos about Crysea. Requirements: 500+ subscribers and regularly 2,000+ views per video.',
+      req: 'Requirements', r1: '500+ subscribers on the channel', r2: 'Regularly 2,000+ views per video', r3: 'Two videos about Crysea per week',
+      p1: 'Monthly payment for videos', p2: 'Personal code: 10% of every purchase made with it', p3: 'Buyers get a discount with your code',
+      chL: 'Channel link', subL: 'Subscribers', viL: 'Average views per video', apply: 'Apply', sent: 'Application sent. We will check the channel and get back to you.',
+      pend: 'Under review', pendD: 'We are checking the channel and the numbers. This usually takes a few days.', act: 'You are a partner', paus: 'Partnership paused', rej: 'Application rejected',
+      code: 'Your code', copy: 'Copy', copied: 'Copied', disc: (p) => `Buyers get ${p}% with this code`,
+      sales: 'Sales with your code', due: 'Commission due', paid: 'Paid out', fee: 'Video payment', feeNo: 'by agreement',
+      hist: 'Earnings', noHist: 'No earnings yet', comm: 'Commission', feeRow: (p) => `Video payment, ${p}`,
+      st: { accrued: 'Accrued', paid: 'Paid' }, cur: (v) => v.toLocaleString('en-GB') + ' ₽',
+      okSub: 'Subscribers', okViews: 'Views', done: 'done', todo: 'short by', errCh: 'Paste a channel link, for example https://youtube.com/@name',
+      errNum: 'Enter subscribers and views as numbers', errExists: 'Application already sent', errLimit: 'Too many attempts, try again later', errNet: 'Cannot reach the server'
+    }
+  };
   const COLORS = ['#ffffff', '#9a9a9a', '#5865f2', '#2bb6a8', '#e2b04a', '#e8704f', '#d65d9a', '#7ec86b'];
   let lang = 'ru'; try { lang = localStorage.getItem('crysea_lang') === 'en' ? 'en' : 'ru'; } catch (e) {}
   const T = () => D[lang];
   const fmtDate = (d) => new Date(d).toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-  let user = null, payments = [], syncData = null;
+  let user = null, payments = [], syncData = null, partnerData = null;
   const priceOf = (id) => { const b = PLANS[id].price, pc = user && user.promo ? user.promo.percent : 0; return pc ? Math.max(1, Math.round(b * (100 - pc) / 100)) : b; };
   const priceHtml = (id) => (user.promo ? `<s>${PLANS[id].price}</s>` : '') + priceOf(id);
 
@@ -127,6 +156,49 @@
     }
   }
 
+  const pc = (n) => PT[lang].cur(Number(n) || 0);
+  function paintPartner() {
+    const t = PT[lang], box = $('#partner'), pt = partnerData && partnerData.partner;
+    const terms = (partnerData && partnerData.terms) || { subs: 500, views: 2000, commission: 10 };
+    const req = (ok, label, have, need) => `<li class="${ok ? 'met' : ''}">${ic(ok ? 'ok' : 'clock')}<span>${esc(label)}: <b>${have.toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-GB')}</b> / ${need.toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-GB')} ${ok ? '' : ''}</span></li>`;
+    const reqBlock = (subs, views) => `<ul class="preq">${req(subs >= terms.subs, t.okSub, subs, terms.subs)}${req(views >= terms.views, t.okViews, views, terms.views)}</ul>`;
+    if (!pt) {
+      box.innerHTML = `<div class="card ac-card pcard">
+        <h2>${esc(t.h)}</h2>
+        <p>${esc(t.lead)}</p>
+        <div class="pterms"><b>${esc(t.req)}</b><ul><li>${ic('ok')}<span>${esc(t.r1)}</span></li><li>${ic('ok')}<span>${esc(t.r2)}</span></li><li>${ic('ok')}<span>${esc(t.r3)}</span></li><li>${ic('ok')}<span>${esc(t.p1)}</span></li><li>${ic('ok')}<span>${esc(t.p2)}</span></li></ul></div>
+        <form id="pApply" class="pform" autocomplete="off">
+          <label class="f"><span>${esc(t.chL)}</span><input id="pCh" type="url" placeholder="https://youtube.com/@name" maxlength="200" required></label>
+          <div class="pform-row">
+            <label class="f"><span>${esc(t.subL)}</span><input id="pSub" type="number" min="0" max="1000000000" required></label>
+            <label class="f"><span>${esc(t.viL)}</span><input id="pView" type="number" min="0" max="1000000000" required></label>
+          </div>
+          <div class="err" id="pErr" role="alert"></div>
+          <button class="btn p w" type="submit">${esc(t.apply)}</button>
+        </form>
+      </div>`;
+      return;
+    }
+    const st = { pending: [t.pend, t.pendD], active: [t.act, ''], paused: [t.paus, ''], rejected: [t.rej, ''] }[pt.status] || [t.pend, ''];
+    const hist = (pt.ledger || []).map((l) => `<div class="ac-row"><b>${esc(l.kind === 'fee' ? t.feeRow(l.period) : t.comm)}</b><span>${esc(fmtDate(l.date))}</span><span>${esc(pc(l.amount))}</span><em class="st ${l.status === 'paid' ? 'paid' : ''}">${esc(t.st[l.status] || l.status)}</em></div>`).join('');
+    box.innerHTML = `<div class="card ac-card pcard">
+      <h2>${esc(st[0])}</h2>
+      ${st[1] ? `<p>${esc(st[1])}</p>` : ''}
+      ${pt.status === 'active' || pt.status === 'paused' ? `
+        <div class="pcode"><small>${esc(t.code)}</small><div class="pcode-row"><b>${esc(pt.code || '')}</b><button class="btn s" type="button" data-copy="${esc(pt.code || '')}">${esc(t.copy)}</button></div>
+        <span class="sub">${esc(t.disc(pt.discount ?? 10))}</span></div>` : ''}
+      ${reqBlock(pt.subs, pt.views)}
+      <div class="ac-stats">
+        <div><small>${esc(t.sales)}</small><b>${pt.sales}</b></div>
+        <div><small>${esc(t.due)}</small><b>${esc(pc(pt.due))}</b></div>
+        <div><small>${esc(t.paid)}</small><b>${esc(pc(pt.paid))}</b></div>
+      </div>
+      <p class="sub">${esc(t.fee)}: ${pt.fee ? esc(pc(pt.fee)) + ' / ' + (lang === 'ru' ? 'мес' : 'mo') : esc(t.feeNo)}</p>
+      <h3 class="phist">${esc(t.hist)}</h3>
+      <div class="card ac-list">${hist || `<div class="ac-empty"><span>${esc(t.noHist)}</span></div>`}</div>
+    </div>`;
+  }
+
   function paintUser() {
     const t = T(), L = (user.name || user.email)[0].toUpperCase();
     $('#profAv').textContent = $('#av').textContent = L;
@@ -138,7 +210,7 @@
     $('#bPlan').textContent = user.plan === 'free' ? t.free : PLANS[user.plan].name;
     $('#bUntil').textContent = user.until ? fmtDate(user.until) : t.never;
     $('#bSince').textContent = fmtDate(user.created);
-    paintPlan(); paintDownload(); paintPresets(); paintHistory(); paintSteps(); paintCreator();
+    paintPlan(); paintDownload(); paintPresets(); paintHistory(); paintSteps(); paintCreator(); paintPartner();
   }
 
   function paintDownload() {
@@ -215,6 +287,29 @@
     B.disabled = false;
   };
 
+  $('#partner').addEventListener('click', async (e) => {
+    const c = e.target.closest('[data-copy]'); if (!c) return;
+    try { await navigator.clipboard.writeText(c.dataset.copy); c.textContent = PT[lang].copied; setTimeout(() => (c.textContent = PT[lang].copy), 1500); } catch (err) {}
+  });
+  $('#partner').addEventListener('submit', async (e) => {
+    if (e.target.id !== 'pApply') return;
+    e.preventDefault();
+    const t = PT[lang], E = $('#pErr'), B = e.target.querySelector('button'), ch = $('#pCh').value.trim();
+    E.textContent = '';
+    if (!/^https?:\/\/\S+\.\S+$/.test(ch)) { E.textContent = t.errCh; return; }
+    const subs = $('#pSub').value, views = $('#pView').value;
+    if (subs === '' || views === '') { E.textContent = t.errNum; return; }
+    B.disabled = true;
+    try {
+      partnerData = { ...(partnerData || {}), partner: (await call('POST', '/partner/apply', { channel: ch, subs: Number(subs), views: Number(views) })).partner };
+      paintPartner();
+    } catch (err) {
+      const map = { channel: t.errCh, numbers: t.errNum, exists: t.errExists, limit: t.errLimit, net: t.errNet };
+      E.textContent = map[err.message] || t.errNet;
+      B.disabled = false;
+    }
+  });
+
   /* ---------- Старт ---------- */
   paintStatic();
   if (!tok()) return toLogin();
@@ -224,8 +319,8 @@
       if (e.status === 401) { setTok(null); return toLogin(); }
       $('#skel').hidden = true; $('#app').hidden = false; $('#hello').textContent = T().net; return;
     }
-    const [pm, sy] = await Promise.all([call('GET', '/payments').catch(() => null), call('GET', '/sync').catch(() => null)]);
-    payments = (pm && pm.payments) || []; syncData = sy && sy.data;
+    const [pm, sy, pa] = await Promise.all([call('GET', '/payments').catch(() => null), call('GET', '/sync').catch(() => null), call('GET', '/partner').catch(() => null)]);
+    payments = (pm && pm.payments) || []; syncData = sy && sy.data; partnerData = pa;
     $('#skel').hidden = true; $('#app').hidden = false;
     paintUser(); setTab(location.hash.slice(1));
   })();
