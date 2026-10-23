@@ -21,7 +21,7 @@
 
 <div class="top"><div class="pill">
   <a href="#top" class="brand">Crysea</a>
-  <nav id="nav"><a href="#crosshair" data-i="n7">Прицелы</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#partners" data-i="n6">Партнёрам</a><a href="#faq" data-i="n5">Вопросы</a></nav>
+  <nav id="nav"><a href="#pricing" data-i="n3">Тарифы</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#partners" data-i="n6">Партнёрам</a><a href="#faq" data-i="n5">Вопросы</a></nav>
   <button class="btn s" id="lang" type="button" aria-label="Language">EN</button>
   <button class="btn s" id="loginBtn" type="button" data-i="login">Войти</button>
   <button class="prof" id="profBtn" type="button" hidden aria-label="Профиль"><span id="profAv">?</span></button>
@@ -51,71 +51,6 @@
   </div>
 </div>
 </div>
-
-<section id="crosshair"><div class="wrap">
-  <div class="head" data-rv><h2 data-i="xh">Прицел всегда <em>в центре</em></h2><p data-i="xhp">Система прицелов поверх игры. Настройте форму, размер и цвет, сохраните отдельно под каждую игру и синхронизируйте с аккаунтом.</p></div>
-  <div class="xgrid">
-    <article class="xcard wide" data-rv="t">
-      <div class="xa">
-        <div class="xscene"><span class="xtool" data-i="xpv">Превью</span><div class="xch" id="xch"></div></div>
-        <div>
-          <span class="xtag" data-i="xt_a">Редактор</span>
-          <h3 data-i="xa_t">Настройте <em>за секунды</em></h3>
-          <p data-i="xa_d">Двигайте ползунки и сразу видите, как прицел выглядит в игре. Меняйте форму, размер, толщину, зазор, точку и цвет.</p>
-          <div class="xctl">
-            <div class="xshape" role="group"><button type="button" class="xbtn" data-s="cross" data-i="sh1">Крест</button><button type="button" class="xbtn" data-s="tee" data-i="sh2">Т-образный</button><button type="button" class="xbtn" data-s="circle" data-i="sh3">Круг</button><button type="button" class="xbtn" data-s="dot" data-i="sh4">Точка</button></div>
-            <label class="xrow"><span data-i="sz">Размер</span><input type="range" id="xsz" min="4" max="40" step="1" value="10"><b id="xszv">10</b></label>
-            <label class="xrow"><span data-i="th">Толщина</span><input type="range" id="xth" min="1" max="8" step="0.2" value="1.6"><b id="xthv">1.6</b></label>
-            <label class="xrow"><span data-i="gp">Зазор</span><input type="range" id="xgp" min="0" max="16" step="1" value="4"><b id="xgpv">4</b></label>
-            <label class="xrow"><span data-i="op">Прозрачность</span><input type="range" id="xop" min="20" max="100" step="1" value="100"><b id="xopv">100</b></label>
-            <label class="xrow"><span data-i="dt">Точка в центре</span><input type="checkbox" id="xdot" checked><b></b></label>
-            <div class="xrow"><span data-i="cl">Цвет</span><div class="xsw" role="group"><button type="button" data-c="#ffffff" style="background:#ffffff" aria-label="Белый"></button><button type="button" data-c="#3dff7a" style="background:#3dff7a" aria-label="Зелёный"></button><button type="button" data-c="#ff5a5a" style="background:#ff5a5a" aria-label="Красный"></button><button type="button" data-c="#48e5ff" style="background:#48e5ff" aria-label="Голубой"></button><button type="button" data-c="#ffd84d" style="background:#ffd84d" aria-label="Жёлтый"></button></div><span></span></div>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <article class="xcard" data-rv="l">
-      <span class="xtag" data-i="xt_b">Профили</span>
-      <h3 data-i="xb_t">Свой прицел для <em>каждой игры</em></h3>
-      <p data-i="xb_d">Профиль подключается, когда вы запускаете нужную игру. Переключение за секунду, настройки не теряются.</p>
-      <div class="xchips">
-        <button type="button" class="xbtn" data-profile="0" data-i="pf1">Основной</button>
-        <button type="button" class="xbtn" data-profile="1" data-i="pf2">Снайпер</button>
-        <button type="button" class="xbtn" data-profile="2" data-i="pf3">Ближний бой</button>
-      </div>
-    </article>
-
-    <article class="xcard" data-rv="r">
-      <span class="xtag" data-i="xt_c">Пресеты</span>
-      <h3 data-i="xc_t">Готовые <em>пресеты</em></h3>
-      <p data-i="xc_d">Нажмите на пресет, чтобы применить его к превью. Дальше подстройте под себя.</p>
-      <div class="xpresets" id="xpresets"></div>
-    </article>
-
-    <article class="xcard" data-rv="s">
-      <span class="xtag" data-i="xt_d">Оверлей</span>
-      <h3 data-i="xd_t">Поверх <em>игры</em></h3>
-      <p data-i="xd_d">Прицел рисуется отдельным окном. Файлы игры не меняются. Совместимость с античитом зависит от правил игры, проверьте их перед использованием.</p>
-      <div class="xlayers">
-        <div class="xlayer"><span data-i="xl1">Игра</span><span>1</span></div>
-        <div class="xlayer hl"><span data-i="xl2">Прицел (отдельное окно)</span><span>2</span></div>
-        <div class="xlayer"><span data-i="xl3">Экран</span><span>3</span></div>
-      </div>
-    </article>
-
-    <article class="xcard" data-rv="b">
-      <span class="xtag" data-i="xt_e">Синхронизация</span>
-      <h3 data-i="xe_t">Синхронизация с <em>аккаунтом</em></h3>
-      <p data-i="xe_d">Войдите в приложении с тем же аккаунтом, что и на сайте. Профили и прицелы подтянутся сами.</p>
-      <div class="xlayers">
-        <div class="xlayer"><span data-i="xs1">Вход в приложении</span><span>✓</span></div>
-        <div class="xlayer"><span data-i="xs2">Профили игр подтягиваются</span><span>✓</span></div>
-        <div class="xlayer"><span data-i="xs3">Прицел на экране</span><span>✓</span></div>
-      </div>
-    </article>
-  </div>
-</div></section>
 
 <section id="reviews"><div class="wrap">
   <div class="head" data-rv><h2 data-i="rh">Отзывы</h2></div>
@@ -164,7 +99,7 @@
 <footer class="ft"><div class="wrap">
   <div class="brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</div>
   <p data-i="ftx">Настройка цвета и системные модули для Windows.</p>
-  <nav><a href="#crosshair" data-i="n7">Прицелы</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#partners" data-i="n6">Партнёрам</a><a href="#faq" data-i="n5">Вопросы</a></nav>
+  <nav><a href="#pricing" data-i="n3">Тарифы</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#partners" data-i="n6">Партнёрам</a><a href="#faq" data-i="n5">Вопросы</a></nav>
   <a class="ds" data-discord href="#" target="_blank" rel="noopener" aria-label="Discord" title="Discord"><svg class="ic"><use href="#i-ds"/></svg></a>
   <div><a href="/legal" data-i="lg">Оферта и конфиденциальность</a> · © 2026 Crysea</div>
 </div></footer>
@@ -219,7 +154,6 @@
 
 <script src="config.js"></script>
 <script src="script.js" defer></script>
-<script src="crosshair.js" defer></script>
 <script src="auth.js" defer></script>
 </body>
 </html>
