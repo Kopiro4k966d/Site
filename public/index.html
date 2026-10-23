@@ -39,8 +39,8 @@
       <div class="small" data-i="win">Бесплатный тариф без ограничений по времени. Windows 10 и 11.</div>
     </div>
   </div>
-  <div class="app"><div class="win">
-    <div class="tb"><i></i><i></i><i></i><span data-i="tb">Сравнение до / после</span></div>
+  <div class="app" data-rv="t"><div class="win">
+    <div class="tb"><span data-i="tb">Сравнение до / после</span></div>
     <div class="scene" id="scene">
           <img id="after" src="assets/after.jpg" alt="С Crysea">
           <div class="clip" id="clip"><img src="assets/before.jpg" alt="Без Crysea"></div>
@@ -54,7 +54,7 @@
 
 <section id="reviews"><div class="wrap">
   <div class="head" data-rv><h2 data-i="rh">Отзывы</h2></div>
-  <div class="legend">
+  <div class="legend" data-rv="b">
     <div><span class="tag"><svg class="ic"><use href="#i-user"/></svg><span data-i="ts">Отзыв с сайта</span></span><span data-i="rl1">Оставлен через аккаунт Crysea.</span></div>
     <div><span class="tag"><svg class="ic"><use href="#i-chat"/></svg><span data-i="td">Отзыв из Discord</span></span><span data-i="rl2">Из нашего Discord, слово в слово. Имена сокращены до буквы.</span></div>
   </div>
@@ -68,15 +68,15 @@
 <section id="pricing"><div class="wrap">
   <div class="head" data-rv><h2 data-i="ph">Free, Pro или Plus</h2><p data-i="pp">Начните бесплатно, платите, когда понадобится больше.</p></div>
   <div class="plans">
-    <article class="card plan" data-rv><h3>Free</h3><div class="price">0 ₽</div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a1">Насыщенность до 300%</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a2">3 темы оформления</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a3">Сравнение до / после</span></li></ul><a href="#pricing" class="btn w" data-dl data-i="b1">Скачать Free</a></article>
-    <article class="card plan hot" data-rv><span class="tag" data-i="pb">Самый популярный</span><h3>Pro</h3><div class="price">199 ₽<small data-i="mo"> / мес</small></div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a4">Всё из Free</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a5">Профили игр и свой прицел</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a6">Инструменты для Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a7">Свои модули оптимизации</span></li></ul><a href="#" class="btn p w" data-buy="pro" data-i="b2">Купить Pro</a></article>
-    <article class="card plan" data-rv><h3>Plus</h3><div class="price">399 ₽<small data-i="mo2"> / мес</small></div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a8">Всё из Pro</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a9">Авто-режим Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a10">Рейд-калькулятор</span></li></ul><a href="#" class="btn w" data-buy="plus" data-i="b3">Купить Plus</a></article>
+    <article class="card plan" data-rv="l"><h3>Free</h3><div class="price">0 ₽</div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a1">Насыщенность до 300%</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a2">3 темы оформления</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a3">Сравнение до / после</span></li></ul><a href="#pricing" class="btn w" data-dl data-i="b1">Скачать Free</a></article>
+    <article class="card plan hot" data-rv="s"><span class="tag" data-i="pb">Самый популярный</span><h3>Pro</h3><div class="price">199 ₽<small data-i="mo"> / мес</small></div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a4">Всё из Free</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a5">Профили игр и свой прицел</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a6">Инструменты для Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a7">Свои модули оптимизации</span></li></ul><a href="#" class="btn p w" data-buy="pro" data-i="b2">Купить Pro</a></article>
+    <article class="card plan" data-rv="r"><h3>Plus</h3><div class="price">399 ₽<small data-i="mo2"> / мес</small></div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a8">Всё из Pro</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a9">Авто-режим Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a10">Рейд-калькулятор</span></li></ul><a href="#" class="btn w" data-buy="plus" data-i="b3">Купить Plus</a></article>
   </div>
 </div></section>
 
 <section id="partners"><div class="wrap">
   <div class="head" data-rv><h2 data-i="pth">Партнёрская программа</h2><p data-i="ptp">Для авторов, которые снимают видео про Crysea.</p></div>
-  <div class="pgrid" data-rv>
+  <div class="pgrid" data-rv="s">
     <article class="card"><h3 data-i="pt1t">Порог</h3><p data-i="pt1d">500 подписчиков и регулярно от 2 000 просмотров на видео.</p></article>
     <article class="card"><h3 data-i="pt2t">Работа</h3><p data-i="pt2d">2 видео о Crysea в неделю. Оплата за видео ежемесячно.</p></article>
     <article class="card"><h3 data-i="pt3t">Заработок</h3><p data-i="pt3d">Личный промокод: 10% с каждой покупки по нему.</p></article>
@@ -86,7 +86,7 @@
 
 <section id="faq"><div class="wrap">
   <div class="head" data-rv><h2 data-i="qh">Частые вопросы</h2></div>
-  <div class="faq" data-rv>
+  <div class="faq" data-rv="l">
     <details><summary><span data-i="q1">Это безопасно для игр и античитов?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q1a">Crysea не внедряет код в игры и не читает их память: цвет меняется средствами самой Windows, прицел рисуется отдельным окном поверх игры. Как конкретный античит относится к оверлеям, мы гарантировать не можем, поэтому пользуйтесь прицелом там, где оверлеи разрешены правилами игры.</p></details>
     <details><summary><span data-i="q2">Что остаётся в бесплатном тарифе?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q2a">Насыщенность до 300%, три темы и сравнение до / после. Без карты и без ограничения по времени.</p></details>
     <details><summary><span data-i="q3">Подписка продлевается сама?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q3a">Нет. Вы платите за месяц, по окончании тариф возвращается к Free, а ваши настройки сохраняются.</p></details>
@@ -155,6 +155,5 @@
 <script src="config.js"></script>
 <script src="script.js" defer></script>
 <script src="auth.js" defer></script>
-<script type="module" src="glass.js"></script>
 </body>
 </html>

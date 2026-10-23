@@ -40,6 +40,37 @@ create table if not exists oauth_pending (
   expires_at timestamptz not null
 );`;
 
+
+/* Таблицы партнёрки создаются автоматически при первом запросе (то же, что в db/schema.sql) */
+const PARTNER_DDL = `
+create table if not exists partners (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null unique references users(id) on delete cascade,
+  channel text not null,
+  subs integer not null default 0,
+  avg_views integer not null default 0,
+  status text not null default 'pending' check (status in ('pending','active','paused','rejected')),
+  code text unique references promo_codes(code) on delete set null,
+  commission_pct integer not null default 10 check (commission_pct between 1 and 50),
+  fee_rub integer not null default 0 check (fee_rub >= 0),
+  created_at timestamptz not null default now()
+);
+create table if not exists partner_ledger (
+  id uuid primary key default gen_random_uuid(),
+  partner_id uuid not null references partners(id) on delete cascade,
+  kind text not null check (kind in ('commission','fee')),
+  amount_rub integer not null,
+  payment_id uuid unique references payments(id) on delete set null,
+  period text,
+  status text not null default 'accrued' check (status in ('accrued','paid')),
+  created_at timestamptz not null default now(),
+  paid_at timestamptz,
+  unique (partner_id, kind, period)
+);
+create index if not exists partner_ledger_partner_idx on partner_ledger(partner_id);
+alter table partners enable row level security;
+alter table partner_ledger enable row level security;`;
+
 /* ---------- Хранилище PostgreSQL ---------- */
 export function pgStore(env = process.env) {
   let pool, migrated;
@@ -49,7 +80,7 @@ export function pgStore(env = process.env) {
       pool = new pg.Pool({ connectionString: env.DATABASE_URL, max: 1, idleTimeoutMillis: 10000,
         ssl: env.DATABASE_SSL === 'off' ? false : { rejectUnauthorized: false } });
     }
-    if (!migrated) migrated = pool.query(OAUTH_SQL).catch((e) => { console.error('oauth migrate', e); });
+    if (!migrated) migrated = pool.query(OAUTH_SQL + PARTNER_DDL).catch((e) => { console.error('db migrate', e); });
     await migrated;
     return (await pool.query(text, params)).rows;
   };
