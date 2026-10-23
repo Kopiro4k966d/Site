@@ -33,7 +33,7 @@
       rn: 'Имя', clr: 'Цвет аватара', save: 'Сохранить', saved: 'Сохранено', out: 'Выйти', lg: 'Оферта и конфиденциальность',
       hello: (n) => 'Привет, ' + n, per: ' / мес', best: 'Самый популярный', yours: 'Ваш тариф',
       until: (d) => 'Активен до ' + d, left: (n) => `Осталось ${n} дн.`, buy: (n, p) => `Купить ${n} · ${p} ₽`, ext: (n) => 'Продлить ' + n,
-      toPlus: (p) => `Перейти на Plus · ${p} ₽ / мес`, orPlus: (p) => `или Plus · ${p} ₽ / мес`,
+      toPlus: (p) => `Перейти на Plus · ${p} ₽ / мес`, orPlus: (p) => `или Plus · ${p} ₽ / мес`, or: 'или', plusBtn: (p) => `Plus · ${p} ₽ / мес`,
       a4: 'Всё из Free', a5: 'Профили игр и свой прицел', a6: 'Инструменты для Rust', a8: 'Всё из Pro', a9: 'Авто-режим Rust', a10: 'Рейд-калькулятор',
       free: 'Free', never: '—',
       noPre: 'Пока нет пресетов', noPreD: 'Профили игр появятся здесь после синхронизации из приложения Crysea. Войдите в приложении с этим аккаунтом.',
@@ -56,7 +56,7 @@
       rn: 'Name', clr: 'Avatar color', save: 'Save', saved: 'Saved', out: 'Sign out', lg: 'Terms & Privacy',
       hello: (n) => 'Hey, ' + n, per: ' / mo', best: 'Most popular', yours: 'Your plan',
       until: (d) => 'Active until ' + d, left: (n) => `${n} days left`, buy: (n, p) => `Get ${n} · ${p} ₽`, ext: (n) => 'Renew ' + n,
-      toPlus: (p) => `Upgrade to Plus · ${p} ₽ / mo`, orPlus: (p) => `or Plus · ${p} ₽ / mo`,
+      toPlus: (p) => `Upgrade to Plus · ${p} ₽ / mo`, orPlus: (p) => `or Plus · ${p} ₽ / mo`, or: 'or', plusBtn: (p) => `Plus · ${p} ₽ / mo`,
       a4: 'Everything in Free', a5: 'Game profiles and custom crosshair', a6: 'Rust toolkit', a8: 'Everything in Pro', a9: 'Rust auto mode', a10: 'Raid calculator',
       free: 'Free', never: '—',
       noPre: 'No presets yet', noPreD: 'Your game profiles show up here after syncing from the Crysea app. Sign in inside the app with this account.',
@@ -124,7 +124,8 @@
         <h2 style="font-size:1.4rem;margin:6px 0 0">Pro</h2>
         ${bullets(['a4', 'a5', 'a6'])}<div class="grow"></div>
         <div class="ac-btns"><a class="btn p w" href="/?buy=pro">${esc(t.buy('Pro', priceOf('pro')))}</a>
-        <a class="btn w" href="/?buy=plus">${esc(t.orPlus(priceOf('plus')))}</a></div>`;
+        <div class="ac-or"><span>${esc(t.or)}</span></div>
+        <a class="btn w" href="/?buy=plus">${esc(t.plusBtn(priceOf('plus')))}</a></div>`;
       return;
     }
     const name = PLANS[p].name, days = Math.max(0, Math.ceil((Date.parse(user.until) - Date.now()) / 864e5));
