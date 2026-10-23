@@ -9,17 +9,19 @@
 <meta property="og:title" content="Crysea — сочные цвета в каждой игре">
 <meta property="og:description" content="Насыщенность до 300%, профили игр, прицел и инструменты для Rust. Windows 10 и 11.">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap&subset=cyrillic" rel="stylesheet">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#121212">
+<meta name="theme-color" content="#06070b">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="partner.css">
 </head>
 <body>
 <script src="icons.js"></script>
 
 <div class="top"><div class="pill">
-  <a href="#top" class="brand">Crysea</a>
-  <nav id="nav"><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a><a href="#" data-partner-open>Партнёрство</a></nav>
+  <a href="#top" class="brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</a>
+  <nav id="nav"><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a></nav>
   <button class="btn s" id="lang" type="button" aria-label="Language">EN</button>
   <button class="btn s" id="loginBtn" type="button" data-i="login">Войти</button>
   <button class="prof" id="profBtn" type="button" hidden aria-label="Профиль"><span id="profAv">?</span></button>
@@ -27,21 +29,12 @@
 </div></div>
 
 <main id="top">
-<section class="nx-hero">
-<div class="wrap nx-hero-grid">
-  <div class="nx-hero-copy">
+<div class="wrap hero">
   <a href="#updates" class="ver"><b>v2.0.0</b><span data-i="vn">Что нового</span></a>
   <h1 data-i="h1">Сочные цвета в каждой игре</h1>
   <p class="lead" data-i="lead">Crysea меняет насыщенность и контраст на уровне Windows. Двигайте ползунок и сразу видите результат.</p>
   <div class="cta"><a class="btn" href="#features" data-i="c2">Что умеет Crysea</a><a class="btn p" href="#pricing" data-dl><svg class="ic"><use href="#i-dl"/></svg><span data-i="c1">Скачать для Windows</span></a></div>
   <div class="small" data-i="win">Бесплатный тариф без ограничений по времени. Windows 10 и 11.</div>
-    <ul class="nx-stats">
-      <li><b>300%</b><span>насыщенность в одном ползунке</span></li>
-      <li><b>6</b><span>модулей в одном окне</span></li>
-      <li><b>0 ₽</b><span>бесплатный тариф без срока</span></li>
-    </ul>
-  </div>
-  <div class="nx-hero-art">
   <div class="app"><div class="win">
     <div class="tb"><i></i><i></i><i></i><span data-i="tb">Сравнение до / после</span></div>
     <div class="scene" id="scene">
@@ -53,13 +46,11 @@
         <div class="ctrl"><span data-i="rng">Сила усиления</span><input type="range" id="rng" min="0" max="300" value="230" aria-label="Сила усиления"><b id="v2">230%</b></div>
   </div>
 </div>
-  </div>
 </div>
-</section>
 
 <section id="features"><div class="wrap">
-  <div class="nx-sec-head" data-rv><h2 data-i="fh">Что умеет Crysea</h2><p data-i="fhp">Шесть модулей, которые не нужно искать по меню.</p></div>
-  <div class="nx-bento">
+  <div class="head" data-rv><h2 data-i="fh">Что умеет Crysea</h2><p data-i="fhp">Шесть модулей, которые не нужно искать по меню.</p></div>
+  <div class="bento">
     <article class="card b1"><div><div class="ico"><svg class="ic"><use href="#i-sat"/></svg></div><h3 data-i="f1t">Насыщенность</h3><p data-i="f1d">Один ползунок от 0 до 300%. Цвета ярче, детали в тенях на месте.</p></div><div class="sw"><div>R<span><i style="width:88%"></i></span></div><div>G<span><i style="width:72%"></i></span></div><div>B<span><i style="width:60%"></i></span></div></div></article>
     <article class="card b2"><div class="ico"><svg class="ic"><use href="#i-pal"/></svg></div><h3 data-i="f2t">Темы</h3><p data-i="f2d">Три готовые темы: тёмная, светлая и мягкая. Приложение выглядит так, как нравится вам.</p></article>
     <article class="card b3"><div class="ico"><svg class="ic"><use href="#i-prof"/></svg></div><h3 data-i="f3t">Профили</h3><p data-i="f3d">Свой вид для каждой игры. Переключение за секунду.</p></article>
@@ -70,8 +61,8 @@
 </div></section>
 
 <section id="updates"><div class="wrap">
-  <div class="nx-sec-head" data-rv><h2 data-i="uh">Что нового </h2></div>
-  <div class="nx-log" data-rv>
+  <div class="head" data-rv><h2 data-i="uh">Что нового </h2></div>
+  <div class="log" data-rv>
     <div class="rel"><div class="m"><b>v2.0.0</b><span data-i="d0">7 октября 2026</span></div><h3 data-i="u0t">Crysea: новое имя</h3><p data-i="u0d">Единый аккаунт с сайтом, тарифы Free, Pro и Plus, профили игр, прицел и инструменты Rust: таймер вайпа, параметры запуска и модули оптимизации.</p></div>
     <div class="rel"><div class="m"><b>v1.0.0</b><span data-i="d1">28 сентября 2026</span></div><h3 data-i="u1t">Новый модуль сравнения</h3><p data-i="u1d">Слева оригинал, справа результат, ползунок силы в реальном времени.</p></div>
     <div class="rel"><div class="m"><b>v0.9.2</b><span data-i="d2">24 сентября 2026</span></div><h3 data-i="u2t">Чистка интерфейса</h3><p data-i="u2d">Больше воздуха между разделами, карточки легче читать.</p></div>
@@ -93,8 +84,8 @@
 </div></section>
 
 <section id="pricing"><div class="wrap">
-  <div class="nx-sec-head" data-rv><h2 data-i="ph">Free, Pro или Plus</h2><p data-i="pp">Начните бесплатно, платите, когда понадобится больше.</p></div>
-  <div class="plans nx-plans">
+  <div class="head" data-rv><h2 data-i="ph">Free, Pro или Plus</h2><p data-i="pp">Начните бесплатно, платите, когда понадобится больше.</p></div>
+  <div class="plans">
     <article class="card plan" data-rv><h3>Free</h3><div class="price">0 ₽</div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a1">Насыщенность до 300%</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a2">3 темы оформления</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a3">Сравнение до / после</span></li></ul><a href="#pricing" class="btn w" data-dl data-i="b1">Скачать Free</a></article>
     <article class="card plan hot" data-rv><span class="tag" data-i="pb">Самый популярный</span><h3>Pro</h3><div class="price">199 ₽<small data-i="mo"> / мес</small></div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a4">Всё из Free</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a5">Профили игр и свой прицел</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a6">Инструменты для Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a7">Свои модули оптимизации</span></li></ul><a href="#" class="btn p w" data-buy="pro" data-i="b2">Купить Pro</a></article>
     <article class="card plan" data-rv><h3>Plus</h3><div class="price">399 ₽<small data-i="mo2"> / мес</small></div><ul><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a8">Всё из Pro</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a9">Авто-режим Rust</span></li><li><svg class="ic"><use href="#i-ok"/></svg><span data-i="a10">Рейд-калькулятор</span></li></ul><a href="#" class="btn w" data-buy="plus" data-i="b3">Купить Plus</a></article>
@@ -102,7 +93,7 @@
 </div></section>
 
 <section id="faq"><div class="wrap">
-  <div class="nx-sec-head" data-rv><h2 data-i="qh">Частые вопросы</h2></div>
+  <div class="head" data-rv><h2 data-i="qh">Частые вопросы</h2></div>
   <div class="faq" data-rv>
     <details><summary><span data-i="q1">Это безопасно для игр и античитов?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q1a">Crysea не внедряет код в игры и не читает их память: цвет меняется средствами самой Windows, прицел рисуется отдельным окном поверх игры. Как конкретный античит относится к оверлеям, мы гарантировать не можем, поэтому пользуйтесь прицелом там, где оверлеи разрешены правилами игры.</p></details>
     <details><summary><span data-i="q2">Что остаётся в бесплатном тарифе?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q2a">Насыщенность до 300%, три темы и сравнение до / после. Без карты и без ограничения по времени.</p></details>
@@ -111,28 +102,14 @@
     <details><summary><span data-i="q5">Что с возвратом денег?</span><svg class="ic"><use href="#i-chev"/></svg></summary><p data-i="q5a">Условия возврата описаны в <a href="/legal#offer">оферте</a>. По любым вопросам пишите в Discord.</p></details>
   </div>
 </div></section>
-
-<section class="nx-cta"><div class="wrap">
-  <div class="nx-cta-box" data-rv>
-    <h2>Попробуйте Crysea бесплатно</h2>
-    <p>Без карты и без ограничения по времени. Windows 10 и 11.</p>
-    <div class="cta"><a class="btn p" href="#pricing" data-dl><svg class="ic"><use href="#i-dl"/></svg><span>Скачать для Windows</span></a></div>
-  </div>
-</div></section>
 </main>
 
 <footer class="ft"><div class="wrap">
-  <div class="ft-main">
-    <div>
-      <div class="ft-brand">Crysea</div>
-      <p class="ft-desc" data-i="ftx">Настройка цвета и системные модули для Windows.</p>
-    </div>
-    <nav class="ft-nav"><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a><a href="#" data-partner-open>Партнёрство</a></nav>
-  </div>
-  <div class="ft-bottom">
-    <div><a href="/legal" data-i="lg">Оферта и конфиденциальность</a> · © 2026 Crysea</div>
-    <a class="ds" data-discord href="#" target="_blank" rel="noopener" aria-label="Discord" title="Discord"><svg class="ic"><use href="#i-ds"/></svg></a>
-  </div>
+  <div class="brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</div>
+  <p data-i="ftx">Настройка цвета и системные модули для Windows.</p>
+  <nav><a href="#features" data-i="n1">Возможности</a><a href="#updates" data-i="n2">Обновления</a><a href="#reviews" data-i="n4">Отзывы</a><a href="#pricing" data-i="n3">Тарифы</a><a href="#faq" data-i="n5">Вопросы</a></nav>
+  <a class="ds" data-discord href="#" target="_blank" rel="noopener" aria-label="Discord" title="Discord"><svg class="ic"><use href="#i-ds"/></svg></a>
+  <div><a href="/legal" data-i="lg">Оферта и конфиденциальность</a> · © 2026 Crysea</div>
 </div></footer>
 
 
@@ -186,6 +163,5 @@
 <script src="config.js"></script>
 <script src="script.js" defer></script>
 <script src="auth.js" defer></script>
-<script src="partner.js"></script>
 </body>
 </html>

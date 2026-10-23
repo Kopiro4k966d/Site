@@ -3,8 +3,8 @@
 window.CRYSEA = {
   discord: 'https://discord.gg/YOUR_INVITE',
   download: {
-    setup: 'https://github.com/Kopiro4k966d/crysea-releases/releases/latest/download/Crysea-Setup.exe',    /* прямая ссылка на Crysea-Setup.exe (установщик, npm run dist) */
-    portable: 'https://github.com/Kopiro4k966d/crysea-releases/releases/latest/download/Crysea-Portable.exe'  /* прямая ссылка на Crysea-Portable.exe (отдельный exe без установки, npm run dist:portable) */
+    setup: '',    /* прямая ссылка на Crysea-Setup.exe (установщик, npm run dist) */
+    portable: ''  /* прямая ссылка на Crysea-Portable.exe (отдельный exe без установки, npm run dist:portable) */
   }
 };
 document.querySelectorAll('[data-discord]').forEach(function (a) { a.href = window.CRYSEA.discord; });

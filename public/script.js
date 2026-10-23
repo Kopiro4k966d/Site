@@ -15,7 +15,7 @@ function setPos(x){const r=scene.getBoundingClientRect(),p=Math.max(0,Math.min(1
 scene.addEventListener('pointerdown',e=>{drag=true;scene.setPointerCapture(e.pointerId);setPos(e.clientX)});
 scene.addEventListener('pointermove',e=>drag&&setPos(e.clientX));
 ['pointerup','pointercancel'].forEach(t=>scene.addEventListener(t,()=>drag=false));
-function setSat(v){v=+v;$('#rng').value=v;$('#v1').textContent=$('#v2').textContent=v+'%';$('#after').style.filter=`saturate(${v/230})`}
+function setSat(v){v=+v;$('#rng').value=v;$('#rng').style.setProperty('--p',(v/3)+'%');$('#v1').textContent=$('#v2').textContent=v+'%';$('#after').style.filter=`saturate(${v/230})`}
 $('#rng').oninput=e=>setSat(e.target.value);setSat(230);
 
 /* Отзывы. ВАЖНО: тексты ниже — примеры-заглушки, замените их настоящими отзывами. */
