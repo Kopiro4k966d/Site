@@ -1,0 +1,15 @@
+{
+  "name": "crysea-site",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "netlify dev",
+    "keys": "node scripts/gen-license-keys.mjs",
+    "db:init": "node scripts/db-init.mjs",
+    "check": "node scripts/check-launch.mjs"
+  },
+  "dependencies": {
+    "pg": "^8.13.0"
+  }
+}
