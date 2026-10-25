@@ -639,3 +639,49 @@ footer.ft{margin-top:120px;padding:64px 0 36px;border-top:1px solid #17171c;text
 .ft-bot a:hover{color:#fff}
 @media(max-width:820px){.ft-top{grid-template-columns:1fr}.ft-cols{grid-template-columns:1fr 1fr}}
 footer.ft .ft-about p{margin:0 0 20px;max-width:320px;text-align:left}
+
+/* ===== Фон DarkVeil: слои через фон, карточки полупрозрачные, чтобы он просвечивал ===== */
+.veil{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;display:block}
+.hero-card,.pz{background:rgba(0,0,0,.5)!important}
+.hero-card::after,.pz::after{display:none}
+
+/* ===== Блок «Станьте партнёром»: на всю ширину, только текст ===== */
+#partners>.wrap{width:auto;max-width:none;margin:0 16px}
+#partners .pz{max-width:none;grid-template-columns:1fr;gap:28px;padding:72px 72px}
+#partners .pz-l{max-width:720px}
+
+/* ===== Модуль помощи: только список вопросов ===== */
+.help{grid-template-columns:1fr}
+
+/* ===== Тарифы: крупнее ===== */
+.plans{max-width:1180px;gap:20px}
+.plan{padding:40px 36px 36px;min-height:600px}
+.plan h3{font-size:1.45rem;line-height:1.2}
+.price{font-size:3.8rem;margin:14px 0 0}
+.plan ul{font-size:1.06rem;gap:14px;margin:26px 0 30px}
+.plan li .ic{width:19px;height:19px}
+.plan .btn{height:56px;font-size:1rem}
+.plan .tag{top:30px;right:30px;font-size:.85rem;padding:6px 14px}
+
+/* ===== Окно оплаты: просторнее и аккуратнее ===== */
+.md.pay{width:min(100%,520px);padding:36px 34px 30px;border-radius:34px}
+.pay h3{font-size:1.7rem;margin:0 0 20px;letter-spacing:-.03em}
+#planSeg{padding:5px;margin-bottom:18px}
+#planSeg button{height:52px;font-size:1.05rem}
+#planSeg button small{font-size:.85rem}
+.pay .feat{font-size:.92rem;margin:0 0 18px;line-height:1.5}
+.promo{margin:0 0 18px}
+.promo input{height:48px;font-size:.95rem}
+.promo .btn{height:48px;padding:0 22px}
+.pay .sub{font-size:.85rem;margin:6px 0 10px;letter-spacing:.02em}
+.pay .meth{gap:12px;margin-bottom:16px}
+.pay .meth button{padding:16px 16px;border-radius:22px;grid-template-columns:44px 1fr;grid-template-areas:"i n" "i s";gap:2px 14px}
+.pay .meth i{width:44px;height:44px;border-radius:14px;grid-area:i}
+.pay .meth i .ic{width:22px;height:22px}
+.pay .meth span{font-size:1rem;font-weight:600}
+.pay .meth small{font-size:.8rem;margin-top:2px}
+#payBtn{height:58px;font-size:1.05rem;border-radius:99px;margin-top:6px}
+.pay .note{margin-top:14px}
+@media(max-width:600px){.md.pay{padding:30px 22px 24px}.plans{max-width:none}.plan{min-height:0}}
+
+.hint:empty{display:none}
