@@ -808,3 +808,33 @@ html.js [data-rv="t"]:not(.in){translate:0 56px;filter:blur(10px)}
 .trust-img{width:30px;height:30px;border-radius:9px}
 .ftb img{width:18px;height:18px}
 .ftb{min-width:0}
+
+/* ===== Фокус: нейтральная белая рамка вместо синей ===== */
+:focus-visible{outline:2px solid rgba(255,255,255,.55)!important;outline-offset:3px}
+
+/* ===== Кнопки тарифов: в палитре сайта ===== */
+.plan .btn{background:rgba(255,255,255,.05)!important;color:#fff!important;border:1px solid rgba(255,255,255,.14)!important}
+.plan .btn:hover{background:rgba(255,255,255,.1)!important;border-color:rgba(200,145,58,.55)!important}
+.plan.hot .btn.p{background:#c8913a!important;color:#1f1a14!important;border-color:#c8913a!important}
+.plan.hot .btn.p:hover{background:#d6a04a!important;border-color:#d6a04a!important}
+
+/* ===== Кабинет: окно шире, панель партнёрства с ровными отступами ===== */
+.acc{width:min(100% - 40px,1120px)}
+#partner .pcard{padding:44px 44px 40px;display:block}
+#partner .pcard h2{margin:0 0 14px}
+#partner .pcard>p{margin:0 0 32px;max-width:680px;line-height:1.6}
+#partner .pterms{margin:0 0 36px;padding:28px 30px}
+#partner .pterms ul{gap:12px}
+#partner .pform{gap:0}
+#partner .pform .f{margin-bottom:20px}
+#partner .pform-row{gap:20px}
+#partner .pform .btn{margin-top:8px}
+#partner .pcode{margin:0 0 32px;padding:26px 28px}
+#partner .pbars{margin:0 0 32px;gap:20px}
+#partner .pflow{margin:0 0 36px;gap:14px}
+#partner .pcard .ac-stats{gap:16px;margin:0 0 28px}
+#partner .pcard .ac-stats>div{padding:22px 24px}
+#partner .pcard>p.sub{margin:0 0 36px}
+#partner .phist{margin:0 0 16px}
+#partner .ac-list{padding:6px 10px}
+@media(max-width:640px){#partner .pcard{padding:28px 22px}#partner .pform-row{grid-template-columns:1fr}}
