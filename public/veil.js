@@ -229,7 +229,7 @@ void main() {
     const d = probe.getImageData(0, 0, 1, 1).data;
     return [d[0], d[1], d[2]].map((v) => Math.pow(v / 255, 2.2));
   };
-  const S = { speed: 0.5, scale: 1, rotation: 0, flow: 1, warp: 0, brightness: 1, sheen: 0, glow: 0.4, grain: 0.03, quality: 0.5, mouse: true, mouseStrength: 1, fade: 0, opacity: 1, paused: false, intro: !reduce };
+  const S = { speed: 0.9, scale: 1, rotation: 0, flow: 1.6, warp: 0, brightness: 1, sheen: 0, glow: 0.4, grain: 0.03, quality: 0.5, mouse: true, mouseStrength: 1, fade: 0, opacity: 1, paused: false, intro: !reduce };
   const view = { width: 1, height: 1, fieldWidth: 1, fieldHeight: 1 };
   const pointer = { x: 0, y: 0, inside: false };
   const st = { clock: 0, intro: S.intro ? 0 : 1, touch: 0, x: 0, y: 0, dragX: 0, dragY: 0, lightX: 0.5, lightY: 0.15 };
