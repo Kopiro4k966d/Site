@@ -1,10 +1,23 @@
-/* Стеклянные поверхности (порт GlassSurface из React Bits на обычный JS).
-   В Chromium: backdrop-filter через SVG-фильтр с картой смещения (преломление фона).
-   В Safari и Firefox: размытие + подсветка края (CSS-запасной вариант). */
+/* Стекло на сайте.
+   1) Крупные карточки (.app, .card, .pz, .faq, отзывы) — преломление через SVG-фильтр (только Chromium).
+   2) Шапка, кнопки, чипы, модальные окна — простое размытие (работает везде, без искажений).
+   3) Элементы внутри уже стеклянного контейнера стекло не получают: вложенные фильтры дают артефакты.
+   4) Тарифы (.plan) — сплошные карточки по дизайну, стекло не нужно. */
 (function () {
   const NS = 'http://www.w3.org/2000/svg';
-  const FAR = 1e20;
   const CFG = { border: 0.07, blur: 11, bright: 50, opacity: 0.93, distortion: -180, offsets: [0, 10, 20], saturation: 1 };
+
+  const BLUR_SEL = '.pill, .md, .btn:not(.p), .chip, .dlopt';
+  const SVG_SEL = '.app, .card, .pz, .news .rel, .faq details, .rv2-card';
+  const isGlass = (el) => el.classList.contains('glass') || el.classList.contains('glass-blur');
+  const nested = (el) => !!(el.parentElement && el.parentElement.closest('.glass, .glass-blur'));
+  const skip = (el) => isGlass(el) || nested(el) || el.matches('.plan');
+
+  const blur = (el) => {
+    el.classList.add('glass-blur');
+    el.style.backdropFilter = 'blur(18px) saturate(1.3)';
+    el.style.webkitBackdropFilter = 'blur(18px) saturate(1.3)';
+  };
 
   const isChromium = () => {
     const ua = navigator.userAgent;
@@ -14,18 +27,19 @@
     d.style.backdropFilter = 'url(#probe)';
     return d.style.backdropFilter !== '';
   };
-  if (!isChromium()) {
-    // запасной вариант: блюр + подсветка
-    document.documentElement.classList.add('glass-fallback');
-    return;
-  }
+  const refract = isChromium();
 
-  const holder = document.createElementNS(NS, 'svg');
-  holder.setAttribute('width', '0');
-  holder.setAttribute('height', '0');
-  holder.setAttribute('aria-hidden', 'true');
-  holder.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;pointer-events:none';
-  document.body.appendChild(holder);
+  let holder = null;
+  const ensureHolder = () => {
+    if (holder) return holder;
+    holder = document.createElementNS(NS, 'svg');
+    holder.setAttribute('width', '0');
+    holder.setAttribute('height', '0');
+    holder.setAttribute('aria-hidden', 'true');
+    holder.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;pointer-events:none';
+    document.body.appendChild(holder);
+    return holder;
+  };
 
   const mapUrl = (w, h, radius) => {
     const edge = Math.min(w, h) * (CFG.border * 0.5);
@@ -44,7 +58,7 @@
   };
 
   let seq = 0;
-  const build = (el) => {
+  const refractEl = (el) => {
     const id = 'glass-f' + ++seq;
     const f = document.createElementNS(NS, 'filter');
     f.setAttribute('id', id);
@@ -54,18 +68,16 @@
     img.setAttribute('x', '0'); img.setAttribute('y', '0'); img.setAttribute('width', '100%'); img.setAttribute('height', '100%');
     img.setAttribute('preserveAspectRatio', 'none'); img.setAttribute('result', 'map');
     f.appendChild(img);
-    const channel = (name, offset, result) => {
+    const channel = (offset, result, inp) => {
       const d = document.createElementNS(NS, 'feDisplacementMap');
-      d.setAttribute('in', 'SourceGraphic'); d.setAttribute('in2', 'map'); d.setAttribute('result', result);
+      d.setAttribute('in', inp); d.setAttribute('in2', 'map'); d.setAttribute('result', result);
       d.setAttribute('xChannelSelector', 'R'); d.setAttribute('yChannelSelector', 'G');
       d.setAttribute('scale', String(CFG.distortion + offset));
-      d.dataset.ch = name;
       f.appendChild(d);
-      return d;
     };
-    const dr = channel('r', CFG.offsets[0], 'dispRed');
-    const dg = channel('g', CFG.offsets[1], 'dispGreen');
-    const db = channel('b', CFG.offsets[2], 'dispBlue');
+    channel(CFG.offsets[0], 'dispRed', 'SourceGraphic');
+    channel(CFG.offsets[1], 'dispGreen', 'SourceGraphic');
+    channel(CFG.offsets[2], 'dispBlue', 'SourceGraphic');
     const matrix = (inp, res, m) => {
       const c = document.createElementNS(NS, 'feColorMatrix');
       c.setAttribute('in', inp); c.setAttribute('type', 'matrix'); c.setAttribute('values', m); c.setAttribute('result', res);
@@ -79,7 +91,7 @@
     const g = document.createElementNS(NS, 'feGaussianBlur');
     g.setAttribute('in', 'output'); g.setAttribute('stdDeviation', '0.7');
     f.appendChild(g);
-    holder.appendChild(f);
+    ensureHolder().appendChild(f);
 
     const update = () => {
       const w = el.offsetWidth, h = el.offsetHeight;
@@ -94,9 +106,11 @@
     el.classList.add('glass');
   };
 
-  const SELECTOR = '.pill, .app, .card, .plan, .pz, .news .rel, .faq details, .rv2-card, .md, .chip, .dlopt, .btn:not(.p)';
-  const setup = () => document.querySelectorAll(SELECTOR).forEach((el) => { if (!el.classList.contains('glass')) build(el); });
+  const setup = () => {
+    document.querySelectorAll(BLUR_SEL).forEach((el) => { if (!skip(el)) blur(el); });
+    if (refract) document.querySelectorAll(SVG_SEL).forEach((el) => { if (!skip(el)) refractEl(el); });
+    else document.querySelectorAll(SVG_SEL).forEach((el) => { if (!skip(el)) blur(el); });
+  };
   setup();
-  // новые карточки (после рендера списков) тоже получают стекло
   new MutationObserver(setup).observe(document.body, { childList: true, subtree: true });
 })();

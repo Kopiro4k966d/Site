@@ -338,6 +338,8 @@ void main() {
   document.documentElement.addEventListener('pointerleave', () => { pointer.inside = false; wake(); });
   document.addEventListener('visibilitychange', () => { last = 0; wake(); });
   window.addEventListener('resize', resize);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', resize);
+  new ResizeObserver(resize).observe(document.documentElement);
   new IntersectionObserver((entries) => { visible = entries.some((en) => en.isIntersecting); if (visible) { last = 0; wake(); } }).observe(canvas);
   resize();
 })();
