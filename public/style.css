@@ -850,3 +850,49 @@ html.js [data-rv="t"]:not(.in){translate:0 56px;filter:blur(10px)}
 .plan.hot .btn.p{background:rgba(200,145,58,.16)!important;border-color:rgba(200,145,58,.5)!important;color:#f6dcaa!important}
 .plan.hot .btn.p:hover{background:rgba(200,145,58,.28)!important;border-color:rgba(200,145,58,.75)!important;color:#fff!important}
 .plan .btn::after{display:none}
+
+/* ===== Финальная доработка: окно оплаты и тарифы (нейтральная палитра, без золота) ===== */
+.md.pay{width:min(100%,460px)!important;padding:30px 28px 24px!important;border-radius:30px!important;background:#0e0f13!important;border:1px solid rgba(255,255,255,.1)!important}
+.pay .x{top:20px;right:20px;width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.pay .eyebrow{margin:0 0 8px;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,245,247,.5);font-weight:600}
+.pay h3{font-size:1.6rem;font-weight:700;letter-spacing:-.03em;margin:0 0 22px;padding-right:44px;line-height:1.15}
+.pay .seg{margin:0 0 16px;padding:5px;border-radius:18px}
+.pay .seg button{border-radius:14px;padding:11px 10px;display:flex;justify-content:center;align-items:baseline;gap:8px;font-weight:600}
+.pay .seg small{font-size:.82rem;opacity:.7}
+.psum{border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:18px 18px 16px;background:rgba(255,255,255,.03);margin:0 0 16px}
+.psum-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.psum-name b{display:block;font-size:1.05rem;font-weight:650;color:#f4f4f7}
+.psum-name span{display:block;margin-top:3px;font-size:.8rem;color:rgba(245,245,247,.5)}
+.psum-price{text-align:right;line-height:1}
+.psum-price strong{font-size:2.1rem;font-weight:800;letter-spacing:-.045em;color:#fff}
+.psum-price s{display:block;font-size:.85rem;color:rgba(245,245,247,.42);margin-bottom:4px;text-decoration-thickness:1px}
+.pay .feat{margin:14px 0 0;font-size:.86rem;line-height:1.5;color:rgba(245,245,247,.62)}
+.pay .promo-line{margin:14px 0 0}
+.pay .promo{margin:0 0 16px;gap:8px}
+.pay .promo input{border-radius:14px;height:44px}
+.pay .promo .btn.s{border-radius:14px;height:44px;padding:0 16px}
+.pay .sub{margin:4px 0 10px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,245,247,.5);font-weight:600}
+.pay .meth{gap:10px;margin-bottom:14px}
+.pay .meth button{border-radius:18px;padding:14px;border:1px solid rgba(255,255,255,.1)}
+.pay .meth button.on{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.07)}
+.pay .meth i{border-radius:12px}
+.pay .hint{margin:0 0 14px;font-size:.84rem;line-height:1.5;color:rgba(245,245,247,.6);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.pay .btn.p.pay-cta{height:56px;border-radius:18px;font-size:1.02rem;font-weight:700;background:#f4f4f7!important;color:#0b0c10!important;border-color:#f4f4f7!important;box-shadow:0 10px 30px rgba(255,255,255,.12)}
+.pay .btn.p.pay-cta:hover:not([disabled]){background:#fff!important}
+.pay .btn.p.pay-cta[disabled]{opacity:.45;box-shadow:none}
+.pay .note{margin-top:16px;font-size:.76rem;line-height:1.5;color:rgba(245,245,247,.5)}
+.pay .note.fine{margin-top:8px;font-size:.72rem;text-align:center}
+.pay #payOk{text-align:center;padding:10px 0 4px}
+.pay #payOk h3{padding-right:0}
+.pay #payOk .sub{text-transform:none;letter-spacing:0;font-size:.9rem;color:rgba(245,245,247,.6);margin:0 0 20px}
+.pay #payOk .ok{margin:0 auto 18px}
+@media(max-width:600px){.md.pay{padding:28px 20px 22px!important}.pay h3{font-size:1.4rem}}
+
+/* Тарифы: центральный «Pro» больше не золотой. Выделение через белый свет, а не цвет */
+.plan li::before{background:#f4f4f7!important}
+.plan .btn{background:rgba(255,255,255,.06)!important;color:#f4f4f7!important;border:1px solid rgba(255,255,255,.16)!important}
+.plan .btn:hover{background:rgba(255,255,255,.13)!important;border-color:rgba(255,255,255,.3)!important}
+.plan .tag{position:absolute;top:26px;right:26px;margin:0;padding:6px 12px!important;border-radius:999px;background:#f4f4f7!important;border:0!important;color:#0b0c10!important;font-size:.68rem!important;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.plan.hot{border-color:rgba(255,255,255,.42)!important;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 30px 80px rgba(255,255,255,.07),inset 0 1px 0 rgba(255,255,255,.2)!important}
+.plan.hot .btn.p,.plan.hot .btn.p:hover{background:#f4f4f7!important;color:#0b0c10!important;border-color:#f4f4f7!important}
+.plan.hot .btn.p:hover{background:#fff!important}

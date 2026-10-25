@@ -104,14 +104,28 @@ $$('[data-buy]').forEach(a=>a.addEventListener('click',e=>{
   user?openPay():openAuth('reg',openPay);
 }));
 const priceOf=id=>{const b=PLANS[id].price,pc=user&&user.promo?user.promo.percent:0;return pc?Math.max(1,Math.round(b*(100-pc)/100)):b};
+const PX={
+  ru:{eb:'Crysea · подписка',title:'Оплата подписки',per:'1 месяц',promoPh:'Код автора',promoB:'Применить',ml:'Способ оплаты',sbp:'СБП',sbpS:'Без комиссии',card:'Карта',cardS:'Visa · Mir · MC',payN:'Данные карты не хранятся на сайте. Оплата проходит у платёжного провайдера.',terms:'Оплачивая, вы принимаете <a href="/legal#offer">оферту</a>. Подписка не продлевается автоматически.',okT:'Оплата прошла',okB:'Отлично'},
+  en:{eb:'Crysea · subscription',title:'Subscription payment',per:'1 month',promoPh:'Creator code',promoB:'Apply',ml:'Payment method',sbp:'SBP',sbpS:'No fees',card:'Card',cardS:'Visa · Mir · MC',payN:'Card data is never stored on this site. Payment is processed by the payment provider.',terms:'By paying you accept the <a href="/legal#offer">Terms</a>. The subscription does not renew automatically.',okT:'Payment successful',okB:'Great'}
+};
+/* Все подписи окна оплаты собираются здесь, из одного словаря: так язык не смешивается при переключении */
 function paintPay(){
-  const p=PLANS[planId],pm=user&&user.promo,off=payMode==='off';
-  $$('#planSeg button').forEach(b=>{const on=b.dataset.plan===planId;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
-  $$('#planSeg button').forEach(b=>{b.querySelector('small').textContent=priceOf(b.dataset.plan)+' ₽'});
+  const p=PLANS[planId],pm=user&&user.promo,off=payMode==='off',t=PX[lang];
+  $$('#planSeg button').forEach(b=>{const on=b.dataset.plan===planId;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);b.querySelector('small').textContent=priceOf(b.dataset.plan)+' ₽'});
+  $('#payEb').textContent=t.eb;$('#payT').textContent=t.title;
+  $('#sName').textContent=p.name;$('#sPer').textContent=t.per;
+  const so=$('#sOld');so.hidden=!pm;if(pm)so.textContent=p.price+' ₽';
+  $('#sNew').textContent=priceOf(planId)+' ₽';
   $('#sFeat').textContent=M().feat[planId];
-  $('#promoF').hidden=!!pm;
+  $('#promoF').hidden=!!pm;$('#promoI').placeholder=t.promoPh;$('#promoB').textContent=t.promoB;
   const pl=$('#sPromo');pl.hidden=!pm;if(pm)pl.querySelector('span').textContent=M().promoOn(pm.code,pm.percent);
+  $('#payMl').textContent=t.ml;
+  const sb=$('#meth [data-m=sbp]'),cb=$('#meth [data-m=card]');
+  sb.querySelector('span').textContent=t.sbp;sb.querySelector('small').textContent=t.sbpS;
+  cb.querySelector('span').textContent=t.card;cb.querySelector('small').textContent=t.cardS;
   $('#otherT').textContent=off?M().soonPay:payMode==='demo'?M().demo:M().other[method];
+  $('#payN').textContent=t.payN;$('#terms2').innerHTML=t.terms;
+  $('#okT').textContent=t.okT;$('#okB').textContent=t.okB;
   const B=$('#payBtn');B.disabled=off;B.textContent=M().pay(priceOf(planId)+' ₽');
 }
 function setMethod(m){
