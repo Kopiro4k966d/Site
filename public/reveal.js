@@ -44,7 +44,7 @@
     if (words.length < 2 || words.length > 40) return;
     el.dataset.split = '1';
     el.setAttribute('aria-label', words.join(' '));
-    el.innerHTML = words.map((w, i) => '<span class="sw" aria-hidden="true"><span style="--wi:' + i + '">' + esc(w) + '</span></span>').join(' ');
+    el.innerHTML = words.map((w, i) => '<span class="wsp" aria-hidden="true"><span style="--wi:' + i + '">' + esc(w) + '</span></span>').join(' ');
 
     io.observe(el); /* чтобы класс .in появился и слова выехали, даже если заголовок не в общем списке */
   });

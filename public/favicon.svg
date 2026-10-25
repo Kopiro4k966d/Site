@@ -1,14 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e1e24"/><stop offset="1" stop-color="#08080b"/></linearGradient>
-    <linearGradient id="st" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#aeb2be"/></linearGradient>
+    <linearGradient id="chrome" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#15151a"/>
+      <stop offset="0.14" stop-color="#e8e9ee"/>
+      <stop offset="0.3" stop-color="#2a2a31"/>
+      <stop offset="0.46" stop-color="#ffffff"/>
+      <stop offset="0.62" stop-color="#1a1a20"/>
+      <stop offset="0.8" stop-color="#c9ccd6"/>
+      <stop offset="1" stop-color="#101014"/>
+    </linearGradient>
+    <filter id="liquid" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blob"/>
+      <feComponentTransfer in="blob" result="blobT"><feFuncA type="linear" slope="3.2" intercept="-1.1"/></feComponentTransfer>
+      <feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="blobT" in2="noise" scale="26" xChannelSelector="R" yChannelSelector="G" result="shape"/>
+      <feGaussianBlur in="shape" stdDeviation="5" result="soft"/>
+      <feComposite in="SourceGraphic" in2="soft" operator="in" result="fill"/>
+      <feSpecularLighting in="soft" surfaceScale="10" specularConstant="1.2" specularExponent="28" lighting-color="#ffffff" result="spec">
+        <fePointLight x="120" y="70" z="230"/>
+      </feSpecularLighting>
+      <feComposite in="spec" in2="soft" operator="in" result="specIn"/>
+      <feComposite in="fill" in2="specIn" operator="arithmetic" k1="0" k2="1" k3="0.85" k4="0" result="lit"/>
+      <feDropShadow in="lit" dx="0" dy="10" stdDeviation="9" flood-color="#000" flood-opacity="0.7"/>
+    </filter>
+    <radialGradient id="bgGlow" cx="0.5" cy="0.45" r="0.6">
+      <stop offset="0" stop-color="#1a1a20"/>
+      <stop offset="1" stop-color="#050507"/>
+    </radialGradient>
   </defs>
-  <rect width="512" height="512" rx="116" fill="url(#bg)"/>
-  <rect x="3" y="3" width="506" height="506" rx="113" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="6"/>
-  <g transform="translate(96 96) scale(4)" fill="none" stroke="url(#st)" stroke-width="3.2" stroke-linecap="round">
-    <path d="M13 51 L51 13"/>
-    <path d="M13 13 L51 51"/>
-    <path d="M16.5 37.7 L26.3 47.5"/>
-    <path d="M16.5 26.3 L26.3 16.5"/>
-  </g>
+  <rect width="512" height="512" rx="116" fill="url(#bgGlow)"/>
+  <rect x="3" y="3" width="506" height="506" rx="113" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/>
+  <path d="M362 150 A150 150 0 1 0 362 362" fill="none" stroke="url(#chrome)" stroke-width="120" stroke-linecap="round" filter="url(#liquid)"/>
 </svg>

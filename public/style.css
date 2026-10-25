@@ -903,11 +903,22 @@ html.js [data-rv="t"]:not(.in){translate:0 56px;filter:blur(10px)}
 .trust{gap:14px}
 
 /* ===== Появление текстов и карточек: движение, а не просто проявление ===== */
-html.js .sw{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .06em .12em;margin:-.04em -.06em -.12em}
-html.js .sw>span{display:inline-block;transform:translateY(105%) rotate(5deg);transform-origin:0 100%;opacity:0;filter:blur(8px);transition:transform 1.05s cubic-bezier(.16,1,.3,1) calc(var(--d,0s) + var(--wi,0) * 55ms),opacity .7s ease calc(var(--d,0s) + var(--wi,0) * 55ms),filter .8s ease calc(var(--d,0s) + var(--wi,0) * 55ms)}
-html.js .in .sw>span,html.js section h2.in .sw>span{transform:none;opacity:1;filter:none}
+html.js .wsp{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .06em .12em;margin:-.04em -.06em -.12em}
+html.js .wsp>span{display:inline-block;transform:translateY(105%) rotate(5deg);transform-origin:0 100%;opacity:0;filter:blur(8px);transition:transform 1.05s cubic-bezier(.16,1,.3,1) calc(var(--d,0s) + var(--wi,0) * 55ms),opacity .7s ease calc(var(--d,0s) + var(--wi,0) * 55ms),filter .8s ease calc(var(--d,0s) + var(--wi,0) * 55ms)}
+html.js .in .wsp>span,html.js section h2.in .wsp>span{transform:none;opacity:1;filter:none}
 html.js [data-rv="s"]:not(.in),html.js .card[data-rv]:not(.in),html.js .plan[data-rv]:not(.in){rotate:x 14deg}
 html.js .card.in,html.js .plan.in,html.js .rv.in{rotate:x 0deg;transition:opacity .9s var(--ease) var(--d,0ms),translate 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),scale 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),rotate 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),filter .9s var(--ease) var(--d,0ms)}
 html.js .tilt{transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 html.js .tilt.in{transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .9s var(--ease) var(--d,0ms),translate 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),scale 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),rotate 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),filter .9s var(--ease) var(--d,0ms)}
-@media(prefers-reduced-motion:reduce){html.js .sw>span{transform:none;opacity:1;filter:none;transition:none}html.js .card[data-rv],html.js .plan[data-rv]{rotate:none}html.js .tilt{transition:none}}
+@media(prefers-reduced-motion:reduce){html.js .wsp>span{transform:none;opacity:1;filter:none;transition:none}html.js .card[data-rv],html.js .plan[data-rv]{rotate:none}html.js .tilt{transition:none}}
+
+/* ===== Фикс появления текста: абзацы без маски (иначе обрезались буквы), задержка слов ограничена ===== */
+html.js .lead .wsp{overflow:visible;padding:0;margin:0}
+html.js .wsp>span{transition:transform 1s cubic-bezier(.16,1,.3,1) min(calc(var(--d,0s) + var(--wi,0) * 30ms),.7s),opacity .6s ease min(calc(var(--d,0s) + var(--wi,0) * 30ms),.7s),filter .7s ease min(calc(var(--d,0s) + var(--wi,0) * 30ms),.7s)}
+
+/* ===== Карточка «Доверяют» на телефонах: текст не переносится и не вылезает за скругление ===== */
+@media(max-width:600px){
+  .trust{border-radius:22px;padding:12px 18px 12px 12px;max-width:100%;width:max-content;gap:12px}
+  .trust-t b{white-space:nowrap}
+  .trust-t small{white-space:nowrap}
+}
