@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>.t{fill:#000}.g{fill:#fff}@media (prefers-color-scheme: light){.t{fill:#fff}.g{fill:#111}}</style><rect class="t" width="64" height="64" rx="18"/><g class="g"><path d="M50.05 46.59A21.0 21.0 0 0 1 18.86 45.50L24.22 41.00A14.0 14.0 0 0 0 45.02 41.73Z"/><path d="M17.54 43.74A21.0 21.0 0 0 1 17.54 20.26L23.34 24.17A14.0 14.0 0 0 0 23.34 39.83Z"/><path d="M18.86 18.50A21.0 21.0 0 0 1 50.05 17.41L45.02 22.27A14.0 14.0 0 0 0 24.22 23.00Z"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e1e24"/><stop offset="1" stop-color="#08080b"/></linearGradient>
+    <linearGradient id="st" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#aeb2be"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#bg)"/>
+  <rect x="3" y="3" width="506" height="506" rx="113" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="6"/>
+  <g transform="translate(96 96) scale(4)" fill="none" stroke="url(#st)" stroke-width="3.2" stroke-linecap="round">
+    <path d="M13 51 L51 13"/>
+    <path d="M13 13 L51 51"/>
+    <path d="M16.5 37.7 L26.3 47.5"/>
+    <path d="M16.5 26.3 L26.3 16.5"/>
+  </g>
+</svg>
