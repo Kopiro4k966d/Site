@@ -896,3 +896,8 @@ html.js [data-rv="t"]:not(.in){translate:0 56px;filter:blur(10px)}
 .plan.hot{border-color:rgba(255,255,255,.42)!important;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 30px 80px rgba(255,255,255,.07),inset 0 1px 0 rgba(255,255,255,.2)!important}
 .plan.hot .btn.p,.plan.hot .btn.p:hover{background:#f4f4f7!important;color:#0b0c10!important;border-color:#f4f4f7!important}
 .plan.hot .btn.p:hover{background:#fff!important}
+
+/* ===== Карточка «Trusted by»: две иконки одного размера, ровно по центру и с одинаковым промежутком ===== */
+.trust-stack{display:inline-flex;align-items:center;gap:8px;flex:none}
+.trust-stack .trust-img{width:30px!important;height:30px!important;min-width:30px;display:block;flex:none;border-radius:0!important;box-shadow:none!important;margin:0!important;object-fit:contain}
+.trust{gap:14px}
