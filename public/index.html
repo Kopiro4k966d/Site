@@ -30,16 +30,19 @@
 
 <main id="top">
 <div class="wrap hero">
-  <div class="hero-top">
+  <div class="hero-card">
     <div class="hero-l">
-
-      <h1 data-i="h1"><span style="white-space:nowrap">Сочные цвета в</span><br><span class="acc">каждой игре</span></h1>
-      <p class="lead" data-i="lead">Crysea меняет насыщенность и контраст на уровне Windows. Двигайте ползунок и сразу видите результат.</p>
-      <div class="cta"><a class="btn p" href="#pricing" data-dl><svg class="ic"><use href="#i-dl"/></svg><span data-i="c1">Скачать для Windows</span></a><a class="btn" href="#pricing" data-i="c2">Тарифы</a></div>
-      <div class="small" data-i="win">Бесплатный тариф без ограничений по времени. Windows 10 и 11.</div>
+      <h1 data-i="h1">Точно знайте, как должна выглядеть картинка — и добейтесь этого.</h1>
+      <p class="lead" data-i="lead">Точность в каждой детали: настройте прицел так, как вам удобно, и повысьте насыщенность для максимальной чёткости.</p>
+      <div class="cta"><a class="btn p" href="#pricing" data-dl><svg class="ic"><use href="#i-dl"/></svg><span data-i="c1">Начать</span></a></div>
+      <div class="trust">
+          <span class="trust-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="#fff" aria-hidden="true"><path d="M9.8 15.3l-.4 5.1c.6 0 .8-.3 1.1-.6l2.7-2.5 5.6 4.1c1 .6 1.7.3 2-.9l3.6-16.9c.3-1.5-.5-2.1-1.5-1.7L1.8 9.4c-1.5.6-1.5 1.4-.3 1.8l5.6 1.7L20.2 5c.6-.4 1.2-.2.7.2"/></svg></span>
+          <span class="trust-ic dc"><svg viewBox="0 0 24 24" width="16" height="16" fill="#fff" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.4a18 18 0 0 0-6.4 0L8.6 3a19.8 19.8 0 0 0-4.9 1.4C.6 9 -.2 13.5.2 17.9a19.9 19.9 0 0 0 6 3l1.3-2.1c-1-.4-2-.9-2.9-1.5l.7-.5a14.2 14.2 0 0 0 12.2 0l.7.5c-.9.6-1.9 1.1-2.9 1.5l1.3 2.1a19.9 19.9 0 0 0 6-3c.5-5.1-.8-9.5-3.5-13.5zM8.5 15.3c-1.2 0-2.1-1.1-2.1-2.4s.9-2.4 2.1-2.4 2.2 1.1 2.1 2.4c0 1.3-.9 2.4-2.1 2.4zm7 0c-1.2 0-2.1-1.1-2.1-2.4s.9-2.4 2.1-2.4 2.2 1.1 2.1 2.4c0 1.3-.9 2.4-2.1 2.4z"/></svg></span>
+          <span class="trust-t"><small data-i="tbl">Доверяют</small><b data-i="tb2">5 000 пользователей</b></span>
+        </div>
     </div>
-  </div>
-  <div class="app" data-rv="t"><div class="win">
+    <div class="hero-r">
+      <div class="app" data-rv="t"><div class="win">
     <div class="tb"><span data-i="tb">Сравнение до / после</span></div>
     <div class="scene" id="scene">
           <img id="after" src="assets/after.jpg" alt="С Crysea">
@@ -50,20 +53,25 @@
         <div class="ctrl"><span data-i="rng">Сила усиления</span><input type="range" id="rng" min="0" max="300" value="230" aria-label="Сила усиления"><b id="v2">230%</b></div>
   </div>
 </div>
+    </div>
+  </div>
 </div>
 
 <section id="reviews"><div class="wrap">
-  <div class="head" data-rv><h2 data-i="rh">Отзывы</h2></div>
-  <div class="legend" data-rv="b">
-    <div><span class="tag"><svg class="ic"><use href="#i-user"/></svg><span data-i="ts">Отзыв с сайта</span></span><span data-i="rl1">Оставлен через аккаунт Crysea.</span></div>
-    <div><span class="tag"><svg class="ic"><use href="#i-chat"/></svg><span data-i="td">Отзыв из Discord</span></span><span data-i="rl2">Из нашего Discord, слово в слово. Имена сокращены до буквы.</span></div>
+  <div class="rv2">
+    <div class="rv2-cards" id="rv2Cards" aria-live="polite"></div>
+    <div class="rv2-center" data-rv="t">
+      <h2 data-i="rh2">Лучшие уже <em>с нами!</em></h2>
+      <p class="rv2-sub" data-i="rp2">Вот что говорят авторы, которые уже сотрудничают с нами и получают стабильные выплаты</p>
+      <div class="rv2-count" id="rv2Count" hidden><span class="rv2-stack" id="rv2Stack"></span><span id="rv2CountTxt"></span></div>
+      <a class="btn rv2-join" href="/account#partner" data-i="rjoin">Присоединиться</a>
+    </div>
   </div>
-</div>
-<div class="marq" id="marq"><div class="track" id="track"></div></div>
-<div class="wrap">
+  <div class="marq" id="marq" style="display:none"><div class="track" id="track"></div></div>
   <div class="rtool"><button class="btn s" id="pz" type="button"><svg class="ic" style="width:16px;height:16px"><use href="#i-pause"/></svg><span data-i="pa">Пауза</span></button><button class="btn s" id="ob" type="button"><svg class="ic" style="width:16px;height:16px"><use href="#i-plus"/></svg><span data-i="wr">Оставить отзыв</span></button></div>
   <form id="rf"><input id="rn" maxlength="24" required placeholder="Имя" data-ph="nm"><textarea id="rt" maxlength="220" required placeholder="Ваш отзыв" data-ph="tx"></textarea><button class="btn p" type="submit" data-i="sb">Отправить</button></form>
 </div></section>
+
 
 <section id="pricing"><div class="wrap">
   <div class="head" data-rv><h2 data-i="ph">Free, Pro или Plus</h2><p data-i="pp">Начните бесплатно, платите, когда понадобится больше.</p></div>
@@ -75,13 +83,20 @@
 </div></section>
 
 <section id="partners"><div class="wrap">
-  <div class="head" data-rv><h2 data-i="pth">Партнёрская программа</h2><p data-i="ptp">Для авторов, которые снимают видео про Crysea.</p></div>
-  <div class="pgrid" data-rv="s">
-    <article class="card"><h3 data-i="pt1t">Порог</h3><p data-i="pt1d">500 подписчиков и регулярно от 2 000 просмотров на видео.</p></article>
-    <article class="card"><h3 data-i="pt2t">Работа</h3><p data-i="pt2d">2 видео о Crysea в неделю. Оплата за видео ежемесячно.</p></article>
-    <article class="card"><h3 data-i="pt3t">Заработок</h3><p data-i="pt3d">Личный промокод: 10% с каждой покупки по нему.</p></article>
+  <div class="pz" data-rv="t">
+    <div class="pz-l">
+      <span class="pz-tag" data-i="pzt">Партнёрская программа</span>
+      <h2 data-i="pzh">Станьте партнёром Crysea</h2>
+      <p data-i="pzp">Для авторов, которые снимают видео про Crysea. Личный промокод, комиссия с каждой покупки и оплата за видео.</p>
+      <a class="btn p" href="/account#partner" data-i="pzb">Подать заявку</a>
+    </div>
+    <div class="pz-r">
+      <div class="pz-stat"><b>500+</b><span data-i="pz1">подписчиков на канале</span></div>
+      <div class="pz-stat"><b>2 000+</b><span data-i="pz2">средних просмотров на видео</span></div>
+      <div class="pz-stat"><b>2</b><span data-i="pz3">видео о Crysea в неделю</span></div>
+      <div class="pz-stat"><b>10%</b><span data-i="pz4">с каждой покупки по вашему коду</span></div>
+    </div>
   </div>
-  <div class="cta" style="justify-content:center;margin-top:34px"><a class="btn p" href="/account#partner" data-i="ptb">Подать заявку</a></div>
 </div></section>
 
 <section id="faq"><div class="wrap">
@@ -155,5 +170,6 @@
 <script src="config.js"></script>
 <script src="script.js" defer></script>
 <script src="auth.js" defer></script>
+<script src="reviews.js" defer></script>
 </body>
 </html>

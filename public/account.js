@@ -79,7 +79,7 @@
       sales: 'Продаж по коду', due: 'Комиссия к выплате', paid: 'Выплачено', fee: 'Оплата за видео', feeNo: 'по договорённости',
       hist: 'Начисления', noHist: 'Начислений пока нет', comm: 'Комиссия', feeRow: (p) => `Оплата за видео, ${p}`,
       st: { accrued: 'Начислено', paid: 'Выплачено' }, cur: (v) => v.toLocaleString('ru-RU') + ' ₽',
-      okSub: 'Подписчики', okViews: 'Просмотры', done: 'выполнено', todo: 'не хватает', errCh: 'Вставьте ссылку на канал, например https://youtube.com/@name',
+      fl1: 'Заявка отправлена', fl2: 'Проверка канала', fl3: 'Активация и промокод', okSub: 'Подписчики', okViews: 'Просмотры', done: 'выполнено', todo: 'не хватает', errCh: 'Вставьте ссылку на канал, например https://youtube.com/@name',
       errNum: 'Укажите подписчиков и просмотры числами', errExists: 'Заявка уже отправлена', errLimit: 'Слишком много попыток, попробуйте позже', errNet: 'Нет связи с сервером'
     },
     en: {
@@ -92,7 +92,7 @@
       sales: 'Sales with your code', due: 'Commission due', paid: 'Paid out', fee: 'Video payment', feeNo: 'by agreement',
       hist: 'Earnings', noHist: 'No earnings yet', comm: 'Commission', feeRow: (p) => `Video payment, ${p}`,
       st: { accrued: 'Accrued', paid: 'Paid' }, cur: (v) => v.toLocaleString('en-GB') + ' ₽',
-      okSub: 'Subscribers', okViews: 'Views', done: 'done', todo: 'short by', errCh: 'Paste a channel link, for example https://youtube.com/@name',
+      fl1: 'Application sent', fl2: 'Channel review', fl3: 'Activation and code', okSub: 'Subscribers', okViews: 'Views', done: 'done', todo: 'short by', errCh: 'Paste a channel link, for example https://youtube.com/@name',
       errNum: 'Enter subscribers and views as numbers', errExists: 'Application already sent', errLimit: 'Too many attempts, try again later', errNet: 'Cannot reach the server'
     }
   };
@@ -162,7 +162,8 @@
     const t = PT[lang], box = $('#partner'), pt = partnerData && partnerData.partner;
     const terms = (partnerData && partnerData.terms) || { subs: 500, views: 2000, commission: 10 };
     const req = (ok, label, have, need) => `<li class="${ok ? 'met' : ''}">${ic(ok ? 'ok' : 'clock')}<span>${esc(label)}: <b>${have.toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-GB')}</b> / ${need.toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-GB')} ${ok ? '' : ''}</span></li>`;
-    const reqBlock = (subs, views) => `<ul class="preq">${req(subs >= terms.subs, t.okSub, subs, terms.subs)}${req(views >= terms.views, t.okViews, views, terms.views)}</ul>`;
+    const bar = (ok, label, have, need) => `<div class="pbar${ok ? ' met' : ''}"><div class="pbar-h"><span>${esc(label)}</span><b>${have.toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-GB')} / ${need.toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-GB')}</b></div><div class="pbar-t"><i style="width:${Math.min(100, Math.round(have / need * 100))}%"></i></div></div>`;
+    const reqBlock = (subs, views) => `<div class="pbars">${bar(subs >= terms.subs, t.okSub, subs, terms.subs)}${bar(views >= terms.views, t.okViews, views, terms.views)}</div>`;
     if (!pt) {
       box.innerHTML = `<div class="card ac-card pcard">
         <h2>${esc(t.h)}</h2>
@@ -185,6 +186,7 @@
     box.innerHTML = `<div class="card ac-card pcard">
       <h2>${esc(st[0])}</h2>
       ${st[1] ? `<p>${esc(st[1])}</p>` : ''}
+      ${pt.status === 'pending' ? `<div class="pflow"><div class="pf done"><b>✓</b><span>${esc(t.fl1)}</span></div><div class="pf cur"><b>2</b><span>${esc(t.fl2)}</span></div><div class="pf"><b>3</b><span>${esc(t.fl3)}</span></div></div>` : ''}
       ${pt.status === 'active' || pt.status === 'paused' ? `
         <div class="pcode"><small>${esc(t.code)}</small><div class="pcode-row"><b>${esc(pt.code || '')}</b><button class="btn s" type="button" data-copy="${esc(pt.code || '')}">${esc(t.copy)}</button></div>
         <span class="sub">${esc(t.disc(pt.discount ?? 10))}</span></div>` : ''}
