@@ -838,3 +838,15 @@ html.js [data-rv="t"]:not(.in){translate:0 56px;filter:blur(10px)}
 #partner .phist{margin:0 0 16px}
 #partner .ac-list{padding:6px 10px}
 @media(max-width:640px){#partner .pcard{padding:28px 22px}#partner .pform-row{grid-template-columns:1fr}}
+
+/* ===== Кнопки тарифов: прозрачное стекло (размытие фона за кнопкой, светлая кромка) ===== */
+.plan .btn,.plan .btn.p,.plan.hot .btn.p{
+  background:rgba(255,255,255,.06)!important;
+  -webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.18)!important;color:#f4f4f7!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.04),0 8px 24px rgba(0,0,0,.25)!important;
+}
+.plan .btn:hover{background:rgba(255,255,255,.13)!important;border-color:rgba(255,255,255,.32)!important}
+.plan.hot .btn.p{background:rgba(200,145,58,.16)!important;border-color:rgba(200,145,58,.5)!important;color:#f6dcaa!important}
+.plan.hot .btn.p:hover{background:rgba(200,145,58,.28)!important;border-color:rgba(200,145,58,.75)!important;color:#fff!important}
+.plan .btn::after{display:none}
