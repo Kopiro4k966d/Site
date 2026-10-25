@@ -7,7 +7,7 @@
     'section h2', '.head', '.lead', '.card', '.pz', '.news .rel', '.faq details',
     '.ac-card', '.pcard', '.ac-stats > div', '.pz-stat', '.trust', '.pz-tag', '.app', '.plan'
   ].join(',');
-  const VARIANTS = ['t', 'l', 'r', 's', 'b'];
+  const VARIANTS = ['t'];
   const targets = [];
   document.querySelectorAll(SEL).forEach((el) => {
     if (el.hasAttribute('data-rv') || el.closest('[data-rv]') || el.closest('.mo')) return;
@@ -24,7 +24,7 @@
   groups.forEach((list) => {
     list.forEach((el, i) => {
       el.setAttribute('data-rv', VARIANTS[i % VARIANTS.length]);
-      el.style.setProperty('--d', ((i % 4) * 0.1).toFixed(2) + 's');
+      el.style.setProperty('--d', ((i % 4) * 0.08).toFixed(2) + 's');
     });
   });
   const io = new IntersectionObserver((entries) => {

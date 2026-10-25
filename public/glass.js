@@ -8,10 +8,10 @@
   const CFG = { border: 0.07, blur: 11, bright: 50, opacity: 0.93, distortion: -180, offsets: [0, 10, 20], saturation: 1 };
 
   const BLUR_SEL = '.pill, .md, .btn:not(.p), .chip, .dlopt';
-  const SVG_SEL = '.app, .card, .pz, .news .rel, .faq details, .rv2-card';
+  const SVG_SEL = '.app, .card, .pz, .news .rel, .faq details, .rv2-card, .plan, .pcard, .steps, .ac-list, .pf';
   const isGlass = (el) => el.classList.contains('glass') || el.classList.contains('glass-blur');
   const nested = (el) => !!(el.parentElement && el.parentElement.closest('.glass, .glass-blur'));
-  const skip = (el) => isGlass(el) || nested(el) || el.matches('.plan');
+  const skip = (el) => isGlass(el) || nested(el);
 
   const blur = (el) => {
     el.classList.add('glass-blur');
