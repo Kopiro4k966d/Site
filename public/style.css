@@ -601,3 +601,41 @@ html.js [data-rv].in{opacity:1;translate:0 0;scale:1;filter:none;transition:opac
 .pf.done{color:#fff}.pf.done b{background:#fff;color:#0b0c10;border-color:#fff}
 .pf.cur{color:#fff}.pf.cur b{border-color:#fff}
 @media(max-width:600px){.pflow{grid-template-columns:1fr}}
+
+/* ===== Окна не сдвигаются при открытии модалки: полоса прокрутки всегда на месте ===== */
+html{scrollbar-gutter:stable}
+
+/* ===== Модуль помощи: контакты слева, вопросы справа ===== */
+.help{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:14px;align-items:start}
+.hcol{display:grid;gap:12px}
+.hc{display:grid;gap:8px;padding:22px 24px;border-radius:24px;border:1px solid #1f1f25;background:#0d0d10;transition:border-color .2s}
+.hc:hover{border-color:#34343e}
+.hc-t{display:flex;align-items:center;gap:10px;color:#fff}
+.hc-t .ic{width:18px;height:18px}
+.hc-t b{font-weight:600;font-size:.98rem}
+.hc-d{color:var(--faint);font-size:.86rem;line-height:1.4}
+.hc-l{color:#fff;font-size:.86rem;margin-top:4px}
+.help .hfaq{max-width:none;margin:0;gap:12px}
+.hfaq{counter-reset:hq}
+.hfaq details{counter-increment:hq;border-radius:22px}
+.hfaq summary span::before{content:counter(hq,decimal-leading-zero);color:var(--faint);font-size:.8rem;font-weight:500;margin-right:14px;font-variant-numeric:tabular-nums}
+@media(max-width:900px){.help{grid-template-columns:1fr}}
+
+/* ===== Футер: колонки ссылок и нижняя строка, без логотипа ===== */
+footer.ft{margin-top:120px;padding:64px 0 36px;border-top:1px solid #17171c;text-align:left;color:var(--muted);font-size:.92rem;background:none}
+.ft-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:40px;align-items:start}
+.ft-brand{font:700 1.2rem var(--fd);color:#fff;letter-spacing:-.02em;margin-bottom:10px}
+.ft-about p{margin:0 0 20px;max-width:320px;line-height:1.5}
+.ft-soc{display:flex;gap:10px;flex-wrap:wrap}
+.ftb{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border:1px solid #23232b;border-radius:99px;color:#fff;font-weight:600;font-size:.88rem;background:#0a0a0c}
+.ftb:hover{border-color:#44444f}
+.ftb .ic{width:16px;height:16px;fill:currentColor;stroke:none}
+.ft-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.ft-cols h4{margin:0 0 14px;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.ft-cols a{display:block;padding:5px 0;color:#d6d6dc;transition:color .2s}
+.ft-cols a:hover{color:#fff}
+.ft-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:56px;padding-top:24px;border-top:1px solid #17171c;font-size:.82rem;color:var(--faint)}
+.ft-bot a{color:var(--muted)}
+.ft-bot a:hover{color:#fff}
+@media(max-width:820px){.ft-top{grid-template-columns:1fr}.ft-cols{grid-template-columns:1fr 1fr}}
+footer.ft .ft-about p{margin:0 0 20px;max-width:320px;text-align:left}
