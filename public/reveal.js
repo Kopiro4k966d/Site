@@ -49,10 +49,10 @@
     io.observe(el); /* чтобы класс .in появился и слова выехали, даже если заголовок не в общем списке */
   });
 
-  /* 2) карточки и тарифы реагируют на мышь: плавный наклон за курсором (только при наличии мыши) */
+  /* 2) отзывы реагируют на мышь: плавный наклон за курсором (только при наличии мыши). Карточки с преломлением и тарифы не трогаем: 3D-трансформация ломает стеклянный фильтр */
   const fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (fine) {
-    document.querySelectorAll('.card, .plan, .rv').forEach((el) => {
+    document.querySelectorAll('.rv').forEach((el) => {
       el.classList.add('tilt');
       el.addEventListener('pointermove', (e) => {
         const r = el.getBoundingClientRect();

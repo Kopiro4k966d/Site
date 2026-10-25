@@ -907,7 +907,7 @@ html.js .wsp{display:inline-block;overflow:hidden;vertical-align:top;padding:.04
 html.js .wsp>span{display:inline-block;transform:translateY(105%) rotate(5deg);transform-origin:0 100%;opacity:0;filter:blur(8px);transition:transform 1.05s cubic-bezier(.16,1,.3,1) calc(var(--d,0s) + var(--wi,0) * 55ms),opacity .7s ease calc(var(--d,0s) + var(--wi,0) * 55ms),filter .8s ease calc(var(--d,0s) + var(--wi,0) * 55ms)}
 html.js .in .wsp>span,html.js section h2.in .wsp>span{transform:none;opacity:1;filter:none}
 html.js [data-rv="s"]:not(.in),html.js .card[data-rv]:not(.in),html.js .plan[data-rv]:not(.in){rotate:x 14deg}
-html.js .card.in,html.js .plan.in,html.js .rv.in{rotate:x 0deg;transition:opacity .9s var(--ease) var(--d,0ms),translate 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),scale 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),rotate 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),filter .9s var(--ease) var(--d,0ms)}
+html.js .card.in,html.js .plan.in,html.js .rv.in{rotate:none;transition:opacity .9s var(--ease) var(--d,0ms),translate 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),scale 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),rotate 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),filter .9s var(--ease) var(--d,0ms)}
 html.js .tilt{transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 html.js .tilt.in{transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .9s var(--ease) var(--d,0ms),translate 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),scale 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),rotate 1.1s cubic-bezier(.16,1,.3,1) var(--d,0ms),filter .9s var(--ease) var(--d,0ms)}
 @media(prefers-reduced-motion:reduce){html.js .wsp>span{transform:none;opacity:1;filter:none;transition:none}html.js .card[data-rv],html.js .plan[data-rv]{rotate:none}html.js .tilt{transition:none}}
@@ -922,3 +922,14 @@ html.js .wsp>span{transition:transform 1s cubic-bezier(.16,1,.3,1) min(calc(var(
   .trust-t b{white-space:nowrap}
   .trust-t small{white-space:nowrap}
 }
+
+/* ===== Фикс стекла на тарифах: без 3D-трансформаций и без SVG-преломления, только блюр ===== */
+.plan{transform:none!important}
+.plan:hover{transform:translateY(-3px)!important}
+
+/* ===== Окна входа и оплаты: стекло ===== */
+.md.pay,.md.auth{background:rgba(14,15,19,.56)!important;-webkit-backdrop-filter:blur(26px) saturate(1.35)!important;backdrop-filter:blur(26px) saturate(1.35)!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 30px 80px rgba(0,0,0,.5)!important}
+
+/* ===== Окно оплаты: выбранный способ отмечается точкой ===== */
+.pay .meth button{position:relative}
+.pay .meth button.on::after{content:"";position:absolute;top:14px;right:14px;width:10px;height:10px;border-radius:50%;background:#f4f4f7;box-shadow:0 0 0 3px rgba(255,255,255,.18)}
