@@ -94,7 +94,7 @@
     el.classList.add('glass');
   };
 
-  const SELECTOR = '.app, .card, .plan, .pz, .news .rel, .faq details';
+  const SELECTOR = '.pill, .app, .card, .plan, .pz, .news .rel, .faq details, .rv2-card, .md, .chip, .dlopt, .btn:not(.p)';
   const setup = () => document.querySelectorAll(SELECTOR).forEach((el) => { if (!el.classList.contains('glass')) build(el); });
   setup();
   // новые карточки (после рендера списков) тоже получают стекло

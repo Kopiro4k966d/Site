@@ -702,3 +702,24 @@ footer.ft .ft-about p{margin:0 0 20px;max-width:320px;text-align:left}
 .md,.md.auth,.md.pay{background:#0f0f12!important;border:1px solid #232328!important;animation:mdIn .55s cubic-bezier(.2,.8,.2,1) both}
 @keyframes mdIn{from{opacity:0;transform:translateY(28px) scale(.94);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
 .md .btn.p,.pay .btn.p{background:#fff}
+
+/* ===== Стекло для всего: модалки плотнее, кнопки и шапка светлее ===== */
+.md.glass{background:rgba(14,14,18,.72)!important}
+.pill.glass{background:rgba(16,16,20,.42)!important}
+.btn.glass:not(.p){background:rgba(255,255,255,.06)!important;border-color:rgba(255,255,255,.16)!important}
+.btn.glass:not(.p):hover{background:rgba(255,255,255,.12)!important}
+.chip.glass,.dlopt.glass{background:rgba(16,16,20,.5)!important}
+
+/* ===== Плавное появление окон входа, регистрации и оплаты ===== */
+.mo{animation:moIn .45s ease both}
+@keyframes moIn{from{opacity:0;backdrop-filter:blur(0)}to{opacity:1}}
+.md,.md.auth,.md.pay{animation:mdIn .8s cubic-bezier(.16,1,.3,1) both}
+@keyframes mdIn{0%{opacity:0;transform:translateY(40px) scale(.9);filter:blur(12px)}60%{filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
+.md .f,.md .btn,.md .or,.md .oauth,.md .note,.md .sub{animation:rise .6s var(--ease) both}
+.md .f:nth-of-type(1){animation-delay:.25s}.md .f:nth-of-type(2){animation-delay:.32s}
+.md .btn.p{animation-delay:.4s}
+
+/* ===== Отзывы влетают с разных сторон при прокрутке ===== */
+.rv2-card{opacity:0;translate:var(--x,0) var(--y,40px);transition:opacity .9s var(--ease) var(--d,0s),translate 1.1s var(--ease) var(--d,0s)}
+.rv2-card.in{opacity:1;translate:0 0}
+@media(prefers-reduced-motion:reduce){.rv2-card{opacity:1;translate:none}}
