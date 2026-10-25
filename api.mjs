@@ -5,6 +5,19 @@ import crypto from 'node:crypto';
 export const config = { path: '/api/*' };
 
 const PLANS = { pro: { name: 'Pro', price: 199 }, plus: { name: 'Plus', price: 399 } };
+/* Условия партнёрки: порог по подписчикам и средним просмотрам, 2 видео в неделю, комиссия по умолчанию 10% */
+const PARTNER = { subs: 500, views: 2000, perWeek: 2, commission: 10, discount: 10 };
+const PARTNER_SQL = `select p.*, u.email, u.name, c.percent as discount,
+  (select coalesce(sum(l.amount_rub),0) from partner_ledger l where l.partner_id=p.id and l.kind='commission' and l.status='accrued') as comm_due,
+  (select coalesce(sum(l.amount_rub),0) from partner_ledger l where l.partner_id=p.id and l.kind='commission' and l.status='paid') as comm_paid,
+  (select coalesce(sum(l.amount_rub),0) from partner_ledger l where l.partner_id=p.id and l.kind='fee') as fee_total,
+  (select count(*) from payments x where x.promo=p.code and x.status in ('paid','demo')) as sales
+  from partners p join users u on u.id=p.user_id left join promo_codes c on c.code=p.code`;
+const shapePartner = (r) => ({ id: r.id, userId: r.user_id, email: r.email, name: r.name, channel: r.channel, subs: r.subs, views: r.avg_views,
+  status: r.status, code: r.code, discount: r.discount == null ? null : Number(r.discount), commission: r.commission_pct, fee: r.fee_rub,
+  due: Number(r.comm_due), paid: Number(r.comm_paid), feeTotal: Number(r.fee_total), sales: Number(r.sales), created: new Date(r.created_at).toISOString() });
+const partnerForUser = (pt) => pt && { status: pt.status, channel: pt.channel, subs: pt.subs, views: pt.views, code: pt.code, discount: pt.discount,
+  commission: pt.commission, fee: pt.fee, due: pt.due, paid: pt.paid, feeTotal: pt.feeTotal, sales: pt.sales, created: pt.created, ledger: pt.ledger };
 const YK_METHODS = { sbp: 'sbp', card: 'bank_card', sber: 'sberbank', ym: 'yoo_money' };
 const sha = (s) => crypto.createHash('sha256').update(s).digest('hex');
 const scrypt = (p, salt) => new Promise((res, rej) => crypto.scrypt(p, salt, 64, (e, k) => (e ? rej(e) : res(k.toString('hex')))));
@@ -27,6 +40,37 @@ create table if not exists oauth_pending (
   expires_at timestamptz not null
 );`;
 
+
+/* Таблицы партнёрки создаются автоматически при первом запросе (то же, что в db/schema.sql) */
+const PARTNER_DDL = `
+create table if not exists partners (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null unique references users(id) on delete cascade,
+  channel text not null,
+  subs integer not null default 0,
+  avg_views integer not null default 0,
+  status text not null default 'pending' check (status in ('pending','active','paused','rejected')),
+  code text unique references promo_codes(code) on delete set null,
+  commission_pct integer not null default 10 check (commission_pct between 1 and 50),
+  fee_rub integer not null default 0 check (fee_rub >= 0),
+  created_at timestamptz not null default now()
+);
+create table if not exists partner_ledger (
+  id uuid primary key default gen_random_uuid(),
+  partner_id uuid not null references partners(id) on delete cascade,
+  kind text not null check (kind in ('commission','fee')),
+  amount_rub integer not null,
+  payment_id uuid unique references payments(id) on delete set null,
+  period text,
+  status text not null default 'accrued' check (status in ('accrued','paid')),
+  created_at timestamptz not null default now(),
+  paid_at timestamptz,
+  unique (partner_id, kind, period)
+);
+create index if not exists partner_ledger_partner_idx on partner_ledger(partner_id);
+alter table partners enable row level security;
+alter table partner_ledger enable row level security;`;
+
 /* ---------- Хранилище PostgreSQL ---------- */
 export function pgStore(env = process.env) {
   let pool, migrated;
@@ -36,7 +80,7 @@ export function pgStore(env = process.env) {
       pool = new pg.Pool({ connectionString: env.DATABASE_URL, max: 1, idleTimeoutMillis: 10000,
         ssl: env.DATABASE_SSL === 'off' ? false : { rejectUnauthorized: false } });
     }
-    if (!migrated) migrated = pool.query(OAUTH_SQL).catch((e) => { console.error('oauth migrate', e); });
+    if (!migrated) migrated = pool.query(OAUTH_SQL + PARTNER_DDL).catch((e) => { console.error('db migrate', e); });
     await migrated;
     return (await pool.query(text, params)).rows;
   };
@@ -104,12 +148,51 @@ export function pgStore(env = process.env) {
     async addReview(userId, name, text) { await q('insert into reviews(user_id,name,text) values($1,$2,$3)', [userId, name, text]); },
     async setProviderId(id, providerId) { await q('update payments set provider_id=$2 where id=$1', [id, providerId]); },
     async markPaid(providerId) { // атомарно: вернёт строку только при первом подтверждении
-      return (await q(`update payments set status='paid', paid_at=now() where provider_id=$1 and status<>'paid' returning user_id, plan`, [providerId]))[0] || null;
+      return (await q(`update payments set status='paid', paid_at=now() where provider_id=$1 and status<>'paid' returning id, user_id, plan`, [providerId]))[0] || null;
     },
     async activatePlan(userId, plan) {
       return norm((await q(`update users set plan=$2,
         plan_until=(case when plan_until is not null and plan_until>now() then plan_until else now() end)+interval '1 month'
         where id=$1 returning *`, [userId, plan]))[0]);
+    },
+    /* ---------- партнёрская программа ---------- */
+    async partner(col, val) {
+      const r = (await q(PARTNER_SQL + ` where ${col === 'id' ? 'p.id' : 'p.user_id'}=$1`, [val]))[0];
+      if (!r) return null;
+      const ledger = await q('select kind,amount_rub,period,status,created_at,paid_at from partner_ledger where partner_id=$1 order by created_at desc limit 40', [r.id]);
+      return { ...shapePartner(r), ledger: ledger.map((l) => ({ kind: l.kind, amount: l.amount_rub, period: l.period, status: l.status,
+        date: new Date(l.created_at).toISOString(), paid: l.paid_at ? new Date(l.paid_at).toISOString() : null })) };
+    },
+    async partners() { return (await q(PARTNER_SQL + ' order by p.created_at desc')).map(shapePartner); },
+    async partnerApply(userId, channel, subs, views) {
+      await q('insert into partners(user_id,channel,subs,avg_views) values($1,$2,$3,$4)', [userId, channel, subs, views]);
+    },
+    async partnerSave(id, f) {
+      await q('update partners set status=$2, subs=$3, avg_views=$4, fee_rub=$5, commission_pct=$6, code=$7 where id=$1',
+        [id, f.status, f.subs, f.views, f.fee, f.commission, f.code]);
+    },
+    /* код свободен, если его нет среди промокодов или он уже закреплён за этим партнёром */
+    async codeFree(code, partnerId) {
+      return (await q(`select 1 from promo_codes c where c.code=$1 and not exists (select 1 from partners p where p.code=c.code and p.id=$2)`, [code, partnerId])).length === 0;
+    },
+    async promoUpsert(code, percent, creator, active) {
+      await q(`insert into promo_codes(code,percent,creator,max_uses,active) values($1,$2,$3,null,$4)
+        on conflict(code) do update set percent=$2, creator=$3, active=$4`, [code, percent, creator, active]);
+    },
+    async ledgerFee(partnerId, period, amount) {
+      return (await q(`insert into partner_ledger(partner_id,kind,amount_rub,period) values($1,'fee',$2,$3)
+        on conflict do nothing returning id`, [partnerId, amount, period])).length > 0;
+    },
+    async ledgerPaid(partnerId) {
+      await q(`update partner_ledger set status='paid', paid_at=now() where partner_id=$1 and status='accrued'`, [partnerId]);
+    },
+    /* комиссия 10% от оплаченной суммы, если покупка сделана по коду активного партнёра (не самим партнёром) */
+    async accrueCommission(paymentId) {
+      await q(`insert into partner_ledger(partner_id,kind,amount_rub,payment_id)
+        select pt.id,'commission',round(p.amount_rub*pt.commission_pct/100.0)::int,p.id
+        from payments p join partners pt on pt.code=p.promo
+        where p.id=$1 and p.status in ('paid','demo') and pt.status='active' and pt.user_id<>p.user_id
+        on conflict (payment_id) do nothing`, [paymentId]);
     },
   };
 }
@@ -255,8 +338,49 @@ export function makeHandler(db, env = process.env) {
       const id = b && b.object && b.object.id;
       if (!livePay() || !id) return J(200, {});
       const pay = await yk('GET', '/payments/' + encodeURIComponent(id));
-      if (pay.status === 'succeeded' && pay.paid) { const row = await db.markPaid(id); if (row) await db.activatePlan(row.user_id, row.plan); }
+      if (pay.status === 'succeeded' && pay.paid) { const row = await db.markPaid(id); if (row) { await db.activatePlan(row.user_id, row.plan); await db.accrueCommission(row.id); } }
       return J(200, {});
+    }
+
+    /* ---------- Админка партнёров: заголовок x-admin-key = переменная ADMIN_KEY ---------- */
+    if (p.startsWith('/admin/')) {
+      const want = String(env.ADMIN_KEY || ''), got = req.headers.get('x-admin-key') || '';
+      const okKey = want.length >= 24 && got.length === want.length && crypto.timingSafeEqual(Buffer.from(got), Buffer.from(want));
+      if (!okKey) return fail(401, 'admin');
+      if (m === 'GET' && p === '/admin/partners') return J(200, { partners: await db.partners(), terms: PARTNER });
+      if (m === 'POST' && (p === '/admin/partner' || p === '/admin/fee' || p === '/admin/paid')) {
+        const id = String(b.id || '');
+        if (!/^[0-9a-f-]{36}$/i.test(id)) return fail(400, 'id');
+        const pt = await db.partner('id', id); if (!pt) return fail(404, 'nf');
+        if (p === '/admin/fee') {
+          const period = String(b.period || '');
+          if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(period)) return fail(400, 'period');
+          const amount = Number.isFinite(+b.amount) ? Math.round(+b.amount) : pt.fee;
+          if (!(amount > 0 && amount <= 10000000)) return fail(400, 'amount');
+          return J(200, { created: await db.ledgerFee(pt.id, period, amount) });
+        }
+        if (p === '/admin/paid') { await db.ledgerPaid(pt.id); return J(200, { ok: true }); }
+        /* изменение партнёра: статус, цифры, код, скидка покупателю, комиссия, оплата за видео */
+        const status = String(b.status || pt.status);
+        if (!['pending', 'active', 'paused', 'rejected'].includes(status)) return fail(400, 'status');
+        const num = (v, d) => (Number.isFinite(+v) && v !== '' && v != null ? Math.round(+v) : d);
+        const subs = num(b.subs, pt.subs), views = num(b.views, pt.views), fee = Math.max(0, num(b.fee, pt.fee));
+        const discount = num(b.discount, pt.discount == null ? PARTNER.discount : pt.discount);
+        const commission = num(b.commission, pt.commission);
+        if (discount < 1 || discount > 90) return fail(400, 'discount');
+        if (commission < 1 || commission > 50) return fail(400, 'commission');
+        if (status === 'active' && (subs < PARTNER.subs || views < PARTNER.views)) return fail(422, 'requirements');
+        let code = String(b.code || pt.code || '').trim().toUpperCase();
+        if (!code && status === 'active') code = 'CR' + crypto.randomBytes(3).toString('hex').toUpperCase();
+        if (code && !/^[A-Z0-9_-]{3,24}$/.test(code)) return fail(400, 'code');
+        if (code && !(await db.codeFree(code, pt.id))) return fail(409, 'code_taken');
+        if (pt.code && pt.code !== code) await db.promoUpsert(pt.code, discount, pt.name, false);
+        /* промокод создаём раньше партнёра: partners.code ссылается на promo_codes (внешний ключ) */
+        if (code) await db.promoUpsert(code, discount, pt.name, status === 'active');
+        await db.partnerSave(pt.id, { status, subs, views, fee, commission, code: code || null });
+        return J(200, { partner: await db.partner('id', pt.id) });
+      }
+      return fail(404, 'nf');
     }
 
     const t = (req.headers.get('authorization') || '').replace(/^Bearer /, '');
@@ -285,6 +409,17 @@ export function makeHandler(db, env = process.env) {
       return J(200, { user: await pub(await db.setPromo(u.id, pr.code)) });
     }
     if (m === 'GET' && p === '/payments') return J(200, { payments: await db.payments(u.id) });
+    if (m === 'GET' && p === '/partner') return J(200, { partner: partnerForUser(await db.partner('user_id', u.id)), terms: PARTNER });
+    if (m === 'POST' && p === '/partner/apply') {
+      if (await db.hit('apply:' + u.id) > 5) return fail(429, 'limit');
+      const channel = String(b.channel || '').trim().slice(0, 200);
+      if (!/^https?:\/\/\S+\.\S+$/.test(channel)) return fail(400, 'channel');
+      const subs = Math.round(Number(b.subs)), views = Math.round(Number(b.views));
+      if (!(subs >= 0 && subs <= 1e9 && views >= 0 && views <= 1e9)) return fail(400, 'numbers');
+      if (await db.partner('user_id', u.id)) return fail(409, 'exists');
+      try { await db.partnerApply(u.id, channel, subs, views); } catch (e) { return fail(409, 'exists'); }
+      return J(200, { partner: partnerForUser(await db.partner('user_id', u.id)) });
+    }
     if (m === 'GET' && p === '/sync') return J(200, { data: u.data, updated: u.updated });
     if (m === 'PUT' && p === '/sync') {
       if (!b.data || typeof b.data !== 'object' || Array.isArray(b.data)) return fail(400, 'data');
@@ -301,7 +436,8 @@ export function makeHandler(db, env = process.env) {
       const method = String(b.method || 'card');
       const pr = u.promo ? await db.promoByCode(u.promo) : null, amount = priceFor(pl, pr && !(pr.max && pr.uses >= pr.max) ? pr : null);
       if (mode === 'demo') {
-        await db.createPayment({ userId: u.id, plan: b.plan, amount, method, provider: 'demo', status: 'demo', promo: pr && pr.code });
+        const did = await db.createPayment({ userId: u.id, plan: b.plan, amount, method, provider: 'demo', status: 'demo', promo: pr && pr.code });
+        await db.accrueCommission(did);
         return J(200, { user: await pub(await db.activatePlan(u.id, b.plan)) });
       }
       if (!YK_METHODS[method]) return fail(400, 'method_off');

@@ -7,17 +7,17 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Manrope:wght@700;800&family=Inter:wght@400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap&subset=cyrillic" rel="stylesheet">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#121212">
+<meta name="theme-color" content="#06070b">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <script src="icons.js"></script>
 
 <div class="top"><div class="pill">
-  <a href="/" class="brand"><span class="logo"><svg class="ic"><use href="#i-logo"/></svg></span>Crysea</a>
-  <nav id="nav"><a href="/#features" data-t="n1">Возможности</a><a href="/#updates" data-t="n2">Обновления</a><a href="/#reviews" data-t="n4">Отзывы</a><a href="/#pricing" data-t="n3">Тарифы</a></nav>
+  <a href="/" class="brand">Crysea</a>
+  <nav id="nav"><a href="/#pricing" data-t="n3">Тарифы</a><a href="/#reviews" data-t="n4">Отзывы</a><a href="/#partners">Партнёрам</a></nav>
   <button class="btn s" id="lang" type="button" aria-label="Language">EN</button>
   <span class="prof" id="profAv" aria-hidden="true">?</span>
   <button class="btn s menu" id="menu" type="button" aria-label="Меню"><svg class="ic"><use href="#i-menu"/></svg></button>
@@ -36,6 +36,7 @@
     <button type="button" class="on" role="tab" data-tab="overview"><svg class="ic"><use href="#i-grid"/></svg><span data-t="tOv">Обзор</span></button>
     <button type="button" role="tab" data-tab="presets"><svg class="ic"><use href="#i-layers"/></svg><span data-t="tPr">Пресеты</span></button>
     <button type="button" role="tab" data-tab="billing"><svg class="ic"><use href="#i-receipt"/></svg><span data-t="tBi">Оплата</span></button>
+    <button type="button" role="tab" data-tab="partner"><svg class="ic"><use href="#i-spark"/></svg><span data-t="tPa">Партнёрам</span></button>
     <button type="button" role="tab" data-tab="settings"><svg class="ic"><use href="#i-gear"/></svg><span data-t="tSe">Настройки</span></button>
   </div>
 
@@ -72,6 +73,8 @@
     <div class="card ac-list" id="history"></div>
     <div class="ac-btns" style="margin-top:14px;max-width:320px"><a class="btn p" href="/#pricing" data-t="chg">Сменить тариф</a></div>
   </section>
+
+  <section class="ac-pane" data-pane="partner" hidden><div id="partner"></div></section>
 
   <section class="ac-pane" data-pane="settings" hidden>
     <div class="card ac-set">
