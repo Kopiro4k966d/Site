@@ -964,3 +964,33 @@ html.js .wsp>span{transition:transform 1s cubic-bezier(.16,1,.3,1) min(calc(var(
 .plan>*{position:relative;z-index:1}
 .plan .tag{position:absolute}
 .plan.hot{background:rgba(0,0,0,.5)!important}
+
+/* ===== Мобильная адаптация (телефоны) ===== */
+@media (max-width:600px){
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{font-size:16px;line-height:1.6}
+  .wrap{width:min(100% - 32px,1120px)}
+  h1{font-size:clamp(2.5rem,11vw,3rem);line-height:1.04;letter-spacing:-.045em}
+  h2{font-size:clamp(2rem,8.5vw,2.5rem);line-height:1.08}
+  .lead,.hero-l p,.cmp2-text p,.rv2-sub{font-size:1.02rem;line-height:1.6}
+  /* касания: кнопки не меньше 44 px по высоте */
+  .pill button,.pill a{min-height:40px;display:inline-flex;align-items:center}
+  .btn{min-height:46px}
+  .btn.s{min-height:40px}
+  /* карточки и отступы */
+  .card{padding:24px 22px}
+  .plan{padding:28px 22px}
+  .plan .price{font-size:3rem}
+  .plan li{font-size:1rem}
+  /* сравнение: подписи не ломаются посередине */
+  .ctrl{gap:12px}
+  .ctrl>span{white-space:nowrap;font-size:13px}
+  .ctrl input[type=range]{min-width:0}
+  /* вертикальный ритм */
+  section{padding-top:96px;padding-bottom:96px}
+  .head{margin-bottom:40px}
+  .faq summary{font-size:1rem;padding:18px 20px;min-height:52px}
+  /* футер читается в одну колонку с нормальными интервалами */
+  .ft-cols{gap:28px 20px}
+  .ft-cols li,.ft-cols a{display:block;padding:6px 0}
+}
