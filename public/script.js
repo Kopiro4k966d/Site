@@ -48,7 +48,11 @@ function mqMeasure(){
   const need=Math.max(2,Math.ceil(marq.clientWidth/mq.period)+1);
   if(c.length!==mq.n*need){track.innerHTML=mq.html.repeat(need)}
 }
+/* лента не нужна, когда её не видно: не тратим кадры на невидимый блок */
+mq.visible=true;
+if('IntersectionObserver' in window){new IntersectionObserver(es=>{mq.visible=es[0].isIntersecting},{rootMargin:'120px'}).observe(marq)}
 function mqTick(t){
+  if(!mq.visible){mq.last=t;requestAnimationFrame(mqTick);return}
   const dt=Math.min(64,t-(mq.last||t));mq.last=t;
   if(mq.period>1&&!mq.paused&&!mq.hover&&!mq.drag&&!document.hidden)mq.x-=mq.speed*dt/1000;
   if(mq.period>1){mq.x=((mq.x%mq.period)-mq.period)%mq.period;track.style.transform=`translate3d(${mq.x}px,0,0)`}
