@@ -3,28 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Crysea — партнёры</title>
-<meta name="robots" content="noindex,nofollow">
+<title>Crysea — админка</title>
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap&subset=cyrillic" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  body{background:#050506}
+  .adm-shell{width:min(100% - 32px,1180px);margin:0 auto;padding:40px 0 96px}
+  .adm-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+  .adm-top h1{font-size:clamp(2rem,5vw,2.8rem);margin:0;text-align:left;max-width:none}
+  .adm-top p{margin:8px 0 0;color:#9a9aa3;max-width:620px;line-height:1.6}
+  .adm-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .adm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+  .adm-kpi{padding:18px 20px;border:1px solid #1f1f24;border-radius:20px;background:#0b0b0d}
+  .adm-kpi small{display:block;color:#8c8c95;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+  .adm-kpi b{display:block;margin-top:8px;font-size:1.6rem;letter-spacing:-.03em}
+  .adm-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .adm-filters button{height:36px;padding:0 14px;border-radius:99px;border:1px solid #2a2a30;background:#0b0b0d;color:#c9c9d0;font:600 13px Inter,sans-serif;cursor:pointer}
+  .adm-filters button[aria-pressed="true"]{background:#fff;color:#111;border-color:#fff}
+  .adm-card{padding:22px;margin-bottom:16px;border-radius:24px;border:1px solid #1f1f24;background:#0b0b0d}
+  .adm-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+  .adm-head h3{margin:0;font-size:1.25rem;text-align:left}
+  .adm-head small{color:#8c8c95;font-size:13px}
+  .adm-head small a{color:#9fe6ee}
+  .adm-metrics{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:18px 0}
+  .adm-metrics>div{padding:12px 14px;border-radius:14px;background:#111114;border:1px solid #1d1d22}
+  .adm-metrics small{display:block;color:#8c8c95;font-size:11.5px}
+  .adm-metrics b{display:block;margin-top:6px;font-size:1.05rem}
+  .adm-metrics b.low{color:#ffb4a8}
+  .adm-group{margin-top:16px;padding-top:16px;border-top:1px solid #1d1d22}
+  .adm-group h4{margin:0 0 10px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#8c8c95}
+  .adm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .adm-grid label{display:grid;gap:6px;font-size:13px;color:#b8b8c0}
+  .adm-grid input,.adm-grid select{height:42px;padding:0 12px;border-radius:12px;border:1px solid #2a2a30;background:#0f0f12;color:#f5f5f7;font:500 14px Inter,sans-serif}
+  .adm-acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+  .adm-acts input{height:40px;width:130px;padding:0 12px;border-radius:12px;border:1px solid #2a2a30;background:#0f0f12;color:#f5f5f7;font:500 14px Inter,sans-serif}
+  .adm-locked{max-width:420px;margin:48px auto 0;padding:28px;border-radius:24px;border:1px solid #1f1f24;background:#0b0b0d}
+  .adm-locked h2{margin:0 0 6px;font-size:1.4rem;text-align:left;max-width:none}
+  .adm-locked p{margin:0 0 18px;color:#8c8c95;font-size:14px;line-height:1.55}
+  .adm-idle{font-size:12px;color:#8c8c95}
+  .adm-empty{color:#8c8c95;padding:32px 0;text-align:center}
+  .adm-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);padding:12px 18px;border-radius:14px;background:#161618;border:1px solid #2a2a30;font-size:14px;z-index:50;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90vw}
+  .adm-toast.show{opacity:1}
+  .adm-toast.bad{border-color:#5a2a26;color:#ffb4a8}
+  .adm-toast.good{border-color:#23504a;color:#9fe6ee}
+  @media (max-width:900px){.adm-stats{grid-template-columns:repeat(2,1fr)}.adm-metrics{grid-template-columns:repeat(3,1fr)}.adm-grid{grid-template-columns:1fr 1fr}}
+  @media (max-width:600px){.adm-stats{grid-template-columns:1fr 1fr}.adm-metrics{grid-template-columns:1fr 1fr}.adm-grid{grid-template-columns:1fr}.adm-acts input{width:100%}.adm-acts .btn{width:100%}}
+</style>
 </head>
 <body>
-<main class="acc" style="padding-top:48px;padding-bottom:80px">
-  <h1 style="max-width:none;text-align:left;font-size:clamp(2rem,5vw,3rem)">Партнёры</h1>
-  <p class="sub">Перед активацией проверьте канал. Статус «Активен» сохранится только при 500 подписчиках и 2 000 средних просмотрах.</p>
+<main class="adm-shell">
 
-  <section id="login" class="card" style="max-width:420px;margin-top:24px">
-    <label class="f"><span>Ключ администратора (ADMIN_KEY)</span><input id="key" type="password" autocomplete="off"></label>
+  <section id="login" class="adm-locked" aria-labelledby="loginTitle">
+    <h2 id="loginTitle">Вход в админку</h2>
+    <p>Доступ только для владельца Crysea. Ключ хранится в памяти вкладки и сбрасывается при выходе, блокировке или закрытии страницы.</p>
+    <label class="f"><span>Ключ администратора</span><input id="key" type="password" autocomplete="off" spellcheck="false"></label>
     <div class="err" id="loginErr" role="alert"></div>
     <button class="btn p w" id="go" type="button">Войти</button>
   </section>
 
   <section id="panel" hidden>
-    <div class="msg" id="msg" role="status"></div>
-    <div id="list" class="adm-list"></div>
+    <header class="adm-top">
+      <div>
+        <h1>Партнёры</h1>
+        <p>Проверяйте канал перед активацией. Статус «Активен» доступен при 500 подписчиках и 2 000 средних просмотрах.</p>
+      </div>
+      <div class="adm-tools">
+        <span class="adm-idle" id="idle"></span>
+        <button class="btn s" id="reload" type="button">Обновить</button>
+        <button class="btn s" id="lock" type="button">Выйти</button>
+      </div>
+    </header>
+
+    <div class="adm-stats" id="kpis" aria-live="polite"></div>
+
+    <nav class="adm-filters" id="filters" aria-label="Фильтр по статусу">
+      <button type="button" data-f="all" aria-pressed="true">Все</button>
+      <button type="button" data-f="pending" aria-pressed="false">Ожидают</button>
+      <button type="button" data-f="active" aria-pressed="false">Активные</button>
+      <button type="button" data-f="paused" aria-pressed="false">На паузе</button>
+      <button type="button" data-f="rejected" aria-pressed="false">Отклонённые</button>
+    </nav>
+
+    <div id="list"></div>
   </section>
 </main>
+
+<div class="adm-toast" id="toast" role="status" aria-live="polite"></div>
 <script src="admin.js"></script>
 </body>
 </html>
