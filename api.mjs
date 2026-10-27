@@ -121,6 +121,7 @@ export function pgStore(env = process.env) {
       return norm((await q('update users set data=$2, data_updated=$3, name=$4, color=$5 where id=$1 returning *', [id, JSON.stringify(data), updated, name, color]))[0]);
     },
     async hit(key) {
+      key = crypto.createHash('sha256').update(String(key)).digest('hex'); // IP в базе только в виде хэша
       return (await q(`insert into rate_limits(key,n,reset_at) values($1,1,now()+interval '10 minutes')
         on conflict(key) do update set
           n = case when rate_limits.reset_at < now() then 1 else rate_limits.n+1 end,

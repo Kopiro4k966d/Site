@@ -1,1 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>.t{fill:#000}.g{fill:#fff}@media (prefers-color-scheme: light){.t{fill:#fff}.g{fill:#111}}</style><rect class="t" width="64" height="64" rx="18"/><g class="g"><path d="M50.05 46.59A21.0 21.0 0 0 1 18.86 45.50L24.22 41.00A14.0 14.0 0 0 0 45.02 41.73Z"/><path d="M17.54 43.74A21.0 21.0 0 0 1 17.54 20.26L23.34 24.17A14.0 14.0 0 0 0 23.34 39.83Z"/><path d="M18.86 18.50A21.0 21.0 0 0 1 50.05 17.41L45.02 22.27A14.0 14.0 0 0 0 24.22 23.00Z"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="chrome" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#15151a"/>
+      <stop offset="0.14" stop-color="#e8e9ee"/>
+      <stop offset="0.3" stop-color="#2a2a31"/>
+      <stop offset="0.46" stop-color="#ffffff"/>
+      <stop offset="0.62" stop-color="#1a1a20"/>
+      <stop offset="0.8" stop-color="#c9ccd6"/>
+      <stop offset="1" stop-color="#101014"/>
+    </linearGradient>
+    <filter id="liquid" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blob"/>
+      <feComponentTransfer in="blob" result="blobT"><feFuncA type="linear" slope="3.2" intercept="-1.1"/></feComponentTransfer>
+      <feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="blobT" in2="noise" scale="26" xChannelSelector="R" yChannelSelector="G" result="shape"/>
+      <feGaussianBlur in="shape" stdDeviation="5" result="soft"/>
+      <feComposite in="SourceGraphic" in2="soft" operator="in" result="fill"/>
+      <feSpecularLighting in="soft" surfaceScale="10" specularConstant="1.2" specularExponent="28" lighting-color="#ffffff" result="spec">
+        <fePointLight x="120" y="70" z="230"/>
+      </feSpecularLighting>
+      <feComposite in="spec" in2="soft" operator="in" result="specIn"/>
+      <feComposite in="fill" in2="specIn" operator="arithmetic" k1="0" k2="1" k3="0.85" k4="0" result="lit"/>
+      <feDropShadow in="lit" dx="0" dy="10" stdDeviation="9" flood-color="#000" flood-opacity="0.7"/>
+    </filter>
+    <radialGradient id="bgGlow" cx="0.5" cy="0.45" r="0.6">
+      <stop offset="0" stop-color="#1a1a20"/>
+      <stop offset="1" stop-color="#050507"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#bgGlow)"/>
+  <rect x="3" y="3" width="506" height="506" rx="113" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/>
+  <path d="M362 150 A150 150 0 1 0 362 362" fill="none" stroke="url(#chrome)" stroke-width="120" stroke-linecap="round" filter="url(#liquid)"/>
+</svg>

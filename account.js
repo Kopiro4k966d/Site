@@ -21,7 +21,7 @@
   const D = {
     ru: {
       n1: 'Возможности', n2: 'Обновления', n3: 'Тарифы', n4: 'Отзывы', kick: 'Кабинет',
-      tOv: 'Обзор', tPr: 'Пресеты', tBi: 'Оплата', tPa: 'Партнёрам', tSe: 'Настройки',
+      tOv: 'Обзор', tPr: 'Пресеты', tBi: 'Оплата', tPa: 'Партнёрам', n6: 'Партнёрам', tSe: 'Настройки',
       dlH: 'Скачать Crysea',
       dlP: 'Насыщенность до 300% и сравнение до / после доступны с этим аккаунтом: без карты и без подписки. Профили игр, прицел и инструменты для Rust входят в платный тариф.',
       dlB: 'Скачать для Windows', dlN: 'Войдите в приложении с этим аккаунтом, и всё подтянется.', dlNo: 'Ссылка на скачивание появится после релиза.',
@@ -44,7 +44,7 @@
     },
     en: {
       n1: 'Features', n2: 'Updates', n3: 'Pricing', n4: 'Reviews', kick: 'Dashboard',
-      tOv: 'Overview', tPr: 'Presets', tBi: 'Billing', tPa: 'Partners', tSe: 'Settings',
+      tOv: 'Overview', tPr: 'Presets', tBi: 'Billing', tPa: 'Partners', n6: 'Partners', tSe: 'Settings',
       dlH: 'Download Crysea',
       dlP: 'Saturation to 300% and before / after comparison come with this account: no card, no subscription. Game profiles, crosshair and Rust tools are part of a paid plan.',
       dlB: 'Download for Windows', dlN: 'Sign in inside the app with this account and everything syncs.', dlNo: 'The download link will appear after release.',
