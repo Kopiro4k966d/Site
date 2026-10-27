@@ -123,7 +123,7 @@
     <div class="ft-cols">
       <div><h4 data-i="fc1">Продукт</h4><a href="#pricing" data-i="n3">Тарифы</a><a href="/account">Кабинет</a><a href="#partners" data-i="n6">Партнёрам</a></div>
       <div><h4 data-i="fc2">Сообщество</h4><a href="#reviews" data-i="n4">Отзывы</a><a href="#faq" data-i="n5">Вопросы</a><a data-discord href="#" target="_blank" rel="noopener">Discord</a></div>
-      <div><h4 data-i="fc3">Компания</h4><a href="/account#partner" data-i="hc4">Партнёрская программа</a><a href="/legal#offer">Оферта</a><a href="/legal#privacy">Конфиденциальность</a></div>
+      <div><h4 data-i="fc3">Компания</h4><a href="/account#partner" data-i="hc4">Партнёрская программа</a><a href="/legal#offer">Оферта</a><a href="/legal#terms">Соглашение</a><a href="/legal#privacy">Конфиденциальность</a><a href="/legal#consent">Согласие</a></div>
     </div>
   </div>
   <div class="ft-bot"><span>© 2026 Crysea. Все права защищены.</span><span><a href="/legal" data-i="lg">Оферта и конфиденциальность</a></span></div>
@@ -142,6 +142,7 @@
     <label class="f"><span data-i="fp">Пароль</span><span class="pw"><input id="aPass" type="password" minlength="6" autocomplete="current-password" required><button class="eye" type="button" id="eye" aria-label="Показать пароль" aria-pressed="false"><svg class="ic"><use href="#i-eye"/></svg></button></span></label>
     <label class="f reg" hidden><span data-i="fp2">Повторите пароль</span><input id="aPass2" type="password" autocomplete="new-password"></label>
     <div class="fgt" id="fgt"><a class="lnk" data-discord href="#" target="_blank" rel="noopener" data-i="fg">Забыли пароль?</a></div>
+    <label class="consent reg" hidden><input type="checkbox" id="aAgree"><span>Я даю <a href="/legal#consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="/legal#terms" target="_blank" rel="noopener">пользовательское соглашение</a>, <a href="/legal#privacy" target="_blank" rel="noopener">политику конфиденциальности</a> и <a href="/legal#offer" target="_blank" rel="noopener">оферту</a>.</span></label>
     <div class="err" id="authE" role="alert"></div>
     <button class="btn p w" type="submit" id="authB">Войти</button>
   </form>

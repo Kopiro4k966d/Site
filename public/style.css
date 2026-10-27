@@ -994,3 +994,9 @@ html.js .wsp>span{transition:transform 1s cubic-bezier(.16,1,.3,1) min(calc(var(
   .ft-cols{gap:28px 20px}
   .ft-cols li,.ft-cols a{display:block;padding:6px 0}
 }
+
+
+/* Согласие на обработку данных при регистрации */
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;line-height:1.4;margin:4px 0 12px}
+.consent[hidden]{display:none}
+.consent input{width:auto;margin-top:3px;flex:none}
